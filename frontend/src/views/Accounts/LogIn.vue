@@ -1,12 +1,13 @@
 <template>
   <div>
-    <h1>테스트용 메시지</h1>
+      <h1>로그인용 페이지</h1>
   </div>
 </template>
 
 <script>
 export default {
-
+  name: "LogIn",
+  
 }
 </script>
 
