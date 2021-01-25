@@ -82,7 +82,12 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 
-
+<!-- java.lang.NoClassDefFoundError: javax/xml/bind/DatatypeConverter 에러를 해결하기 위해 -->
+<!-- JAXB API는 Java EE(Enterprise Edition) API로 간주되며 자바 9버전부터는 더 이상 포함되지 않는다고 한다 -->
+<dependency>
+    <groupId>javax.xml.bind</groupId>
+    <artifactId>jaxb-api</artifactId>
+</dependency>
 
 	</dependencies>
 
