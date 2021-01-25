@@ -11,6 +11,8 @@ public class ProblemDto {
 	private String problem_date;//문제 출제 연도
 	private String created_at;
 	private String updated_at;
+	private String problem_output;
+	private String problem_input;
 	
 	
 	public int getProblem_number() {
@@ -67,13 +69,28 @@ public class ProblemDto {
 	public void setUpdated_at(String updated_at) {
 		this.updated_at = updated_at;
 	}
+	
+	public String getProblem_output() {
+		return problem_output;
+	}
+	public void setProblem_output(String problem_output) {
+		this.problem_output = problem_output;
+	}
+	public String getProblem_input() {
+		return problem_input;
+	}
+	public void setProblem_input(String problem_input) {
+		this.problem_input = problem_input;
+	}
 	@Override
 	public String toString() {
 		return "ProblemDto [problem_number=" + problem_number + ", admin_user_number=" + admin_user_number
 				+ ", problem_title=" + problem_title + ", problem_content=" + problem_content + ", problem_group="
 				+ problem_group + ", problem_rank=" + problem_rank + ", problem_date=" + problem_date + ", created_at="
-				+ created_at + ", updated_at=" + updated_at + "]";
+				+ created_at + ", updated_at=" + updated_at + ", problem_output=" + problem_output + ", problem_input="
+				+ problem_input + "]";
 	}
+
 	
 	
 	
