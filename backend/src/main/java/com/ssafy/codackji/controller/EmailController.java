@@ -52,9 +52,8 @@ public class EmailController {
 	public ResponseEntity<String> certify(
 			@PathVariable("userEmail") @ApiParam(value = "인증 처리되는 메일 주소", required = true) String userEmail,
 			HttpServletRequest request) {
-
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = HttpStatus.ACCEPTED;
+		
+		System.out.println("이메일 인증: " + userEmail); 
 		
 		try {
 			if (emailService.updateCertification(userEmail)) {
