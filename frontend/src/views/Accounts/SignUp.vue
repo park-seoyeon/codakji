@@ -8,7 +8,7 @@
         :rules="nameRules"
         :counter="10"
         v-model="name"
-        label="닉네임"
+        label="이름"
         type="text"
         prepend-icon="mdi-account"
       ></v-text-field>
@@ -54,12 +54,13 @@
 import axios from 'axios';
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
+const SECRET_KEY = process.env.VUE_APP_SECRET_KEY;
 
 export default {
   name: 'SignUp',
   computed: {
     validatePasswordRules() {
-      return () => null || '비밀번호 확인을 작성해주세요.';
+      return () => this.validatePassword != null || '비밀번호 확인을 작성해주세요.';
     },
     passwordConfirmationRule() {
       return () => this.password === this.validatePassword || '비밀번호가 일치하지 않습니다.';
@@ -71,8 +72,8 @@ export default {
     password: '',
     validatePassword: '',
     nameRules: [
-      (v) => !!v || '닉네임을 작성해주세요.',
-      (v) => (v && v.length <= 10) || '닉네임은 10글자를 넘으면 안됩니다',
+      (v) => !!v || '이름을 작성해주세요.',
+      (v) => (v && v.length <= 10) || '이름은 10글자를 넘으면 안됩니다',
     ],
     emailRules: [
       (v) => !!v || '이메일을 작성해 주세요.',
@@ -83,19 +84,23 @@ export default {
       (v) =>
         /^(?=.*[a-z])(?=.*[0-9]).{8,16}$/.test(v) || '소문자, 숫자를 포함한 8-16자로 입력해 주세요',
     ],
-    // validatePasswordRules: [(v) => !!v || '비밀번호 확인을 작성해주세요.'],
   }),
   methods: {
     reset() {
       this.$refs.form.reset();
     },
     joinRequest() {
+      const crypto = require('crypto');
       if (this.$refs.form.validate()) {
+        const hash = crypto
+          .createHmac('sha256', SECRET_KEY)
+          .update(this.password)
+          .digest('hex');
         axios
           .post(`${SERVER_URL}/user/confirm/add`, {
             name: this.name,
             email: this.email,
-            password: this.password,
+            password: hash,
           })
           .then(({ data }) => {
             let msg = '이메일이 중복되었습니다.';
@@ -105,6 +110,7 @@ export default {
             }
             alert(msg);
           });
+        this.$refs.form.reset();
       }
     },
   },
