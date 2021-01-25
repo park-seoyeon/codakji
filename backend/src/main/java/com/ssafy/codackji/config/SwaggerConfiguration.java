@@ -20,10 +20,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfiguration {
 
-//	http://localhost:8000/board/swagger-ui.html
+//	http://localhost:8000/swagger-ui.html
 
 	private String version = "V1";
-	private String title = "Codackji VUEJS API " + version;
+	private String title = "CODACKJI API " + version;
 	
 	@Bean
 	public Docket api() {
