@@ -10,7 +10,7 @@
 	
 	<select id="getProblem" parameterType="int" resultType="ProblemDto">
 		select problem_rank, admin_user_number,problem_title, problem_content, problem_group, problem_rank,
-		problem_date, created_at, updated_at
+		problem_date, created_at, updated_at, problem_input, problem_output
 		from Problem
 		where problem_number = #{problem_number}
 	</select> 
