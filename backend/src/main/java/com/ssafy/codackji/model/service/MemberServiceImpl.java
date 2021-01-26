@@ -3,6 +3,7 @@ package com.ssafy.codackji.model.service;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.codackji.model.MemberDto;
 import com.ssafy.codackji.model.mapper.MemberMapper;
@@ -34,5 +35,17 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public MemberDto userInfo(String email) throws Exception {
 		return sqlSession.getMapper(MemberMapper.class).userInfo(email);
+	}
+	
+	@Override
+	@Transactional
+	public boolean updateUser(MemberDto memberDto) throws Exception {
+		return sqlSession.getMapper(MemberMapper.class).updateUser(memberDto) == 1;
+	}
+	
+	@Override
+	@Transactional
+	public boolean deleteUser(String email) throws Exception {
+		return sqlSession.getMapper(MemberMapper.class).deleteUser(email) == 1;
 	}
 }
