@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.ssafy.codackji.model.mapper.MemberMapper">
+	
+	<insert id="addUser">
+		insert into User (email, name, password)
+		values(#{email}, #{name}, #{password})
+	</insert>
+	
+	<select id="emailCheck" resultType="int">
+		select count(*) from User
+		where email = #{email}
+	</select>
+	
+	<select id="login" parameterType="memberDto" resultType="memberDto">
+		select name, email, password
+		from User
+		where email = #{email} and password = #{password}
+	</select>
+	
+	<select id="userInfo" parameterType="String" resultType="memberDto">
+		select *
+		from User
+		where email = #{email}
+	</select>
+	
+</mapper>
