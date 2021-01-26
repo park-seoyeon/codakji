@@ -56,30 +56,41 @@ public class MemberController {
 	}
 	
 		
-	@ApiOperation(value = "회원 정보", notes = "DB에 저장된 회원정보를 보여줍니다", response = MemberDto.class)
+	@ApiOperation(value = "회원 정보_토큰검사를 한다", notes = "DB에 저장된 회원정보를 보여줍니다", response = MemberDto.class)
 	@GetMapping("{email}")
-	public ResponseEntity<MemberDto> userInfo(@PathVariable("email") @ApiParam(value = "정보를 얻어올 회원 아이디(==이메일)", required = true) String email) throws Exception {
-		logger.info("userInfo - 호출");
-		return new ResponseEntity<MemberDto>(memberService.userInfo(email), HttpStatus.OK);
-	}
+	public ResponseEntity<MemberDto> userInfo(@PathVariable("email") @ApiParam(value = "정보를 얻어올 회원 아이디(==이메일)", required = true) String email, String token) throws Exception {
+		
+		if(jwtService.isUsable(token)){
+			logger.info("userInfo - 호출");
+			return new ResponseEntity<MemberDto>(memberService.userInfo(email), HttpStatus.OK);
+		}	
+		
+		MemberDto nullMember = null;
+		return new ResponseEntity<MemberDto>(nullMember, HttpStatus.OK);
+	}	
 	
-	@ApiOperation(value = "회원정보 수정", notes = "회원 정보를 수정합니다-teach, name, password 변경", response = String.class)
+	@ApiOperation(value = "회원정보 수정_토큰검사를 한다", notes = "회원 정보를 수정합니다-teach, name, password 변경", response = String.class)
 	@PutMapping
-	public ResponseEntity<String> updateUser(@RequestBody @ApiParam(value = "수정할 회원정보.", required = true) MemberDto memberDto) throws Exception {
+	public ResponseEntity<String> updateUser(@RequestBody @ApiParam(value = "수정할 회원정보.", required = true) MemberDto memberDto, String token) throws Exception {
 		logger.info("updateUser - 호출");
 		
-		if (memberService.updateUser(memberDto)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		if(jwtService.isUsable(token)) {
+			if (memberService.updateUser(memberDto)) {
+				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			}
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
 	
-	@ApiOperation(value = "회원정보 삭제", notes = "해당 아이디(==이메일)와 일치하는 회원 정보를 삭제한다", response = String.class)
+	@ApiOperation(value = "회원정보 삭제_토큰검사를 한다", notes = "해당 아이디(==이메일)와 일치하는 회원 정보를 삭제한다", response = String.class)
 	@DeleteMapping("{email}")
-	public ResponseEntity<String> deleteUser(@PathVariable("email") @ApiParam(value = "삭제할 회원 아이디(==이메일)", required = true) String email) throws Exception {
+	public ResponseEntity<String> deleteUser(@PathVariable("email") @ApiParam(value = "삭제할 회원 아이디(==이메일)", required = true) String email, String token) throws Exception {
 		logger.info("deleteUser - 호출");
-		if (memberService.deleteUser(email)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		
+		if(jwtService.isUsable(token)) {
+			if (memberService.deleteUser(email)) {
+				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			}
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}	
