@@ -23,5 +23,16 @@ public class MemberServiceImpl implements MemberService{
 	public int emailCheck(String email) {
 		return sqlSession.getMapper(MemberMapper.class).emailCheck(email);
 	}
+	
+	@Override
+	public MemberDto login(MemberDto memberDto) throws Exception {
+		if(memberDto.getEmail() == null || memberDto.getPassword() == null)
+			return null;
+		return sqlSession.getMapper(MemberMapper.class).login(memberDto);
+	}
 
+	@Override
+	public MemberDto userInfo(String email) throws Exception {
+		return sqlSession.getMapper(MemberMapper.class).userInfo(email);
+	}
 }

@@ -36,13 +36,13 @@ public class EmailServiceImpl implements EmailService {
     
     String title = "코딱지 회원가입을 축하합니다!";
     
-    /*
+    
     String htmlStr = "<h1>안녕하세요</h1>"
     		+"<a href='http://localhost:8000/codackji/certify/" + toAddress + "'>인증하기</a>";
-    */
     
-    Context context = new Context();
-    String htmlStr = templateEngine.process("mail-template", context);
+    
+    //Context context = new Context();
+    //String htmlStr = templateEngine.process("mail-template", context);
     
     try {
       helper.setTo(toAddress);

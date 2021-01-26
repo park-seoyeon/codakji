@@ -5,7 +5,7 @@
 <mapper namespace="com.ssafy.codackji.model.mapper.EmailMapper">
 	
 	<update id="updateCertification" parameterType="String">
-		update user
+		update User
 		set certification = true
 		where email = #{email}
 	</update>
