@@ -37,13 +37,21 @@ public class EmailServiceImpl implements EmailService {
     String title = "코딱지 회원가입을 축하합니다!";
     
     
-    String htmlStr = "<h1>안녕하세요</h1>"
-    		+"<a href='http://localhost:8000/codackji/certify/" + toAddress + "'>인증하기</a>";
+    String htmlStr = "<div style='text-align: center'>"
+    		
+    		+"<h1>안녕하세요! 코딱지 회원가입을 축하드립니다:)</h1>"
+    		+"<h2>아래 인증 버튼을 통해 이메일 인증을 완료하세요.</h2>"
+    		+"<a href='http://localhost:8000/codackji/certify/" + toAddress + "' style='text-decoration:none'>"
+    		+"<img src='https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F7AVpo%2FbtqUM75u9KM%2F6a6GmXy384zwyq8sdZgLQK%2Fimg.png'/>"
+    		+"<h2>인증하기</h2>"
+    		+"</a></div>";
     
-    
-    //Context context = new Context();
-    //String htmlStr = templateEngine.process("mail-template", context);
-    
+       
+    /*
+    Context context = new Context();
+    context.setVariable("email", toAddress);
+    String htmlStr = templateEngine.process("mail-template", context);
+    */
     try {
       helper.setTo(toAddress);
       helper.setSubject(title);
