@@ -8,4 +8,6 @@ public interface MemberService {
 	int emailCheck(String email);
 	public MemberDto login(MemberDto memberDto) throws Exception;
 	public MemberDto userInfo(String email) throws Exception;
+	public boolean updateUser(MemberDto memberDto) throws Exception;
+	public boolean deleteUser(String email) throws Exception;
 }

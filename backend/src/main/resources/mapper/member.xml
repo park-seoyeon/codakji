@@ -25,4 +25,14 @@
 		where email = #{email}
 	</select>
 	
+	<update id="updateUser" parameterType="memberDto">
+		update User
+		set teach = #{teach}, name = #{name}, password = #{password}
+		where email = #{email}
+	</update>
+	
+	<delete id="deleteUser" parameterType="String">
+		delete from User
+		where email = #{email}
+	</delete>
 </mapper>
