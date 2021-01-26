@@ -1,53 +1,54 @@
 <template>
-  <v-card class="mx-auto" max-width="500">
-    <v-card-title> </v-card-title>
-    <h2 class="text--primary">회원가입</h2>
-    <v-form persistent ref="form">
-      <v-text-field
-        class="pl-3 pr-3"
-        :rules="nameRules"
-        :counter="10"
-        v-model="name"
-        label="이름"
-        type="text"
-        prepend-icon="mdi-account"
-      ></v-text-field>
-      <v-text-field
-        class="pl-3 pr-3"
-        :rules="emailRules"
-        v-model="email"
-        label="이메일"
-        type="email"
-        prepend-icon="mdi-email"
-      ></v-text-field>
-      <v-text-field
-        class="pl-3 pr-3"
-        :rules="passwordRules"
-        v-model="password"
-        label="비밀번호"
-        :counter="16"
-        type="password"
-        prepend-icon="mdi-lock"
-      ></v-text-field>
-      <v-text-field
-        class="pl-3 pr-3"
-        :rules="[validatePasswordRules, passwordConfirmationRule]"
-        v-model="validatePassword"
-        label="비밀번호 확인"
-        type="password"
-        prepend-icon="mdi-lock"
-      ></v-text-field>
-      <v-chip class="ma-2" color="primary" outlined pill @click="joinRequest">
-        회원가입
-        <v-icon right>
-          mdi-account-outline
-        </v-icon>
-      </v-chip>
-      <v-chip class="ma-2" close color="red darken-3" outlined @click="reset">
-        취소
-      </v-chip>
-    </v-form>
-  </v-card>
+  <v-row no-gutters justify="center" align="center">
+    <v-col cols="12" sm="4">
+      <h1 class="text--primary">회원가입</h1>
+      <v-form persistent ref="form">
+        <v-text-field
+          class="pl-3 pr-3"
+          :rules="nameRules"
+          :counter="10"
+          v-model="name"
+          label="이름"
+          type="text"
+          prepend-icon="mdi-account"
+        ></v-text-field>
+        <v-text-field
+          class="pl-3 pr-3"
+          :rules="emailRules"
+          v-model="email"
+          label="이메일"
+          type="email"
+          prepend-icon="mdi-email"
+        ></v-text-field>
+        <v-text-field
+          class="pl-3 pr-3"
+          :rules="passwordRules"
+          v-model="password"
+          label="비밀번호"
+          :counter="16"
+          type="password"
+          prepend-icon="mdi-lock"
+        ></v-text-field>
+        <v-text-field
+          class="pl-3 pr-3"
+          :rules="[validatePasswordRules, passwordConfirmationRule]"
+          v-model="validatePassword"
+          label="비밀번호 확인"
+          type="password"
+          prepend-icon="mdi-lock"
+        ></v-text-field>
+        <v-chip class="ma-2" color="primary" outlined pill @click="joinRequest">
+          회원가입
+          <v-icon right>
+            mdi-account-outline
+          </v-icon>
+        </v-chip>
+        <v-chip class="ma-2" close color="red darken-3" outlined @click="reset">
+          취소
+        </v-chip>
+      </v-form>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
