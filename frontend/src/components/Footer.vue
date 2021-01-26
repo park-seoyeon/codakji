@@ -5,9 +5,15 @@
           <strong class="black--text">저작권은 ⓒ코딱지에게 있으며
             무단 전재, 복사를 통한 상업적 이용을 금합니다.
           </strong>
+          <v-fab-transition>
+            <v-btn right fixed black small
+                  v-show="btnShow" @click="$vuetify.goTo('#header')">
+              <v-icon>up</v-icon>
+            </v-btn>
+          </v-fab-transition>
         </v-card-title>
   
-        <v-card-text class="py-1 white--text text-center">
+        <v-card-text class="py-0 white--text text-center">
           {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
         </v-card-text>
       </v-card>
@@ -16,7 +22,23 @@
 
 <script>
 export default {
-
+  name: "Footer",
+  data: () => {
+    return {
+      btnShow: true
+    }
+  },  
+  method: {
+    // handleScroll() {
+    //   this.btnShow = window.scrollY > 400;
+    // },
+    // beforMound() {
+    //   window.addEventListener("scroll", this.handleScroll);
+    // },
+    // beforeDestroy() {
+    //   window.removeEventListener("Scroll", this.handleScroll);
+    // }
+  }
 }
 </script>
 
