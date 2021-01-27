@@ -27,7 +27,7 @@
 	
 	<update id="updateUser" parameterType="memberDto">
 		update User
-		set teach = #{teach}, name = #{name}, password = #{password}
+		set admin = #{admin}, teach = #{teach}, name = #{name}, password = #{password}
 		where email = #{email}
 	</update>
 	

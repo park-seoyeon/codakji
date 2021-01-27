@@ -26,6 +26,14 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
+
+
+
 @Api("MemberController V1")
 @RestController
 @RequestMapping("/user")
@@ -59,7 +67,6 @@ public class MemberController {
 		
 	}
 	
-		
 	@ApiOperation(value = "회원 정보_토큰검사를 한다", notes = "DB에 저장된 회원정보를 보여줍니다", response = MemberDto.class)
 	@GetMapping("{email}")
 	public ResponseEntity<MemberDto> userInfo(@PathVariable("email") @ApiParam(value = "정보를 얻어올 회원 아이디(==이메일)", required = true) String email, String token) throws Exception {
@@ -133,14 +140,46 @@ public class MemberController {
 				return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 			}
 			
-			//비밀번호 암호화
+			//비밀번호 암호화 - 아래 테스트 코드 혹시 몰라서 남겨둡니다. 제출 시 삭제 예정	
+			/*
+			String newPassword = "";
 			
+			String oldPassword = "ssafy4a203";
+			byte[] oldBytes = oldPassword.getBytes();
 			
+			String secret = "codackjia203";			
+			byte[] key = secret.getBytes();
+		        
+			SecretKeySpec secretKey = new SecretKeySpec(key, "HmacSHA256");
+		    try {
+		            Mac mac = Mac.getInstance("HmacSHA256");
+		            mac.init(secretKey);
+		            newPassword =  Base64.encodeBase64String(mac.doFinal(oldBytes));
+		    } catch (Exception ignored) {}
+		    
+		    System.out.println("newPassword:" + newPassword);
+			*/
 			
+		    String newPassword = "";
+			byte[] oldBytes = password.getBytes();
+			
+			String secret = "codackjia203";			
+			byte[] key = secret.getBytes();
+		        
+			SecretKeySpec secretKey = new SecretKeySpec(key, "HmacSHA256");
+		    try {
+		            Mac mac = Mac.getInstance("HmacSHA256");
+		            mac.init(secretKey);
+		            newPassword =  Base64.encodeBase64String(mac.doFinal(oldBytes));
+		    } catch (Exception ignored) {}
+		    
+		    System.out.println("암호화된 비밀번호:" + newPassword);			
+			
+					
 			//암호화된 비밀번호 db에 저장
 			MemberDto memberDto = new MemberDto();
 			memberDto.setEmail(email);
-			memberDto.setPassword(password);
+			memberDto.setPassword(newPassword);
 			
 			try {
 				memberService.updatePassword(memberDto);
