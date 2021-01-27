@@ -1,14 +1,14 @@
 <template>
   <v-footer dark padless>
       <v-card class="flex flex-grow-1" flat tile>
-        <v-card-title class="amber lighten-4">
+        <v-card-title class="amber lighten-4 py-2">
           <strong class="black--text">저작권은 ⓒ코딱지에게 있으며
             무단 전재, 복사를 통한 상업적 이용을 금합니다.
           </strong>
           <v-fab-transition>
             <v-btn right fixed black small
                   v-show="btnShow" @click="$vuetify.goTo('#header')">
-              <v-icon>up</v-icon>
+              <v-icon>mdi-chevron-double-up</v-icon>
             </v-btn>
           </v-fab-transition>
         </v-card-title>
