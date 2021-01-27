@@ -11,6 +11,8 @@ public class MemberDto {
 	private String created_at;
 	private boolean certification;
 	
+	MemberDto(){}
+	
 	public int getUser_number() {
 		return user_number;
 	}
