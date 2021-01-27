@@ -1,19 +1,26 @@
 <template>
   <v-app>
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/accounts/signup">회원가입</router-link> |
-      <router-link to="/accounts/login">로그인</router-link>
-    </div>
+    <Header />
     <v-main>
-      <router-view />
+      <v-container fill-height fluid>
+        <router-view />
+      </v-container>
     </v-main>
+    <v-footer app> </v-footer>
   </v-app>
 </template>
-
+<script>
+import Header from '@/components/Header.vue';
+export default {
+  components: {
+    Header,
+  },
+};
+</script>
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Do Hyeon', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
