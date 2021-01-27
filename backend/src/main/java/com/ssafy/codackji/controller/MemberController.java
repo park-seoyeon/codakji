@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.codackji.model.service.EmailService;
 import com.ssafy.codackji.model.service.JwtServiceImpl;
 import com.ssafy.codackji.model.MemberDto;
 import com.ssafy.codackji.model.service.MemberService;
@@ -39,6 +40,9 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private EmailService emailService;
 
 	@ApiOperation(value="회원가입", notes="회원가입 시작!", response=String.class)
 	@PostMapping(value="/confirm/add")
@@ -94,6 +98,66 @@ public class MemberController {
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}	
+	
+	@ApiOperation(value = "비밀번호 찾기", notes = "임시비밀번호를 생성해서 메일로 전송하고 암호화 후에는 DB에 저장한다. 메일이 존재하지 않거나 에러가 발생하면 fail을 리턴한다.", response = String.class)
+	@PostMapping("/changepassword")
+	public ResponseEntity<String> changePassword(
+			@RequestBody @ApiParam(value = "아이디(==이메일)", required = true) String email){
+		
+		//우선 메일 계정이 존재하는지 체크
+		if(memberService.emailCheck(email)>0) { //메일 계정이 존재함
+		System.out.println("계정 있음");
+		
+			//비밀번호 생성 _ 난수 생성			
+			int index = 0;
+		    char[] charArr = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+		    'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a',
+		    'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+		    'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+		 
+		    StringBuffer sb = new StringBuffer();
+		 
+		    for (int i = 0; i < 7; i++) {
+		        index = (int) (charArr.length * Math.random());
+		        sb.append(charArr[index]);
+		    }
+		 
+		    String password = sb.toString();
+			
+			//비밀번호 전송
+			try {
+				emailService.sendPassword(email, password);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+			}
+			
+			//비밀번호 암호화
+			
+			
+			
+			//암호화된 비밀번호 db에 저장
+			MemberDto memberDto = new MemberDto();
+			memberDto.setEmail(email);
+			memberDto.setPassword(password);
+			
+			try {
+				memberService.updatePassword(memberDto);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+			}			
+			
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}else { //메일 계정이 존재하지 않음			
+			System.out.println("계정 없음");
+			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+		}
+		
+	}
+	
 	
 	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
 	@PostMapping("/confirm/login")

@@ -48,4 +48,10 @@ public class MemberServiceImpl implements MemberService{
 	public boolean deleteUser(String email) throws Exception {
 		return sqlSession.getMapper(MemberMapper.class).deleteUser(email) == 1;
 	}
+	
+	@Override
+	@Transactional
+	public boolean updatePassword(MemberDto memberDto) throws Exception{
+		return sqlSession.getMapper(MemberMapper.class).updatePassword(memberDto) == 1;
+	} 
 }

@@ -10,4 +10,5 @@ public interface MemberService {
 	public MemberDto userInfo(String email) throws Exception;
 	public boolean updateUser(MemberDto memberDto) throws Exception;
 	public boolean deleteUser(String email) throws Exception;
+	public boolean updatePassword(MemberDto memberDto) throws Exception;
 }

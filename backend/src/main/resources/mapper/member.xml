@@ -35,4 +35,10 @@
 		delete from User
 		where email = #{email}
 	</delete>
+	
+	<update id="updatePassword" parameterType="memberDto">
+		update User
+		set password = #{password}
+		where email = #{email}
+	</update>
 </mapper>
