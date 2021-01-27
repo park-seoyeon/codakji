@@ -18,5 +18,7 @@ public interface MemberMapper {
 	public int updateUser(MemberDto memberDto) throws SQLException;
 	
 	public int deleteUser(String email) throws SQLException;
+	
+	public int updatePassword(MemberDto memberDto) throws SQLException;
 
 }

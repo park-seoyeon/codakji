@@ -89,6 +89,22 @@
     <artifactId>jaxb-api</artifactId>
 </dependency>
 
+
+
+<!-- 비밀번호 암호화관련 -->
+<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+</dependency>
+<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+<dependency>
+    <groupId>commons-codec</groupId>
+    <artifactId>commons-codec</artifactId>
+</dependency>
+
+
+
 	</dependencies>
 
 	<build>
