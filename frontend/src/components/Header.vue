@@ -69,21 +69,21 @@ export default {
   },
   methods: {
     moveHome() {
-      this.$router.push('/').catch((error) => {
+      this.$router.push({ name: 'Home' }).catch((error) => {
         if (error.name === 'NavigationDuplicated') {
           location.reload();
         }
       });
     },
     moveSignup() {
-      this.$router.push('/accounts/signup').catch((error) => {
+      this.$router.push({ name: 'SignUp' }).catch((error) => {
         if (error.name === 'NavigationDuplicated') {
           location.reload();
         }
       });
     },
     moveLogin() {
-      this.$router.push('/accounts/login').catch((error) => {
+      this.$router.push({ name: 'LogIn' }).catch((error) => {
         if (error.name === 'NavigationDuplicated') {
           location.reload();
         }

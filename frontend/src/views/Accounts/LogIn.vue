@@ -28,8 +28,8 @@
         </v-chip>
 
         <div>
-          <v-btn color="red darken-3" plain>
-            아이디/비밀번호 찾기
+          <v-btn color="red darken-3" plain @click="moveFindPassword">
+            비밀번호 찾기
           </v-btn>
         </div>
       </div>
@@ -93,6 +93,9 @@ export default {
     },
     goSignUp() {
       this.$router.push({ name: 'SignUp' });
+    },
+    moveFindPassword() {
+      this.$router.push({ name: 'FindPassword' });
     },
   },
   computed: {
