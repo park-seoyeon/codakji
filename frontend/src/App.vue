@@ -2,9 +2,7 @@
   <v-app>
     <Header @openModal="toggleModal"/>
     <v-main>
-      <v-container fill-height fluid>
-        <router-view />
-      </v-container>
+      <router-view />
     </v-main>
     <ModalCareer v-if="isModal" @closeModal="toggleModal" />
     <Footer />

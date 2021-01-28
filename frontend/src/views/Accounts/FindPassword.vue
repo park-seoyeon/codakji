@@ -58,7 +58,7 @@ const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 const SECRET_KEY = process.env.VUE_APP_SECRET_KEY;
 
 export default {
-  name: 'SignUp',
+  name: 'FindPassword',
   computed: {
     validatePasswordRules() {
       return () => this.validatePassword != null || '비밀번호 확인을 작성해주세요.';

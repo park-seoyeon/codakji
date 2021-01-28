@@ -30,9 +30,8 @@
             <span>아직 회원이 아니신가요?</span>
             <a @click="goSignUp" outlined pill color="warning">회원가입</a>
           </div>
-          <div class="pt-1 d-flex justify-end"
-            @click="moveFindPassword">
-            비밀번호 찾기
+          <div class="pt-1 d-flex justify-end">
+            <span @click="moveFindPassword">비밀번호 찾기</span>
           </div>
         </div>
         <!-- <v-chip class="ma-2" @click="goSignUp" color="warning" outlined pill
@@ -121,8 +120,9 @@ export default {
         this.$router.push({ name: 'SignUp' });                              // 회원가입 창에서 회원가입으로 못 넘어가도록
     },
     moveFindPassword() {
-      // this.$emit("closeModal")
-      this.$router.push({ name: 'FindPassword' });
+      this.$emit("closeModal")
+      if (window.location.href != "http://localhost:8080/accounts/findpassword")
+        this.$router.push({ name: 'FindPassword' });
     },
   },
   computed: {
