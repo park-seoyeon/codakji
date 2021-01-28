@@ -121,7 +121,7 @@ export default {
         this.$router.push({ name: 'SignUp' });                              // 회원가입 창에서 회원가입으로 못 넘어가도록
     },
     moveFindPassword() {
-      this.$emit("closeModal")
+      // this.$emit("closeModal")
       this.$router.push({ name: 'FindPassword' })
     }
   },
