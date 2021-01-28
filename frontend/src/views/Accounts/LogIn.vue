@@ -18,12 +18,7 @@
             v-model="password"
             prepend-icon="mdi-lock"
           ></v-text-field>
-          <v-chip
-            class="ma-2"
-            @click="logInRequest"
-            color="primary"
-            outlined
-            pill
+          <v-chip class="ma-2" @click="logInRequest" color="primary" outlined pill
             >로그인
             <v-icon right>mdi-login</v-icon>
           </v-chip>
@@ -121,14 +116,19 @@ export default {
     },
     goSignUp() {
       this.$emit('closeModal');
-      if (window.location.href != 'http://localhost:8080/accounts/signup')
-        // 이 부분 후에 수정해야함
-        this.$router.push({ name: 'SignUp' }); // 회원가입 창에서 회원가입으로 못 넘어가도록
+      this.$router.push({ name: 'SignUp' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
     },
     moveFindPassword() {
       this.$emit('closeModal');
-      if (window.location.href != 'http://localhost:8080/accounts/findpassword')
-        this.$router.push({ name: 'FindPassword' });
+      this.$router.push({ name: 'FindPassword' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
     },
   },
   computed: {
