@@ -47,15 +47,18 @@
         <v-icon>mdi-home</v-icon>
       </v-btn>
 
-      <v-btn text @click="moveSignup" style="font-size: 20px">
-        <span>회원가입</span>
-        <v-icon>mdi-account</v-icon>
-      </v-btn>
+      <div class="d-flex flex-column">
+        <v-btn text small @click="moveSignup" style="font-size: 15px">
+          <span>회원가입</span>
+          <v-icon>mdi-account</v-icon>
+        </v-btn>
 
-      <v-btn text @click="moveLogin" style="font-size: 20px">
-        <span>로그인</span>
-        <v-icon>mdi-login</v-icon>
-      </v-btn>
+        <v-btn text small @click="moveLogin" style="font-size: 15px">
+          <span>로그인</span>
+          <v-icon>mdi-login</v-icon>
+        </v-btn>
+      </div>
+
     </v-app-bar>
   </nav>
 </template>
@@ -83,11 +86,12 @@ export default {
       });
     },
     moveLogin() {
-      this.$router.push({ name: 'LogIn' }).catch((error) => {
-        if (error.name === 'NavigationDuplicated') {
-          location.reload();
-        }
-      });
+      // this.$router.push({ name: 'LogIn' }).catch((error) => {
+      //   if (error.name === 'NavigationDuplicated') {
+      //     location.reload();
+      //   }
+      // });
+      this.$emit("openModal", true);
     },
   },
 };

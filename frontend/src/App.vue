@@ -1,20 +1,36 @@
 <template>
   <v-app>
-    <Header />
+    <Header @openModal="toggleModal"/>
     <v-main>
       <v-container fill-height fluid>
         <router-view />
       </v-container>
     </v-main>
-    <v-footer app> </v-footer>
+    <ModalCareer v-if="isModal" @closeModal="toggleModal" />
+    <Footer />
   </v-app>
 </template>
 <script>
 import Header from '@/components/Header.vue';
+import Footer from '@/components/Footer.vue';
+import ModalCareer from '@/components/ModalCareer'
+
 export default {
+  data: () => {
+    return {
+      isModal: false,
+    }
+  },
   components: {
     Header,
+    Footer,
+    ModalCareer,
   },
+  methods: {
+    toggleModal(data) {
+      this.isModal = data
+    }
+  }
 };
 </script>
 <style lang="scss">
