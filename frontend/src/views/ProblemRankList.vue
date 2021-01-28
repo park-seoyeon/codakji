@@ -2,12 +2,14 @@
     <div>
       <h1>{{ $route.params.problemrank }} 단계 문제들</h1>
 
-      <v-layout wrap>
+      <v-container fluid>
+        <v-row>
           <ProblemCard
             v-for="(problem, idx) in rankProblems"
             :key="idx"
             :problem="problem" />
-      </v-layout>
+        </v-row>
+      </v-container>
 
     </div>
 </template>

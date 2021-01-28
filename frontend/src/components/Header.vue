@@ -15,24 +15,41 @@
 
       <v-divider></v-divider>
 
-      <v-list nav align="left">
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon color="yellow darken-2" size="25">mdi-folder-search</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title style="font-size: 20px">문제 풀기</v-list-item-title>
-
+      <v-list flat align="left">
+        <v-list-item>
           <v-menu offset-x>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
+            <template v-slot:activator="{ on, attrs}">
+              <v-list-item
+                @click="toggleMenu"
+                v-bind="attrs"
+                v-on="on"
+                style="padding-left: 0px"
+              >
+                <v-list-item-icon>
+                  <v-icon color="yellow darken-2" size="25">mdi-folder-search</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title style="font-size: 20px">문제풀기</v-list-item-title>
+                <v-list-item-icon>
+                  <v-icon v-if="isMenu" size="25">mdi-menu-right</v-icon>
+                  <v-icon v-else size="25">mdi-menu-down</v-icon>
+                </v-list-item-icon>
+              </v-list-item>
+            </template>
+
+            <!-- <template v-slot:activator="{ on, attrs }">
+              <v-list-item-icon>
+                <v-icon color="yellow darken-2" size="25">mdi-folder-search</v-icon>
+              </v-list-item-icon>
+              // <v-btn
                 color="primary"
                 dark
                 v-bind="attrs"
                 v-on="on"
               >
                 Dropdown
-              </v-btn>
-            </template>
+              </v-btn> //
+              <v-list-item v-bind="attrs" v-on="on" style="padding-left: 0px">문제풀기</v-list-item>
+            </template> -->
             <v-list>
               <v-list-item
                 v-for="(item, index) in items"
@@ -118,7 +135,7 @@ export default {
   data() {
     return {
       drawer: false,
-      ismenu: false,
+      isMenu: false,
       items: [
         {rank: 1, title: "rank 1"},
         {rank: 2, title: "rank 2"},
@@ -154,6 +171,12 @@ export default {
         this.$router.push({ name: "ProblemRankList", params: { problemrank : rank}})
       else
         this.$router.go(this.$router.currentRoute)
+    },
+    // testClick(event) {
+    //   console.log(event.target)
+    // }
+    toggleMenu() {
+      this.isMenu = !this.isMenu
     }
   },
 };

@@ -43,15 +43,15 @@ export default {
     icons: ['mdi-facebook', 'mdi-twitter', 'mdi-linkedin', 'mdi-instagram'],
   }),
   methods: {
-    // handleScroll() {
-    //   this.btnShow = window.scrollY > 400;
-    // },
-    // beforMound() {
-    //   window.addEventListener("scroll", this.handleScroll);
-    // },
-    // beforeDestroy() {
-    //   window.removeEventListener("Scroll", this.handleScroll);
-    // }
+    handleScroll() {
+      this.btnShow = window.scrollY > 400;
+    },
+    beforMound() {
+      window.addEventListener("scroll", this.handleScroll);
+    },
+    beforeDestroy() {
+      window.removeEventListener("Scroll", this.handleScroll);
+    }
   },
 };
 </script>
