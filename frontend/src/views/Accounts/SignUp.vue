@@ -38,13 +38,25 @@
             type="password"
             prepend-icon="mdi-lock"
           ></v-text-field>
-          <v-chip class="ma-2" color="primary" outlined pill @click="joinRequest">
+          <v-chip
+            class="ma-2"
+            color="primary"
+            outlined
+            pill
+            @click="joinRequest"
+          >
             회원가입
             <v-icon right>
               mdi-account-outline
             </v-icon>
           </v-chip>
-          <v-chip class="ma-2" close color="red darken-3" outlined @click="reset">
+          <v-chip
+            class="ma-2"
+            close
+            color="red darken-3"
+            outlined
+            @click="reset"
+          >
             취소
           </v-chip>
         </v-form>
@@ -63,10 +75,13 @@ export default {
   name: 'SignUp',
   computed: {
     validatePasswordRules() {
-      return () => this.validatePassword != null || '비밀번호 확인을 작성해주세요.';
+      return () =>
+        this.validatePassword != null || '비밀번호 확인을 작성해주세요.';
     },
     passwordConfirmationRule() {
-      return () => this.password === this.validatePassword || '비밀번호가 일치하지 않습니다.';
+      return () =>
+        this.password === this.validatePassword ||
+        '비밀번호가 일치하지 않습니다.';
     },
   },
   data: () => ({
@@ -85,7 +100,8 @@ export default {
     passwordRules: [
       (v) => !!v || '비밀번호를 작성해주세요.',
       (v) =>
-        /^(?=.*[a-z])(?=.*[0-9]).{8,16}$/.test(v) || '소문자, 숫자를 포함한 8-16자로 입력해 주세요',
+        /^(?=.*[a-z])(?=.*[0-9]).{8,16}$/.test(v) ||
+        '소문자, 숫자를 포함한 8-16자로 입력해 주세요',
     ],
   }),
   methods: {
