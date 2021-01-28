@@ -43,7 +43,7 @@
         </v-chip>
 
         <div>
-          <v-btn color="red darken-3" plain>
+          <v-btn color="red darken-3" plain @click="moveFindPassword">
             비밀번호 찾기
           </v-btn>
         </div> -->
@@ -122,8 +122,8 @@ export default {
     },
     moveFindPassword() {
       // this.$emit("closeModal")
-      this.$router.push({ name: 'FindPassword' })
-    }
+      this.$router.push({ name: 'FindPassword' });
+    },
   },
   computed: {
     validatePasswordRules() {

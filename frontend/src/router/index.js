@@ -1,33 +1,39 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '@/views/Home.vue'
-import LogIn from '@/views/Accounts/LogIn.vue'
-import SignUp from '@/views/Accounts/SignUp.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Home from '@/views/Home.vue';
+import LogIn from '@/views/Accounts/LogIn.vue';
+import SignUp from '@/views/Accounts/SignUp.vue';
+import FindPassword from '@/views/Accounts/FindPassword.vue';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
   },
   {
     path: '/accounts/login',
     name: 'LogIn',
-    component: LogIn
+    component: LogIn,
   },
   {
     path: '/accounts/signup',
     name: 'SignUp',
-    component: SignUp
+    component: SignUp,
   },
-]
+  {
+    path: '/accounts/findpassword',
+    name: 'FindPassword',
+    component: FindPassword,
+  },
+];
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
