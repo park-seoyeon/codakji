@@ -1,41 +1,46 @@
 <template>
-  <v-row no-gutters justify="center" align="center">
-    <v-col cols="12">
-      <h1 class="text--primary">로그인</h1>
-      <v-form persistent ref="form">
-        <v-text-field
-          :rules="emailRules"
-          label="이메일"
-          type="email"
-          v-model="email"
-          prepend-icon="mdi-email"
-        ></v-text-field>
-        <v-text-field
-          :rules="passwordRules"
-          label="비밀번호"
-          type="password"
-          v-model="password"
-          prepend-icon="mdi-lock"
-        ></v-text-field>
-        <v-chip
-          class="ma-2"
-          @click="logInRequest"
-          color="primary"
-          outlined pill
-        >로그인
-          <v-icon right>mdi-login</v-icon>
-        </v-chip>
-        <div class="px-5 py-3 d-flex flex-column text-subtitle-2">
-          <div class="d-flex justify-space-between">
-            <span>아직 회원이 아니신가요?</span>
-            <a @click="goSignUp" outlined pill color="warning">회원가입</a>
+  <v-container fill-height fluid>
+    <v-row no-gutters justify="center" align="center">
+      <v-col cols="12">
+        <h1 class="text--primary">로그인</h1>
+        <v-form persistent ref="form">
+          <v-text-field
+            :rules="emailRules"
+            label="이메일"
+            type="email"
+            v-model="email"
+            prepend-icon="mdi-email"
+          ></v-text-field>
+          <v-text-field
+            :rules="passwordRules"
+            label="비밀번호"
+            type="password"
+            v-model="password"
+            prepend-icon="mdi-lock"
+          ></v-text-field>
+          <v-chip
+            class="ma-2"
+            @click="logInRequest"
+            color="primary"
+            outlined
+            pill
+            >로그인
+            <v-icon right>mdi-login</v-icon>
+          </v-chip>
+          <div class="px-5 py-3 d-flex flex-column guide">
+            <div class="d-flex justify-space-between">
+              <span>아직 회원이 아니신가요?</span>
+              <v-btn @click="goSignUp" plain pill color="indigo accent-2"
+                ><strong>회원가입</strong></v-btn
+              >
+            </div>
+            <div class="pt-1 d-flex justify-end">
+              <v-btn plain @click="moveFindPassword" color="indigo accent-2">
+                <strong>비밀번호 찾기</strong>
+              </v-btn>
+            </div>
           </div>
-          <div class="pt-1 d-flex justify-end"
-            @click="moveFindPassword">
-            비밀번호 찾기
-          </div>
-        </div>
-        <!-- <v-chip class="ma-2" @click="goSignUp" color="warning" outlined pill
+          <!-- <v-chip class="ma-2" @click="goSignUp" color="warning" outlined pill
           >회원가입
           <v-icon right>
             mdi-account-circle-outline
@@ -47,9 +52,10 @@
             비밀번호 찾기
           </v-btn>
         </div> -->
-      </v-form>
-    </v-col>
-  </v-row>
+        </v-form>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -67,9 +73,7 @@ export default {
         (v) => !!v || '이메일을 입력해주세요.',
         (v) => /.+@.+\..+/.test(v) || '올바른 형식의 이메일을 입력하세요.',
       ],
-      passwordRules: [
-        (v) => !!v || '비밀번호를 입력해주세요.',
-      ],
+      passwordRules: [(v) => !!v || '비밀번호를 입력해주세요.'],
     };
   },
   // emailRules: [
@@ -90,7 +94,7 @@ export default {
 
       if (this.$refs.form.validate()) {
         const crypto = require('crypto');
-  
+
         const form = {
           email: this.email,
           password: crypto
@@ -98,11 +102,11 @@ export default {
             .update(this.password)
             .digest('base64'),
         };
-  
+
         console.log(form.password);
-  
+
         this.password = '';
-  
+
         axios
           .post(`${SERVER_URL}/user/confirm/login`, form)
           .then((response) => {
@@ -116,13 +120,15 @@ export default {
       }
     },
     goSignUp() {
-      this.$emit("closeModal")
-      if (window.location.href != "http://localhost:8080/accounts/signup")  // 이 부분 후에 수정해야함
-        this.$router.push({ name: 'SignUp' });                              // 회원가입 창에서 회원가입으로 못 넘어가도록
+      this.$emit('closeModal');
+      if (window.location.href != 'http://localhost:8080/accounts/signup')
+        // 이 부분 후에 수정해야함
+        this.$router.push({ name: 'SignUp' }); // 회원가입 창에서 회원가입으로 못 넘어가도록
     },
     moveFindPassword() {
-      // this.$emit("closeModal")
-      this.$router.push({ name: 'FindPassword' });
+      this.$emit('closeModal');
+      if (window.location.href != 'http://localhost:8080/accounts/findpassword')
+        this.$router.push({ name: 'FindPassword' });
     },
   },
   computed: {

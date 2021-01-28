@@ -1,54 +1,68 @@
 <template>
-  <v-row no-gutters justify="center" align="center">
-    <v-col cols="12" sm="4">
-      <h1 class="text--primary">회원가입</h1>
-      <v-form persistent ref="form">
-        <v-text-field
-          class="pl-3 pr-3"
-          :rules="nameRules"
-          :counter="10"
-          v-model="name"
-          label="이름"
-          type="text"
-          prepend-icon="mdi-account"
-        ></v-text-field>
-        <v-text-field
-          class="pl-3 pr-3"
-          :rules="emailRules"
-          v-model="email"
-          label="이메일"
-          type="email"
-          prepend-icon="mdi-email"
-        ></v-text-field>
-        <v-text-field
-          class="pl-3 pr-3"
-          :rules="passwordRules"
-          v-model="password"
-          label="비밀번호"
-          :counter="16"
-          type="password"
-          prepend-icon="mdi-lock"
-        ></v-text-field>
-        <v-text-field
-          class="pl-3 pr-3"
-          :rules="[validatePasswordRules, passwordConfirmationRule]"
-          v-model="validatePassword"
-          label="비밀번호 확인"
-          type="password"
-          prepend-icon="mdi-lock"
-        ></v-text-field>
-        <v-chip class="ma-2" color="primary" outlined pill @click="joinRequest">
-          회원가입
-          <v-icon right>
-            mdi-account-outline
-          </v-icon>
-        </v-chip>
-        <v-chip class="ma-2" close color="red darken-3" outlined @click="reset">
-          취소
-        </v-chip>
-      </v-form>
-    </v-col>
-  </v-row>
+  <v-container fill-height fluid>
+    <v-row no-gutters justify="center" align="center">
+      <v-col cols="12" sm="4">
+        <h1 class="text--primary">회원가입</h1>
+        <v-form persistent ref="form">
+          <v-text-field
+            class="pl-3 pr-3"
+            :rules="nameRules"
+            :counter="10"
+            v-model="name"
+            label="이름"
+            type="text"
+            prepend-icon="mdi-account"
+          ></v-text-field>
+          <v-text-field
+            class="pl-3 pr-3"
+            :rules="emailRules"
+            v-model="email"
+            label="이메일"
+            type="email"
+            prepend-icon="mdi-email"
+          ></v-text-field>
+          <v-text-field
+            class="pl-3 pr-3"
+            :rules="passwordRules"
+            v-model="password"
+            label="비밀번호"
+            :counter="16"
+            type="password"
+            prepend-icon="mdi-lock"
+          ></v-text-field>
+          <v-text-field
+            class="pl-3 pr-3"
+            :rules="[validatePasswordRules, passwordConfirmationRule]"
+            v-model="validatePassword"
+            label="비밀번호 확인"
+            type="password"
+            prepend-icon="mdi-lock"
+          ></v-text-field>
+          <v-chip
+            class="ma-2"
+            color="primary"
+            outlined
+            pill
+            @click="joinRequest"
+          >
+            회원가입
+            <v-icon right>
+              mdi-account-outline
+            </v-icon>
+          </v-chip>
+          <v-chip
+            class="ma-2"
+            close
+            color="red darken-3"
+            outlined
+            @click="reset"
+          >
+            취소
+          </v-chip>
+        </v-form>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -61,10 +75,13 @@ export default {
   name: 'SignUp',
   computed: {
     validatePasswordRules() {
-      return () => this.validatePassword != null || '비밀번호 확인을 작성해주세요.';
+      return () =>
+        this.validatePassword != null || '비밀번호 확인을 작성해주세요.';
     },
     passwordConfirmationRule() {
-      return () => this.password === this.validatePassword || '비밀번호가 일치하지 않습니다.';
+      return () =>
+        this.password === this.validatePassword ||
+        '비밀번호가 일치하지 않습니다.';
     },
   },
   data: () => ({
@@ -83,7 +100,8 @@ export default {
     passwordRules: [
       (v) => !!v || '비밀번호를 작성해주세요.',
       (v) =>
-        /^(?=.*[a-z])(?=.*[0-9]).{8,16}$/.test(v) || '소문자, 숫자를 포함한 8-16자로 입력해 주세요',
+        /^(?=.*[a-z])(?=.*[0-9]).{8,16}$/.test(v) ||
+        '소문자, 숫자를 포함한 8-16자로 입력해 주세요',
     ],
   }),
   methods: {
