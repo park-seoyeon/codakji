@@ -22,7 +22,9 @@
             >로그인
             <v-icon right>mdi-login</v-icon>
           </v-chip>
-          <img src="../../assets/kakao_login.png" @click="logInKakao" />
+          <div align="center">
+            <img src="../../assets/kakao_login.png" width="150px" @click="logInKakao" />
+          </div>
           <div class="px-5 py-3 d-flex flex-column guide">
             <div class="d-flex justify-space-between">
               <span>아직 회원이 아니신가요?</span>
