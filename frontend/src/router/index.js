@@ -42,7 +42,8 @@ const routes = [
     component: ProblemRankList,
   },
   {
-    path: '/problem/rank/detail/:problemnumber',
+    // path: '/problem/rank/detail/:problemnumber',
+    path: '/problem/rank/detail',
     name: 'ProblemDetail',
     component: ProblemDetail,
   },
