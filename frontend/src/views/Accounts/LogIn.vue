@@ -18,15 +18,13 @@
             v-model="password"
             prepend-icon="mdi-lock"
           ></v-text-field>
-          <v-chip
-            class="ma-2"
-            @click="logInRequest"
-            color="primary"
-            outlined
-            pill
+          <v-chip class="ma-2" @click="logInRequest" color="primary" outlined pill
             >로그인
             <v-icon right>mdi-login</v-icon>
           </v-chip>
+          <div align="center">
+            <img src="../../assets/kakao_login.png" width="150px" @click="logInKakao" />
+          </div>
           <div class="px-5 py-3 d-flex flex-column guide">
             <div class="d-flex justify-space-between">
               <span>아직 회원이 아니신가요?</span>
@@ -110,25 +108,108 @@ export default {
         axios
           .post(`${SERVER_URL}/user/confirm/login`, form)
           .then((response) => {
-            localStorage.setItem('jwt', response.data.token);
-            localStorage.setItem('name', response.data.name);
-            this.$router.push({ name: 'Home' });
+            localStorage.setItem('jwt', response.data['access-token']);
+            localStorage.setItem('name', response.data['userInfo'].name);
+            this.$emit('closeModal');
+            this.$router.push({ name: 'Home' }).catch((error) => {
+              if (error.name === 'NavigationDuplicated') {
+                location.reload();
+              }
+            });
           })
           .catch(() => {
             alert('이메일 혹은 비밀번호가 맞지 않습니다');
           });
       }
     },
+    logInKakao() {
+      //현아
+      window.Kakao.Auth.login({
+        // scope : 'account_email',
+        success: this.GetMe,
+      });
+    },
+    GetMe() {
+      // console.log(authObj);
+      const crypto = require('crypto');
+      window.Kakao.API.request({
+        url: '/v2/user/me',
+        success: (res) => {
+          const kakao_account = res.kakao_account;
+          const userInfo = {
+            name: kakao_account.profile.nickname,
+            email: kakao_account.email,
+            password: crypto
+              .createHmac('sha256', SECRET_KEY)
+              .update('kakao1234')
+              .digest('base64'),
+            //account_type : 2,
+            //profileImage : res.properties.profile_image,
+          };
+          //alert(userInfo.profileImage);
+          axios
+            .post(`${SERVER_URL}/user/confirm/kakaoLogin`, userInfo)
+            .then((response) => {
+              if (response.data['oauth-result'] === 'success') {
+                localStorage.setItem('jwt', response.data['access-token']);
+                localStorage.setItem('name', response.data['userInfo'].name);
+                alert(userInfo.email + '님 로그인!');
+                this.$emit('closeModal');
+                this.$router.push({ name: 'Home' }).catch((error) => {
+                  if (error.name === 'NavigationDuplicated') {
+                    location.reload();
+                  }
+                });
+              } else {
+                var result = confirm(
+                  '이미 존재하는 이메일입니다. 카카오 계정으로 통합하시겠습니까?'
+                );
+                if (result) {
+                  userInfo.password = crypto
+                    .createHmac('sha256', SECRET_KEY)
+                    .update('kakao1234')
+                    .digest('base64');
+                  axios
+                    .post(`${SERVER_URL}/user/confirm/continueKakaoLogin`, userInfo)
+                    .then((response) => {
+                      if (response.data['oauth-result'] === 'success') {
+                        localStorage.setItem('jwt', response.data['access-token']);
+                        localStorage.setItem('name', response.data['userInfo'].name);
+                        alert(userInfo.name + '님! 통합 후 로그인 성공');
+                        this.$emit('closeModal');
+                        this.$router.push({ name: 'Home' }).catch((error) => {
+                          if (error.name === 'NavigationDuplicated') {
+                            location.reload();
+                          }
+                        });
+                      } else {
+                        alert('카카오 로그인에 실패하셨습니다');
+                      }
+                    });
+                }
+              }
+            })
+            .catch(() => {
+              alert('로그인중 오류가 발생했습니다');
+            });
+        },
+      });
+    },
     goSignUp() {
       this.$emit('closeModal');
-      if (window.location.href != 'http://localhost:8080/accounts/signup')
-        // 이 부분 후에 수정해야함
-        this.$router.push({ name: 'SignUp' }); // 회원가입 창에서 회원가입으로 못 넘어가도록
+      this.$router.push({ name: 'SignUp' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
     },
     moveFindPassword() {
       this.$emit('closeModal');
-      if (window.location.href != 'http://localhost:8080/accounts/findpassword')
-        this.$router.push({ name: 'FindPassword' });
+      this.$router.push({ name: 'FindPassword' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
     },
   },
   computed: {
