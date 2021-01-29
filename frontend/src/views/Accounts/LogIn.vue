@@ -1,5 +1,5 @@
 <template>
-  <v-container fill-height fluid>
+  <v-container fill-height fluid class="py-0">
     <v-row no-gutters justify="center" align="center">
       <v-col cols="12">
         <h1 class="text--primary">로그인</h1>
@@ -22,10 +22,10 @@
             >로그인
             <v-icon right>mdi-login</v-icon>
           </v-chip>
-          <div align="center">
+          <div align="center" class="mt-2">
             <img src="../../assets/kakao_login.png" width="150px" @click="logInKakao" />
           </div>
-          <div class="px-5 py-3 d-flex flex-column guide">
+          <div class="px-5 pt-3 d-flex flex-column guide">
             <div class="d-flex justify-space-between">
               <span>아직 회원이 아니신가요?</span>
               <v-btn @click="goSignUp" plain pill color="indigo accent-2"

@@ -28,7 +28,7 @@
                 <v-list-item-icon>
                   <v-icon color="yellow darken-2" size="25">mdi-folder-search</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title style="font-size: 20px">문제풀기</v-list-item-title>
+                <v-list-item-title style="font-size: 17px">문제풀기</v-list-item-title>
                 <v-list-item-icon>
                   <v-icon v-if="isMenu" size="25">mdi-menu-right</v-icon>
                   <v-icon v-else size="25">mdi-menu-down</v-icon>
@@ -36,7 +36,7 @@
               </v-list-item>
             </template>
             <v-list>
-              <v-list-item @click="moveAllRank">
+              <v-list-item @click="moveAllRank" style="margin-left: 20px">  <!-- 여기 수정해야 함 -->
                 All
               </v-list-item>
               <v-list-item
