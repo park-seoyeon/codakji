@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.codackji.model.service.EmailService;
@@ -42,6 +43,7 @@ public class MemberController {
 	public static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
+
 
 	@Autowired
 	private JwtServiceImpl jwtService;
@@ -217,7 +219,8 @@ public class MemberController {
 				logger.debug("로그인 토큰정보 : {}", token);
 				resultMap.put("access-token", token);
 				resultMap.put("message", SUCCESS);
-				resultMap.put("userinfo", loginUser);
+				resultMap.put("userInfo", loginUser);
+				resultMap.put("oauth-result", SUCCESS);
 				status = HttpStatus.ACCEPTED;
 			} else {
 				System.out.println("토큰 반환 실패");
@@ -268,5 +271,63 @@ public class MemberController {
 	}
 	*/
 
+	@PostMapping("/confirm/kakaoLogin")
+	public ResponseEntity<Map<String,Object>> kakaoLogin(@RequestBody MemberDto memberDto) {
+		System.out.println("[카카오 로그인 요청]");
+		memberDto.setOauth("kakao");
+		//가입자 혹은 비가입자 체크해서 처리
+		MemberDto originMemberDto;
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.OK;
+		try {
+			originMemberDto = memberService.userInfo(memberDto.getEmail());
+			if(originMemberDto==null) {
+				System.out.println("[카카오 새회원 가입처리]");
+				String addUserResult = addUser(memberDto).getBody();
+				if(addUserResult.equals(SUCCESS)) {
+					System.out.println("[카카오 자동 로그인]");
+					return login(memberDto);
+				}
+			}else if(originMemberDto.getOauth()!=null && originMemberDto.getOauth().equals("kakao")){
+				System.out.println("[기존 카카오 로그인 회원 - 로그인]");
+				return login(memberDto);
+			}else {
+				System.out.println("[중복 로그인 회원]");
+				resultMap.put("userInfo", memberDto);
+				resultMap.put("message", SUCCESS);
+				resultMap.put("oauth-result", FAIL);
+				status = HttpStatus.ACCEPTED;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<Map<String,Object>>(resultMap,status);
+	}
+	
+	@PostMapping("/confirm/continueKakaoLogin")
+	public ResponseEntity<Map<String, Object>> continueKakaoLogin(@RequestBody MemberDto memberDto){
+		System.out.println("[중복로그인 통합 및 로그인]");
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+		MemberDto originMember = null;
+		try {
+			originMember = memberService.userInfo(memberDto.getEmail());
+			//수정할 내용: oauth=1 (추후 사진 추가 예정)
+			originMember.setOauth("kakao");
+			originMember.setPassword(memberDto.getPassword());
+			if(memberService.updateUser(originMember)) {
+				return login(originMember);
+			}
+		} catch (Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+
+		
+	}
 	
 }
