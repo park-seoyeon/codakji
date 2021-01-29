@@ -111,8 +111,8 @@ public class MemberController {
 	@ApiOperation(value = "비밀번호 찾기", notes = "임시비밀번호를 생성해서 메일로 전송하고 암호화 후에는 DB에 저장한다. 메일이 존재하지 않거나 에러가 발생하면 fail을 리턴한다.", response = String.class)
 	@PostMapping("/changepassword")
 	public ResponseEntity<String> changePassword(
-			@RequestBody @ApiParam(value = "아이디(==이메일)", required = true) String email){
-		
+			@RequestBody @ApiParam(value = "아이디(==이메일)", required = true) MemberDto member){
+		String email = member.getEmail();
 		//우선 메일 계정이 존재하는지 체크
 		if(memberService.emailCheck(email)>0) { //메일 계정이 존재함
 		System.out.println("계정 있음");
