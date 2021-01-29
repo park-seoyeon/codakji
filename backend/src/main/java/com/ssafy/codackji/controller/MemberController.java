@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.codackji.model.service.EmailService;
 import com.ssafy.codackji.model.service.JwtServiceImpl;
 import com.ssafy.codackji.model.MemberDto;
 import com.ssafy.codackji.model.service.MemberService;
@@ -24,6 +26,14 @@ import io.swagger.annotations.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
+
+
 
 @Api("MemberController V1")
 @RestController
@@ -34,11 +44,15 @@ public class MemberController {
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 
+
 	@Autowired
 	private JwtServiceImpl jwtService;
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private EmailService emailService;
 
 	@ApiOperation(value="회원가입", notes="회원가입 시작!", response=String.class)
 	@PostMapping(value="/confirm/add")
@@ -55,7 +69,6 @@ public class MemberController {
 		
 	}
 	
-		
 	@ApiOperation(value = "회원 정보_토큰검사를 한다", notes = "DB에 저장된 회원정보를 보여줍니다", response = MemberDto.class)
 	@GetMapping("{email}")
 	public ResponseEntity<MemberDto> userInfo(@PathVariable("email") @ApiParam(value = "정보를 얻어올 회원 아이디(==이메일)", required = true) String email, String token) throws Exception {
@@ -95,6 +108,98 @@ public class MemberController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}	
 	
+	@ApiOperation(value = "비밀번호 찾기", notes = "임시비밀번호를 생성해서 메일로 전송하고 암호화 후에는 DB에 저장한다. 메일이 존재하지 않거나 에러가 발생하면 fail을 리턴한다.", response = String.class)
+	@PostMapping("/changepassword")
+	public ResponseEntity<String> changePassword(
+			@RequestBody @ApiParam(value = "아이디(==이메일)", required = true) MemberDto member){
+		String email = member.getEmail();
+		//우선 메일 계정이 존재하는지 체크
+		if(memberService.emailCheck(email)>0) { //메일 계정이 존재함
+		System.out.println("계정 있음");
+		
+			//비밀번호 생성 _ 난수 생성			
+			int index = 0;
+		    char[] charArr = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+		    'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a',
+		    'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+		    'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+		 
+		    StringBuffer sb = new StringBuffer();
+		 
+		    for (int i = 0; i < 7; i++) {
+		        index = (int) (charArr.length * Math.random());
+		        sb.append(charArr[index]);
+		    }
+		 
+		    String password = sb.toString();
+			
+			//비밀번호 전송
+			try {
+				emailService.sendPassword(email, password);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+			}
+			
+			//비밀번호 암호화 - 아래 테스트 코드 혹시 몰라서 남겨둡니다. 제출 시 삭제 예정	
+			/*
+			String newPassword = "";
+			
+			String oldPassword = "ssafy4a203";
+			byte[] oldBytes = oldPassword.getBytes();
+			
+			String secret = "codackjia203";			
+			byte[] key = secret.getBytes();
+		        
+			SecretKeySpec secretKey = new SecretKeySpec(key, "HmacSHA256");
+		    try {
+		            Mac mac = Mac.getInstance("HmacSHA256");
+		            mac.init(secretKey);
+		            newPassword =  Base64.encodeBase64String(mac.doFinal(oldBytes));
+		    } catch (Exception ignored) {}
+		    
+		    System.out.println("newPassword:" + newPassword);
+			*/
+			
+		    String newPassword = "";
+			byte[] oldBytes = password.getBytes();
+			
+			String secret = "codackjia203";			
+			byte[] key = secret.getBytes();
+		        
+			SecretKeySpec secretKey = new SecretKeySpec(key, "HmacSHA256");
+		    try {
+		            Mac mac = Mac.getInstance("HmacSHA256");
+		            mac.init(secretKey);
+		            newPassword =  Base64.encodeBase64String(mac.doFinal(oldBytes));
+		    } catch (Exception ignored) {}
+		    
+		    System.out.println("암호화된 비밀번호:" + newPassword);			
+			
+					
+			//암호화된 비밀번호 db에 저장
+			MemberDto memberDto = new MemberDto();
+			memberDto.setEmail(email);
+			memberDto.setPassword(newPassword);
+			
+			try {
+				memberService.updatePassword(memberDto);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+			}			
+			
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}else { //메일 계정이 존재하지 않음			
+			System.out.println("계정 없음");
+			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+		}
+		
+	}
+	
+	
 	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
 	@PostMapping("/confirm/login")
 	public ResponseEntity<Map<String, Object>> login(
@@ -114,6 +219,8 @@ public class MemberController {
 				logger.debug("로그인 토큰정보 : {}", token);
 				resultMap.put("access-token", token);
 				resultMap.put("message", SUCCESS);
+				resultMap.put("userInfo", loginUser);
+				resultMap.put("oauth-result", SUCCESS);
 				status = HttpStatus.ACCEPTED;
 			} else {
 				System.out.println("토큰 반환 실패");
@@ -164,5 +271,63 @@ public class MemberController {
 	}
 	*/
 
+	@PostMapping("/confirm/kakaoLogin")
+	public ResponseEntity<Map<String,Object>> kakaoLogin(@RequestBody MemberDto memberDto) {
+		System.out.println("[카카오 로그인 요청]");
+		memberDto.setOauth("kakao");
+		//가입자 혹은 비가입자 체크해서 처리
+		MemberDto originMemberDto;
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.OK;
+		try {
+			originMemberDto = memberService.userInfo(memberDto.getEmail());
+			if(originMemberDto==null) {
+				System.out.println("[카카오 새회원 가입처리]");
+				String addUserResult = addUser(memberDto).getBody();
+				if(addUserResult.equals(SUCCESS)) {
+					System.out.println("[카카오 자동 로그인]");
+					return login(memberDto);
+				}
+			}else if(originMemberDto.getOauth()!=null && originMemberDto.getOauth().equals("kakao")){
+				System.out.println("[기존 카카오 로그인 회원 - 로그인]");
+				return login(memberDto);
+			}else {
+				System.out.println("[중복 로그인 회원]");
+				resultMap.put("userInfo", memberDto);
+				resultMap.put("message", SUCCESS);
+				resultMap.put("oauth-result", FAIL);
+				status = HttpStatus.ACCEPTED;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<Map<String,Object>>(resultMap,status);
+	}
+	
+	@PostMapping("/confirm/continueKakaoLogin")
+	public ResponseEntity<Map<String, Object>> continueKakaoLogin(@RequestBody MemberDto memberDto){
+		System.out.println("[중복로그인 통합 및 로그인]");
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+		MemberDto originMember = null;
+		try {
+			originMember = memberService.userInfo(memberDto.getEmail());
+			//수정할 내용: oauth=1 (추후 사진 추가 예정)
+			originMember.setOauth("kakao");
+			originMember.setPassword(memberDto.getPassword());
+			if(memberService.updateUser(originMember)) {
+				return login(originMember);
+			}
+		} catch (Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+
+		
+	}
 	
 }
