@@ -15,22 +15,25 @@
 
       <v-divider></v-divider>
 
-      <v-list nav align="left">
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon color="yellow darken-2" size="25">mdi-folder-search</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title style="font-size: 17px" @click="moveAllRank"
-            >문제 풀기</v-list-item-title
-          >
-
-          <v-menu offset-x>
+      <v-list flat align="left">
+        <v-list-item>
+          <v-menu offset-x max-width="100px">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn plain icon v-bind="attrs" v-on="on">
-                <v-icon size="30px">
-                  mdi-chevron-down
-                </v-icon>
-              </v-btn>
+              <v-list-item
+                @click="toggleMenu"
+                v-bind="attrs"
+                v-on="on"
+                style="padding-left: 0px"
+              >
+                <v-list-item-icon>
+                  <v-icon color="yellow darken-2" size="25">mdi-folder-search</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title style="font-size: 20px">문제풀기</v-list-item-title>
+                <v-list-item-icon>
+                  <v-icon v-if="isMenu" size="25">mdi-menu-right</v-icon>
+                  <v-icon v-else size="25">mdi-menu-down</v-icon>
+                </v-list-item-icon>
+              </v-list-item>
             </template>
             <v-list>
               <v-list-item @click="moveAllRank">
@@ -113,7 +116,7 @@ export default {
   data() {
     return {
       drawer: false,
-      ismenu: false,
+      isMenu: false,
       items: [
         { rank: 1, title: 'rank 1' },
         { rank: 2, title: 'rank 2' },
@@ -162,6 +165,12 @@ export default {
             location.reload();
           }
         });
+    },
+    // testClick(event) {
+    //   console.log(event.target)
+    // }
+    toggleMenu() {
+      this.isMenu = !this.isMenu
     },
   },
 };
