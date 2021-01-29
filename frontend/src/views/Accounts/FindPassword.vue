@@ -66,8 +66,9 @@ export default {
             if (data === 'success') {
               alert('이메일로 비밀번호가 전송되었습니다.');
               this.$router.push({ name: 'Home' });
+            } else {
+              this.msg = '!가입된 이메일이 없습니다.';
             }
-            this.msg = '!가입된 이메일이 없습니다.';
           });
         this.$refs.form.reset();
       }

@@ -1,5 +1,5 @@
 <template>
-  <v-footer dark padless app>
+  <v-footer app absolute dark padless>
     <v-card flat tile class="flex grey lighten-5 white--text text-center">
       <v-card-text>
         <v-btn v-for="icon in icons" :key="icon" class="mx-4 grey--text" icon>
@@ -8,15 +8,7 @@
           </v-icon>
         </v-btn>
         <v-fab-transition>
-          <v-btn
-            right
-            fixed
-            black
-            small
-            fab
-            v-show="btnShow"
-            @click="$vuetify.goTo('#header')"
-          >
+          <v-btn right fixed black small fab v-show="btnShow" @click="$vuetify.goTo('#header')">
             <v-icon>mdi-chevron-double-up</v-icon>
           </v-btn>
         </v-fab-transition>
@@ -44,10 +36,10 @@ export default {
   }),
   methods: {
     handleScroll() {
-      this.btnShow = window.scrollY > 400;
+      this.btnShow = window.scrollY > 10;
     },
     beforMound() {
-      window.addEventListener("scroll", this.handleScroll);
+      window.addEventListener("Scroll", this.handleScroll);
     },
     beforeDestroy() {
       window.removeEventListener("Scroll", this.handleScroll);

@@ -17,8 +17,8 @@
 
       <v-list flat align="left">
         <v-list-item>
-          <v-menu offset-x>
-            <template v-slot:activator="{ on, attrs}">
+          <v-menu offset-x max-width="100px">
+            <template v-slot:activator="{ on, attrs }">
               <v-list-item
                 @click="toggleMenu"
                 v-bind="attrs"
@@ -35,22 +35,10 @@
                 </v-list-item-icon>
               </v-list-item>
             </template>
-
-            <!-- <template v-slot:activator="{ on, attrs }">
-              <v-list-item-icon>
-                <v-icon color="yellow darken-2" size="25">mdi-folder-search</v-icon>
-              </v-list-item-icon>
-              // <v-btn
-                color="primary"
-                dark
-                v-bind="attrs"
-                v-on="on"
-              >
-                Dropdown
-              </v-btn> //
-              <v-list-item v-bind="attrs" v-on="on" style="padding-left: 0px">문제풀기</v-list-item>
-            </template> -->
             <v-list>
+              <v-list-item @click="moveAllRank">
+                All
+              </v-list-item>
               <v-list-item
                 v-for="(item, index) in items"
                 :key="index"
@@ -62,7 +50,7 @@
           </v-menu>
         </v-list-item>
 
-          <!-- <v-list-group
+        <!-- <v-list-group
             :value="false"
             no-action
             sub-group
@@ -90,26 +78,19 @@
           <v-list-item-icon>
             <v-icon color="yellow darken-2" size="25">mdi-video-account</v-icon>
           </v-list-item-icon>
-          <v-list-item-title style="font-size: 17px"
-            >화상으로 함께 하기</v-list-item-title
-          >
+          <v-list-item-title style="font-size: 17px">화상으로 함께 하기</v-list-item-title>
         </v-list-item>
         <v-list-item link>
           <v-list-item-icon>
             <v-icon color="yellow darken-2" size="25">mdi-microphone</v-icon>
           </v-list-item-icon>
-          <v-list-item-title style="font-size: 17px"
-            >음성으로 코딩하기</v-list-item-title
-          >
+          <v-list-item-title style="font-size: 17px">음성으로 코딩하기</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar app dark color="yellow darken-2" elevate-on-scroll>
-      <v-app-bar-nav-icon
-        color="grey lighten-5"
-        @click="drawer = !drawer"
-      ></v-app-bar-nav-icon>
-      <v-toolbar-title style="font-size: 35px">코딱지</v-toolbar-title>
+      <v-app-bar-nav-icon color="grey lighten-5" @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title style="font-size: 35px" @click="moveHome">코딱지</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -137,14 +118,15 @@ export default {
       drawer: false,
       isMenu: false,
       items: [
-        {rank: 1, title: "rank 1"},
-        {rank: 2, title: "rank 2"},
-        {rank: 3, title: "rank 3"},
-      ]
+        { rank: 1, title: 'rank 1' },
+        { rank: 2, title: 'rank 2' },
+        { rank: 3, title: 'rank 3' },
+      ],
     };
   },
   methods: {
     moveHome() {
+      this.drawer = false;
       this.$router.push({ name: 'Home' }).catch((error) => {
         if (error.name === 'NavigationDuplicated') {
           location.reload();
@@ -166,18 +148,30 @@ export default {
       // });
       this.$emit('openModal', true);
     },
+    moveAllRank() {
+      this.drawer = false;
+      this.$router.push({ name: 'AllProblemRank' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
+    },
     goRankList(rank) {
-      if (window.location.href != `http://localhost:8080/problem/rank/${rank}`) // 이 부분 수정해야 함
-        this.$router.push({ name: "ProblemRankList", params: { problemrank : rank}})
-      else
-        this.$router.go(this.$router.currentRoute)
+      this.drawer = false;
+      this.$router
+        .push({ name: 'ProblemRankList', params: { problemrank: rank } })
+        .catch((error) => {
+          if (error.name === 'NavigationDuplicated') {
+            location.reload();
+          }
+        });
     },
     // testClick(event) {
     //   console.log(event.target)
     // }
     toggleMenu() {
       this.isMenu = !this.isMenu
-    }
+    },
   },
 };
 </script>
