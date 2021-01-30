@@ -1,37 +1,34 @@
 package com.ssafy.codackji.controller;
 
-import java.util.*;
-
-import javax.servlet.http.*;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.ssafy.codackji.model.service.EmailService;
-import com.ssafy.codackji.model.service.JwtServiceImpl;
-import com.ssafy.codackji.model.MemberDto;
-import com.ssafy.codackji.model.service.MemberService;
-
-import io.swagger.annotations.*;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ssafy.codackji.model.MemberDto;
+import com.ssafy.codackji.model.service.EmailService;
+import com.ssafy.codackji.model.service.JwtServiceImpl;
+import com.ssafy.codackji.model.service.MemberService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 
 
@@ -57,10 +54,8 @@ public class MemberController {
 	@ApiOperation(value="회원가입", notes="회원가입 시작!", response=String.class)
 	@PostMapping(value="/confirm/add")
 	public ResponseEntity<String> addUser(@RequestBody MemberDto memberDto){
-		System.out.println("[회원가입]"+memberDto.toString());
 		
 		if(memberService.emailCheck(memberDto.getEmail())>0) {
-			System.out.println(">>중복된 아이디");
 			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 		}else {
 			memberService.addUser(memberDto);
@@ -137,7 +132,6 @@ public class MemberController {
 			try {
 				emailService.sendPassword(email, password);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 			}
@@ -186,7 +180,6 @@ public class MemberController {
 			try {
 				memberService.updatePassword(memberDto);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 			}			
@@ -270,64 +263,5 @@ public class MemberController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	*/
-
-	@PostMapping("/confirm/kakaoLogin")
-	public ResponseEntity<Map<String,Object>> kakaoLogin(@RequestBody MemberDto memberDto) {
-		System.out.println("[카카오 로그인 요청]");
-		memberDto.setOauth("kakao");
-		//가입자 혹은 비가입자 체크해서 처리
-		MemberDto originMemberDto;
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = HttpStatus.OK;
-		try {
-			originMemberDto = memberService.userInfo(memberDto.getEmail());
-			if(originMemberDto==null) {
-				System.out.println("[카카오 새회원 가입처리]");
-				String addUserResult = addUser(memberDto).getBody();
-				if(addUserResult.equals(SUCCESS)) {
-					System.out.println("[카카오 자동 로그인]");
-					return login(memberDto);
-				}
-			}else if(originMemberDto.getOauth()!=null && originMemberDto.getOauth().equals("kakao")){
-				System.out.println("[기존 카카오 로그인 회원 - 로그인]");
-				return login(memberDto);
-			}else {
-				System.out.println("[중복 로그인 회원]");
-				resultMap.put("userInfo", memberDto);
-				resultMap.put("message", SUCCESS);
-				resultMap.put("oauth-result", FAIL);
-				status = HttpStatus.ACCEPTED;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return new ResponseEntity<Map<String,Object>>(resultMap,status);
-	}
-	
-	@PostMapping("/confirm/continueKakaoLogin")
-	public ResponseEntity<Map<String, Object>> continueKakaoLogin(@RequestBody MemberDto memberDto){
-		System.out.println("[중복로그인 통합 및 로그인]");
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
-		MemberDto originMember = null;
-		try {
-			originMember = memberService.userInfo(memberDto.getEmail());
-			//수정할 내용: oauth=1 (추후 사진 추가 예정)
-			originMember.setOauth("kakao");
-			originMember.setPassword(memberDto.getPassword());
-			if(memberService.updateUser(originMember)) {
-				return login(originMember);
-			}
-		} catch (Exception e) {
-			resultMap.put("message", e.getMessage());
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
-
-		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-
-		
-	}
 	
 }

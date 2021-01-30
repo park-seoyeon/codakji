@@ -21,4 +21,6 @@ public interface MemberMapper {
 	
 	public int updatePassword(MemberDto memberDto) throws SQLException;
 
+	public MemberDto socialLogin(MemberDto memberDto) throws SQLException;
+
 }
