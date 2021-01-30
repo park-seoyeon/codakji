@@ -160,6 +160,7 @@ export default {
       this.drawer = false;
       this.$router
         .push({ name: 'ProblemRankList', params: { problemrank: rank } })
+        .then(() => location.reload())  // 문제목록 갱신을 위한 어쩔 수 없는 선택
         .catch((error) => {
           if (error.name === 'NavigationDuplicated') {
             location.reload();
