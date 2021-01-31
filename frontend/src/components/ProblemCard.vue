@@ -1,12 +1,11 @@
 <template>
-  <!-- <v-container> -->
-  <v-col cols="12" sm="6" md="3" lg="2">
-    <v-card @click="goProblemDetail">
-      <v-card-title>{{ problem.id }}. {{ problem.title }}</v-card-title>
+  <v-col cols="12" sm="6" md="4" lg="3" xl="2">
+    <!-- 화면분할 더 알차게 -->
+    <v-card @click="goProblemDetail(problem.problem_number)">
+      <v-card-title>{{ problem.problem_number }}. {{ problem.problem_title }}</v-card-title>
       <v-card-text>{{ problem.content }}</v-card-text>
     </v-card>
   </v-col>
-  <!-- </v-container> -->
 </template>
 
 <script>
@@ -15,12 +14,14 @@ export default {
     problem: Object,
   },
   methods: {
-    goProblemDetail() {
-      this.$router.push({ name: 'ProblemDetail' }).catch((error) => {
-        if (error.name === 'NavigationDuplicated') {
-          location.reload();
-        }
-      });
+    goProblemDetail(problem) {
+      this.$router
+        .push({ name: 'ProblemDetail', params: { problemnumber: problem } })
+        .catch((error) => {
+          if (error.name === 'NavigationDuplicated') {
+            location.reload();
+          }
+        });
     },
   },
 };

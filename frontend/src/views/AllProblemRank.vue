@@ -17,7 +17,7 @@ export default {
     return {
       ranks: [
         { id: 1, title: '1단계', content: '코딩의 기초 지식을 쌓는 1단계 문제' },
-        { id: 2, title: '2단계', content: '코딩의 기초 지식을 쌓는 2단계 문제' },
+        { id: 2, title: '2단계', content: '코딩의 기초 지식을 쌓는 2단계 문제', color: '#FF5252' },
         { id: 3, title: '3단계', content: '코딩의 기초 지식을 쌓는 3단계 문제' },
         { id: 4, title: '4단계', content: '코딩의 기초 지식을 쌓는 4단계 문제' },
         { id: 5, title: '5단계', content: '코딩의 기초 지식을 쌓는 5단계 문제' },
