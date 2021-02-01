@@ -8,7 +8,7 @@
           </v-icon>
         </v-btn>
         <v-fab-transition>
-          <v-btn right fixed black small fab v-show="btnShow" @click="$vuetify.goTo('#header')">
+          <v-btn right fixed black small fab v-show="btnShow" @click="$vuetify.goTo('header')">
             <v-icon>mdi-chevron-double-up</v-icon>
           </v-btn>
         </v-fab-transition>
@@ -31,19 +31,19 @@
 export default {
   name: 'Footer',
   data: () => ({
-    btnShow: true,
+    btnShow: false,
     icons: ['mdi-facebook', 'mdi-twitter', 'mdi-linkedin', 'mdi-instagram'],
   }),
+  beforeMount: function() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeDestroy: function() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
   methods: {
     handleScroll() {
       this.btnShow = window.scrollY > 10;
     },
-    beforMound() {
-      window.addEventListener("Scroll", this.handleScroll);
-    },
-    beforeDestroy() {
-      window.removeEventListener("Scroll", this.handleScroll);
-    }
   },
 };
 </script>
