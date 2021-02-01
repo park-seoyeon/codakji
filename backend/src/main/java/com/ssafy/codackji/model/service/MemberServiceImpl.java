@@ -1,5 +1,7 @@
 package com.ssafy.codackji.model.service;
 
+import java.sql.SQLException;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +18,9 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public void addUser(MemberDto memberDto) {
-		System.out.println("[service-회원가입]");
 		sqlSession.getMapper(MemberMapper.class).addUser(memberDto);
 	}
+	
 
 	@Override
 	public int emailCheck(String email) {
@@ -33,8 +35,14 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
+	public MemberDto socialLogin(MemberDto memberDto) throws Exception {
+		return sqlSession.getMapper(MemberMapper.class).socialLogin(memberDto);
+	}
+	
+	@Override
 	public MemberDto userInfo(String email) throws Exception {
-		return sqlSession.getMapper(MemberMapper.class).userInfo(email);
+		MemberDto memberDto = sqlSession.getMapper(MemberMapper.class).userInfo(email);
+		return memberDto;
 	}
 	
 	@Override
