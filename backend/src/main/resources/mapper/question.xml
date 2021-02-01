@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.ssafy.codackji.model.mapper.QuestionMapper">
+
+	<select id="listQuestion" parameterType="int" resultType="QuestionDto">
+		select *
+		from Question
+		where user_number = #{user_number}
+	</select>
+	
+	<insert id="writeQuestion" parameterType="QuestionDto">
+		insert into Question (user_number, teach_user_number, problem_number, question_title, question_content) 
+		values(#{user_number},#{teach_user_number},#{problem_number}, #{question_title}, #{question_content})
+	</insert>
+	
+	<select id="getQuestion" parameterType="int" resultType="QuestionDto">
+		select *
+		from Question
+		where question_number = #{question_number}
+	</select>
+	
+	<update id="editQuestion" parameterType="QuestionDto" >
+		update Question
+		set question_title = #{question_title}, question_content = #{question_content}, updated_at = now()
+		where question_number = #{question_number}
+	</update>
+	
+	<delete id="deleteQuestion" parameterType="int">
+		delete from Question
+		where question_number = #{question_number}
+	</delete>
+</mapper>

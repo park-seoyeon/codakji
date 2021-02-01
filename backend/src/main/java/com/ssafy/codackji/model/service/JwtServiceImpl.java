@@ -1,19 +1,26 @@
 package com.ssafy.codackji.model.service;
 
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.common.error.UnauthorizedException;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtServiceImpl implements JwtService {
@@ -22,6 +29,9 @@ public class JwtServiceImpl implements JwtService {
 
 	private static final String TK = "ssafySecret";
 	private static final int EXPIRE_MINUTES = 60;
+	
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	@Override
 	public <T> String create(String key, T data, String subject) {
@@ -92,5 +102,18 @@ public class JwtServiceImpl implements JwtService {
 	@Override
 	public String getUserId() {
 		return (String) this.get("user").get("userid");
+	}
+	
+	@Override
+	public String getUserEmail(String jwt) {//복호화
+		Jws<Claims> claims = null;
+		try {
+			claims = Jwts.parser()
+					.setSigningKey(this.generateKey())
+					.parseClaimsJws(jwt);			
+		}catch(Exception e) {
+			throw new UnauthorizedException();
+		}
+		return objectMapper.convertValue(claims.getBody().get("userid"), String.class);
 	}
 }

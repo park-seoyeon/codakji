@@ -99,7 +99,6 @@ public class KakaoLoginController {
 		// Http 요청하기 -Post방식으로 - 그리고 response 변수의 응답 받음.
 		ResponseEntity<String> response2 = rt2.exchange("https://kapi.kakao.com/v2/user/me", HttpMethod.POST,
 				kakaoProfileRequest2, String.class);
-		System.out.println(response2.getBody());
 
 		ObjectMapper objectMapper2 = new ObjectMapper();
 		KakaoProfile kakaoProfile = null;
@@ -140,7 +139,6 @@ public class KakaoLoginController {
 			            newPassword =  Base64.encodeBase64String(mac.doFinal(oldBytes));
 			    } catch (Exception ignored) {}
 			    
-			    System.out.println("암호화된 비밀번호:" + newPassword);
 			    kakaoUser.setPassword(newPassword);
 				memberService.addUser(kakaoUser);
 				System.out.println("[카카오 자동 로그인]");
@@ -218,7 +216,6 @@ public class KakaoLoginController {
 		            newPassword =  Base64.encodeBase64String(mac.doFinal(oldBytes));
 		    } catch (Exception ignored) {}
 		    
-		    System.out.println("암호화된 비밀번호:" + newPassword);
 		    originMember.setPassword(newPassword);
 			if(memberService.updateUser(originMember)) {
 				return kakaoLogin(originMember);

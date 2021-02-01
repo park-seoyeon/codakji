@@ -18,7 +18,6 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public void addUser(MemberDto memberDto) {
-		System.out.println("[service-회원가입]");
 		sqlSession.getMapper(MemberMapper.class).addUser(memberDto);
 	}
 	
@@ -42,7 +41,8 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	public MemberDto userInfo(String email) throws Exception {
-		return sqlSession.getMapper(MemberMapper.class).userInfo(email);
+		MemberDto memberDto = sqlSession.getMapper(MemberMapper.class).userInfo(email);
+		return memberDto;
 	}
 	
 	@Override

@@ -1,37 +1,34 @@
 package com.ssafy.codackji.controller;
 
-import java.util.*;
-
-import javax.servlet.http.*;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.ssafy.codackji.model.service.EmailService;
-import com.ssafy.codackji.model.service.JwtServiceImpl;
-import com.ssafy.codackji.model.MemberDto;
-import com.ssafy.codackji.model.service.MemberService;
-
-import io.swagger.annotations.*;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ssafy.codackji.model.MemberDto;
+import com.ssafy.codackji.model.service.EmailService;
+import com.ssafy.codackji.model.service.JwtServiceImpl;
+import com.ssafy.codackji.model.service.MemberService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 
 
@@ -57,10 +54,8 @@ public class MemberController {
 	@ApiOperation(value="회원가입", notes="회원가입 시작!", response=String.class)
 	@PostMapping(value="/confirm/add")
 	public ResponseEntity<String> addUser(@RequestBody MemberDto memberDto){
-		System.out.println("[회원가입]"+memberDto.toString());
 		
 		if(memberService.emailCheck(memberDto.getEmail())>0) {
-			System.out.println(">>중복된 아이디");
 			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 		}else {
 			memberService.addUser(memberDto);
@@ -137,7 +132,6 @@ public class MemberController {
 			try {
 				emailService.sendPassword(email, password);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 			}
@@ -186,7 +180,6 @@ public class MemberController {
 			try {
 				memberService.updatePassword(memberDto);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 			}			
@@ -270,6 +263,5 @@ public class MemberController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	*/
-
 	
 }
