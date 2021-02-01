@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import RankCard from '@/components/RankCard';
+import RankCard from '@/components/problem/RankCard';
 export default {
   name: 'AllProblemRank',
   data: () => {

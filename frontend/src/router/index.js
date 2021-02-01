@@ -4,8 +4,8 @@ import Home from '@/views/Home.vue';
 import LogIn from '@/views/Accounts/LogIn.vue';
 import SignUp from '@/views/Accounts/SignUp.vue';
 import FindPassword from '@/views/Accounts/FindPassword.vue';
-import AllProblemRank from '@/views/AllProblemRank.vue'
-import ProblemRankList from '@/views/ProblemRankList.vue'
+import AllProblemRank from '@/views/Problems/AllProblemRank.vue'
+import ProblemRankList from '@/views/Problems/ProblemRankList.vue'
 import ProblemDetail from '@/views/Problems/ProblemDetail.vue'
 
 Vue.use(VueRouter);

@@ -43,36 +43,14 @@
               <v-list-item
                 v-for="(item, index) in items"
                 :key="index"
-                @click="goRankList(item.rank)"
+                @click="moveRankList(item.rank)"
               >
                 <v-list-item-title>{{ item.title }}</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
         </v-list-item>
-        <!-- <v-list-group
-            :value="false"
-            no-action
-            sub-group
-          >
-            <template v-slot:activator>
-              <v-list-item-content>
-                <v-list-item-title>Admin</v-list-item-title>
-              </v-list-item-content>
-            </template>
-  
-            <v-list-item
-              v-for="(item, i) in items"
-              :key="i"
-              link
-            >
-              <v-list-item-title v-text="item.title"></v-list-item-title>
-  
-              <v-list-item-icon>
-                <v-icon v-text="icon"></v-icon>
-              </v-list-item-icon>
-            </v-list-item>
-          </v-list-group> -->
+
         <v-list-item link>
           <v-list-item-icon>
             <v-icon color="yellow darken-2" size="25">mdi-video-account</v-icon>
@@ -108,10 +86,6 @@
 
       <v-spacer></v-spacer>
 
-      <!-- <v-btn text @click="moveHome" style="font-size: 17px">
-        <span>홈으로</span>
-        <v-icon>mdi-home</v-icon>
-      </v-btn> -->
       <v-chip outlined small @click="moveSignup" color="grey darken-1" class="mx-5">
         <span>회원가입</span>
         <v-icon>mdi-account</v-icon>
@@ -155,11 +129,6 @@ export default {
       });
     },
     moveLogin() {
-      // this.$router.push({ name: 'LogIn' }).catch((error) => {
-      //   if (error.name === 'NavigationDuplicated') {
-      //     location.reload();
-      //   }
-      // });
       this.$emit('openModal', true);
     },
     moveAllRank() {
@@ -170,20 +139,17 @@ export default {
         }
       });
     },
-    goRankList(rank) {
+    moveRankList(rank) {
       this.drawer = false;
       this.$router
         .push({ name: 'ProblemRankList', params: { problemrank: rank } })
-        .then(() => location.reload())  // 문제목록 갱신을 위한 어쩔 수 없는 선택
+        .then(() => location.reload()) // 문제목록 갱신을 위한 어쩔 수 없는 선택
         .catch((error) => {
           if (error.name === 'NavigationDuplicated') {
             location.reload();
           }
         });
     },
-    // testClick(event) {
-    //   console.log(event.target)
-    // }
     toggleMenu() {
       this.isMenu = !this.isMenu;
     },

@@ -9,9 +9,9 @@
   </v-app>
 </template>
 <script>
-import Header from '@/components/Header.vue';
-import Footer from '@/components/Footer.vue';
-import ModalCareer from '@/components/ModalCareer';
+import Header from '@/components/nav/Header.vue';
+import Footer from '@/components/nav/Footer.vue';
+import ModalCareer from '@/components/modal/ModalCareer';
 
 export default {
   data: () => {
@@ -59,10 +59,4 @@ footer {
 .guide {
   font-family: 'Noto Sans KR', sans-serif;
 }
-// header {
-//   font-family: 'Noto Sans KR', sans-serif;
-// }
-// .v-navigation-drawer__content {
-//   font-family: 'Noto Sans KR', sans-serif;
-// }
 </style>

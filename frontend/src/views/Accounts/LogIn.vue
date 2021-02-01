@@ -29,7 +29,7 @@
           <div class="px-5 pt-3 d-flex flex-column guide">
             <div class="d-flex justify-space-between">
               <span>아직 회원이 아니신가요?</span>
-              <v-btn @click="goSignUp" plain pill color="indigo accent-2"
+              <v-btn @click="moveSignUp" plain pill color="indigo accent-2"
                 ><strong>회원가입</strong></v-btn
               >
             </div>
@@ -39,18 +39,6 @@
               </v-btn>
             </div>
           </div>
-          <!-- <v-chip class="ma-2" @click="goSignUp" color="warning" outlined pill
-          >회원가입
-          <v-icon right>
-            mdi-account-circle-outline
-          </v-icon>
-        </v-chip>
-
-        <div>
-          <v-btn color="red darken-3" plain @click="moveFindPassword">
-            비밀번호 찾기
-          </v-btn>
-        </div> -->
         </v-form>
       </v-col>
     </v-row>
@@ -126,10 +114,10 @@ export default {
     logInKakao() {
       window.Kakao.Auth.authorize({
         //현재 url 찾아야해
-        redirectUri: 'http://localhost:8080/'
+        redirectUri: 'http://localhost:8080/',
       });
     },
-    goSignUp() {
+    moveSignUp() {
       this.$emit('closeModal');
       this.$router.push({ name: 'SignUp' }).catch((error) => {
         if (error.name === 'NavigationDuplicated') {
