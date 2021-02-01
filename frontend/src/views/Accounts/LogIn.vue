@@ -2,7 +2,8 @@
   <v-container fill-height fluid class="py-0">
     <v-row no-gutters justify="center" align="center">
       <v-col cols="12">
-        <h1 class="text--primary">로그인</h1>
+        <div align="center"><v-img width="60px" src="@/assets/codackji_logo.png" /></div>
+        <h1 class="text--primary pt-3">로그인</h1>
         <v-form persistent ref="form">
           <v-text-field
             :rules="emailRules"
@@ -23,7 +24,7 @@
             <v-icon right>mdi-login</v-icon>
           </v-chip>
           <div align="center" class="mt-2">
-            <img src="../../assets/kakao_login.png" width="150px" @click="logInKakao" />
+            <img src="../../assets/kakao_login.png" width="250px" @click="logInKakao" />
           </div>
           <div class="px-5 pt-3 d-flex flex-column guide">
             <div class="d-flex justify-space-between">
@@ -123,76 +124,9 @@ export default {
       }
     },
     logInKakao() {
-      //현아
-      window.Kakao.Auth.login({
-        // scope : 'account_email',
-        success: this.GetMe,
-      });
-    },
-    GetMe() {
-      // console.log(authObj);
-      const crypto = require('crypto');
-      window.Kakao.API.request({
-        url: '/v2/user/me',
-        success: (res) => {
-          const kakao_account = res.kakao_account;
-          const userInfo = {
-            name: kakao_account.profile.nickname,
-            email: kakao_account.email,
-            password: crypto
-              .createHmac('sha256', SECRET_KEY)
-              .update('kakao1234')
-              .digest('base64'),
-            //account_type : 2,
-            //profileImage : res.properties.profile_image,
-          };
-          //alert(userInfo.profileImage);
-          axios
-            .post(`${SERVER_URL}/user/confirm/kakaoLogin`, userInfo)
-            .then((response) => {
-              if (response.data['oauth-result'] === 'success') {
-                localStorage.setItem('jwt', response.data['access-token']);
-                localStorage.setItem('name', response.data['userInfo'].name);
-                alert(userInfo.email + '님 로그인!');
-                this.$emit('closeModal');
-                this.$router.push({ name: 'Home' }).catch((error) => {
-                  if (error.name === 'NavigationDuplicated') {
-                    location.reload();
-                  }
-                });
-              } else {
-                var result = confirm(
-                  '이미 존재하는 이메일입니다. 카카오 계정으로 통합하시겠습니까?'
-                );
-                if (result) {
-                  userInfo.password = crypto
-                    .createHmac('sha256', SECRET_KEY)
-                    .update('kakao1234')
-                    .digest('base64');
-                  axios
-                    .post(`${SERVER_URL}/user/confirm/continueKakaoLogin`, userInfo)
-                    .then((response) => {
-                      if (response.data['oauth-result'] === 'success') {
-                        localStorage.setItem('jwt', response.data['access-token']);
-                        localStorage.setItem('name', response.data['userInfo'].name);
-                        alert(userInfo.name + '님! 통합 후 로그인 성공');
-                        this.$emit('closeModal');
-                        this.$router.push({ name: 'Home' }).catch((error) => {
-                          if (error.name === 'NavigationDuplicated') {
-                            location.reload();
-                          }
-                        });
-                      } else {
-                        alert('카카오 로그인에 실패하셨습니다');
-                      }
-                    });
-                }
-              }
-            })
-            .catch(() => {
-              alert('로그인중 오류가 발생했습니다');
-            });
-        },
+      window.Kakao.Auth.authorize({
+        //현재 url 찾아야해
+        redirectUri: 'http://localhost:8080/'
       });
     },
     goSignUp() {

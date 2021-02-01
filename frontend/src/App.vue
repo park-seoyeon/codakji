@@ -59,4 +59,10 @@ footer {
 .guide {
   font-family: 'Noto Sans KR', sans-serif;
 }
+// header {
+//   font-family: 'Noto Sans KR', sans-serif;
+// }
+// .v-navigation-drawer__content {
+//   font-family: 'Noto Sans KR', sans-serif;
+// }
 </style>
