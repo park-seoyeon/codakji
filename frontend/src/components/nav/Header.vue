@@ -1,22 +1,44 @@
 <template>
   <nav>
     <v-navigation-drawer app v-model="drawer">
-      <v-list-item style="padding: 15px">
-        <v-badge v-if="notice.length" color="red darken-1" content="6" overlap bottom bordered>
-          <v-avatar color="yellow darken-2" size="40">
+      <span v-if="userName" @click="moveMyProfile" style="cursor: pointer;">
+        <v-list-item style="padding: 15px">
+          <v-badge v-if="notice.length" color="red darken-1" content="6" overlap bottom bordered>
+            <v-avatar color="yellow darken-2" size="40">
+              <v-icon dark size="20">
+                mdi-account-circle
+              </v-icon>
+            </v-avatar>
+          </v-badge>
+          <v-avatar v-else color="yellow darken-2" size="40">
             <v-icon dark size="20">
               mdi-account-circle
             </v-icon>
           </v-avatar>
-        </v-badge>
-        <v-avatar v-else color="yellow darken-2" size="40">
-          <v-icon dark size="20">
-            mdi-account-circle
-          </v-icon>
-        </v-avatar>
+          <v-list-item-title style="font-size: 20px">{{ userName }}</v-list-item-title>
+        </v-list-item>
+      </span>
 
-        <v-list-item-title style="font-size: 20px">코기</v-list-item-title>
-      </v-list-item>
+      <span v-else>
+        <v-list-item style="padding: 15px">
+          <v-badge v-if="notice.length" color="red darken-1" content="6" overlap bottom bordered>
+            <v-avatar color="yellow darken-2" size="40">
+              <v-icon dark size="20">
+                mdi-account-circle
+              </v-icon>
+            </v-avatar>
+          </v-badge>
+          <v-avatar v-else color="yellow darken-2" size="40">
+            <v-icon dark size="20">
+              mdi-account-circle
+            </v-icon>
+          </v-avatar>
+
+          <v-list-item-title style="font-size: 20px">
+            로그인 해주세요
+          </v-list-item-title>
+        </v-list-item>
+      </span>
 
       <v-divider></v-divider>
 
@@ -36,9 +58,9 @@
               </v-list-item>
             </template>
             <v-list>
-              <v-list-item @click="moveAllRank" style="margin-left: 20px">
+              <v-list-item @click="moveAllRank" class="px-5">
                 <!-- 여기 수정해야 함 -->
-                All
+                <v-list-item-title> 모든 단계</v-list-item-title>
               </v-list-item>
               <v-list-item
                 v-for="(item, index) in items"
@@ -63,13 +85,13 @@
           </v-list-item-icon>
           <v-list-item-title style="font-size: 17px">음성으로 코딩하기</v-list-item-title>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link @click="moveNotice">
           <v-list-item-icon>
             <v-icon color="yellow darken-2" size="25">mdi-bullhorn</v-icon>
           </v-list-item-icon>
           <v-list-item-title style="font-size: 17px">공지사항</v-list-item-title>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link @click="moveCoFAQ">
           <v-list-item-icon>
             <v-icon color="yellow darken-2" size="25">mdi-chat-question</v-icon>
           </v-list-item-icon>
@@ -80,12 +102,17 @@
 
     <v-app-bar app color="white" elevate-on-scroll>
       <v-app-bar-nav-icon color="grey darken-5" @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title @click="moveHome"
+      <v-toolbar-title @click="moveHome" style="cursor: pointer; margin-left:30px;"
         ><v-img width="90px" src="@/assets/codackji_logo.png"
       /></v-toolbar-title>
 
       <v-spacer></v-spacer>
 
+      <div v-if="isLogin">
+        <v-chip outlined small @click="logOut" color="grey darken-1">
+          <span>로그아웃</span>
+        </v-chip>
+      </div>
       <v-chip outlined small @click="moveSignup" color="grey darken-1" class="mx-5">
         <span>회원가입</span>
         <v-icon>mdi-account</v-icon>
@@ -105,10 +132,17 @@ export default {
       drawer: false,
       isMenu: false,
       notice: '',
+      userName: '',
       items: [
-        { rank: 1, title: 'rank 1' },
-        { rank: 2, title: 'rank 2' },
-        { rank: 3, title: 'rank 3' },
+        { rank: 1, title: 'level 1' },
+        { rank: 2, title: 'level 2' },
+        { rank: 3, title: 'level 3' },
+        { rank: 4, title: 'level 4' },
+        { rank: 5, title: 'level 5' },
+        { rank: 6, title: 'level 6' },
+        { rank: 7, title: 'level 7' },
+        { rank: 8, title: 'level 8' },
+        { rank: 9, title: 'level 9' },
       ],
     };
   },
@@ -150,9 +184,43 @@ export default {
           }
         });
     },
+    moveMyProfile() {
+      this.$router.push({ name: 'UserProfile' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
+    },
+    moveNotice() {
+      this.$router.push({ name: 'Notice' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
+    },
+    moveCoFAQ() {
+      this.$router.push({ name: 'CoFAQ' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
+    },
     toggleMenu() {
       this.isMenu = !this.isMenu;
     },
+    logOut() {
+      if (this.isLogin) localStorage.removeItem('jwt');
+      localStorage.removeItem('name');
+      this.isLogin = false;
+      this.userName = '';
+    },
+  },
+  created() {
+    const token = localStorage.getItem('jwt');
+    if (token) {
+      this.isLogin = true;
+      this.userName = localStorage.getItem('name');
+    }
   },
 };
 </script>

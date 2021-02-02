@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <h1>테스트용 메시지</h1>
-  </div>
+  <h1>
+    FAQ 페이지입니다.
+  </h1>
 </template>
 
 <script>
 export default {
-
+  name: 'CoFAQ',
 }
 </script>
 
