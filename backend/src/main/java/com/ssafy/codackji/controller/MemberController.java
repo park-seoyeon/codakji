@@ -54,6 +54,10 @@ public class MemberController {
 	@PostMapping(value = "/confirm/add")
 	public ResponseEntity<String> addUser(@RequestBody MemberDto memberDto) {
 
+	@ApiOperation(value = "회원가입", notes = "회원가입 시작!", response = String.class)
+	@PostMapping(value = "/confirm/add")
+	public ResponseEntity<String> addUser(@RequestBody MemberDto memberDto) {
+
 		if (memberService.emailCheck(memberDto.getEmail()) > 0) {
 			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 		} else {
