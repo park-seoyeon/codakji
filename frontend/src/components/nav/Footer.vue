@@ -15,7 +15,9 @@
       </v-card-text>
 
       <v-card-text class="grey--text pt-0">
-        &copy; 코딱지 by All rights reserved.
+        <p>&copy; 코딱지 by All rights reserved.</p>
+        <span @click="moveIntroduce" style="cursor: pointer; padding-right: 6px;">About us</span> |
+        <span class="px-2">codackjiworld@gmail.com</span>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -43,6 +45,13 @@ export default {
   methods: {
     handleScroll() {
       this.btnShow = window.scrollY > 10;
+    },
+    moveIntroduce() {
+      this.$router.push({ name: 'Introduce' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
     },
   },
 };
