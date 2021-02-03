@@ -1,0 +1,29 @@
+#rank:hover {
+  box-shadow: 10px 5px 5px grey;
+  position: relative;
+  animation: move.7s;
+}
+@keyframes move {
+  0% {
+    opacity: 0.7;
+  }
+  50% {
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 310px;
+    top: -10px;
+    opacity: 0.5;
+  }
+
+  75% {
+    opacity: 0.7;
+  }
+
+  100% {
+    padding: auto;
+    top: 0px;
+    opacity: 1;
+  }
+}

@@ -103,7 +103,7 @@
     <v-app-bar app color="white" elevate-on-scroll>
       <v-app-bar-nav-icon color="grey darken-5" @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title @click="moveHome" style="cursor: pointer; margin-left:30px;"
-        ><v-img width="90px" src="@/assets/codackji_logo.png"
+        ><v-img width="90px" src="@/assets/img/codackji_logo.png"
       /></v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -111,6 +111,7 @@
       <div v-if="isLogin">
         <v-chip outlined small @click="logOut" color="grey darken-1">
           <span>로그아웃</span>
+          <v-icon>mdi-logout</v-icon>
         </v-chip>
       </div>
       <div v-else>
@@ -168,8 +169,7 @@ export default {
       }
     },
     moveLogin() {
-      if (!this.isLogin)
-        this.$emit('openModal', true);
+      if (!this.isLogin) this.$emit('openModal', true);
     },
     moveAllRank() {
       this.drawer = false;
@@ -221,7 +221,7 @@ export default {
         this.isLogin = false;
         this.userName = '';
       }
-    }
+    },
   },
   created() {
     const token = localStorage.getItem('jwt');

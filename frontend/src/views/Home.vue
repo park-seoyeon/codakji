@@ -40,6 +40,7 @@ export default {
                 location.reload();
               }
             });
+            location.reload();
           } else {
             var result = confirm('이미 존재하는 이메일입니다. 카카오 계정으로 통합하시겠습니까?');
             if (result) {
@@ -56,6 +57,7 @@ export default {
                       location.reload();
                     }
                   });
+                  location.reload();
                 } else {
                   alert('카카오 로그인에 실패하셨습니다');
                   this.$router.push({ name: 'Home' }).catch((error) => {

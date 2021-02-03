@@ -2,7 +2,7 @@
   <v-container fill-height fluid>
     <v-row no-gutters justify="center" align="center">
       <v-col cols="12" sm="4">
-        <div align="center"><v-img width="70px" src="@/assets/codackji_logo.png" /></div>
+        <div align="center"><v-img width="70px" src="@/assets/img/codackji_logo.png" /></div>
         <h1 class="text--primary pt-3">비밀번호찾기</h1>
         <v-form persistent ref="form">
           <v-text-field
