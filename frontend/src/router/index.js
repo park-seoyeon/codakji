@@ -18,7 +18,6 @@ import CoFAQ from '@/views/Notices/CoFAQ.vue'
 
 import Introduce from '@/views/About/Introduce.vue'
 
-
 Vue.use(VueRouter);
 
 const routes = [
