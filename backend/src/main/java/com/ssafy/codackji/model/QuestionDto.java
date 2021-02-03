@@ -12,7 +12,7 @@ public class QuestionDto {
 	private boolean question_check;
 	private String created_at;
 	private String updated_at;
-	private String user_token;
+	private String token;
 	
 	
 	public int getQuestion_number() {
@@ -76,11 +76,12 @@ public class QuestionDto {
 	public void setUpdated_at(String updated_at) {
 		this.updated_at = updated_at;
 	}
-	public String getUser_token() {
-		return user_token;
+	
+	public String getToken() {
+		return token;
 	}
-	public void setUser_token(String user_token) {
-		this.user_token = user_token;
+	public void setToken(String token) {
+		this.token = token;
 	}
 	@Override
 	public String toString() {
@@ -88,7 +89,7 @@ public class QuestionDto {
 				+ ", teach_user_number=" + teach_user_number + ", problem_number=" + problem_number
 				+ ", question_title=" + question_title + ", question_content=" + question_content
 				+ ", question_answered=" + question_answered + ", question_check=" + question_check + ", created_at="
-				+ created_at + ", updated_at=" + updated_at + ", user_token=" + user_token + "]";
+				+ created_at + ", updated_at=" + updated_at + ", token=" + token + "]";
 	}
 	
 }

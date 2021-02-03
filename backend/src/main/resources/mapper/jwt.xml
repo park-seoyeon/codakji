@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.ssafy.codackji.model.mapper.JwtMapper">
+	<select id="isInTime" resultType="boolean">
+		select date_add(renewal_time,interval 30 minute) > now()
+		from User
+		where token = #{token}
+	</select>
+	
+	<update id="setToken" parameterType="MemberDto">
+		update User
+		set token = #{token}, renewal_time = now()
+		where email = #{email}
+	</update>
+</mapper>
