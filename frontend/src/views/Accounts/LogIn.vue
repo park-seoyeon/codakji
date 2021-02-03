@@ -100,7 +100,7 @@ export default {
     logInKakao() {
       window.Kakao.Auth.authorize({
         //현재 url 찾아야해
-        redirectUri: `${SERVER_URL}/`,
+        redirectUri: `http://localhost:8080/`,
       });
     },
     moveSignUp() {
