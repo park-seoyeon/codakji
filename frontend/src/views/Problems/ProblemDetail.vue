@@ -20,20 +20,19 @@
             <p>{{ problemDetails.problem_output }}</p>
           </div>
         </div>
-        <!-- <div align="right">
-          <div v-show="description" align="right">
+        <div align="right">
+          <div v-if="description" align="right">
             해설보러가기!
           </div>
-          <v-btn plain>
-            <v-img
-              height="80px"
-              width="80px"
-              src="@/assets/sleep_cogi.png"
-              @mouseover="mouseOver"
-              @mouseleave="mouseLeave"
-            />
-          </v-btn>
-        </div> -->
+          <!-- <v-btn plain x-large> -->
+          <v-img
+            width="60px"
+            src="@/assets/watting_cogi.png"
+            @mouseover="mouseOver"
+            @mouseleave="mouseLeave"
+          />
+          <!-- </v-btn> -->
+        </div>
       </v-col>
       <!-- <v-col cols="6">
         <iframe

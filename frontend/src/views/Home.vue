@@ -1,8 +1,8 @@
 <template>
-  <v-row no-gutters justify="center" align="center">
-    <v-col cols="12" sm="4">
+  <v-row justify="center" align="center">
+    <v-col>
       <div class="home">
-        <HelloWorld msg="Welcome to Your Vue.js App" />
+        <MainPage />
       </div>
     </v-col>
   </v-row>
@@ -10,7 +10,7 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/main/HelloWorld.vue';
+import MainPage from '@/components/main/MainPage.vue';
 import axios from 'axios';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
@@ -20,7 +20,7 @@ export default {
     code: '',
   }),
   components: {
-    HelloWorld,
+    MainPage,
   },
   created() {
     this.code = this.$route.query.code;

@@ -15,12 +15,10 @@
               mdi-account-circle
             </v-icon>
           </v-avatar>
-
-          <v-list-item-title style="font-size: 20px">
-            {{ userName }}
-          </v-list-item-title>
+          <v-list-item-title style="font-size: 20px">{{ userName }}</v-list-item-title>
         </v-list-item>
       </span>
+
       <span v-else>
         <v-list-item style="padding: 15px">
           <v-badge v-if="notice.length" color="red darken-1" content="6" overlap bottom bordered>
@@ -37,7 +35,7 @@
           </v-avatar>
 
           <v-list-item-title style="font-size: 20px">
-            코기
+            로그인 해주세요
           </v-list-item-title>
         </v-list-item>
       </span>
@@ -60,9 +58,9 @@
               </v-list-item>
             </template>
             <v-list>
-              <v-list-item @click="moveAllRank" style="padding-left: 30px">
+              <v-list-item @click="moveAllRank" class="px-5">
                 <!-- 여기 수정해야 함 -->
-                All
+                <v-list-item-title> 모든 단계</v-list-item-title>
               </v-list-item>
               <v-list-item
                 v-for="(item, index) in items"
@@ -138,10 +136,16 @@ export default {
       isLogin: false,
       notice: '',
       userName: '',
-      items: [  // 이후 10단계까지 확장 예정
-        { rank: 1, title: 'rank 1' },
-        { rank: 2, title: 'rank 2' },
-        { rank: 3, title: 'rank 3' },
+      items: [
+        { rank: 1, title: 'level 1' },
+        { rank: 2, title: 'level 2' },
+        { rank: 3, title: 'level 3' },
+        { rank: 4, title: 'level 4' },
+        { rank: 5, title: 'level 5' },
+        { rank: 6, title: 'level 6' },
+        { rank: 7, title: 'level 7' },
+        { rank: 8, title: 'level 8' },
+        { rank: 9, title: 'level 9' },
       ],
     };
   },
@@ -211,11 +215,12 @@ export default {
       this.isMenu = !this.isMenu;
     },
     logOut() {
-      if (this.isLogin)
+      if (this.isLogin) {
         localStorage.removeItem('jwt');
         localStorage.removeItem('name');
         this.isLogin = false;
         this.userName = '';
+      }
     }
   },
   created() {

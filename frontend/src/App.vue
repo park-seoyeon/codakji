@@ -59,4 +59,7 @@ footer {
 .guide {
   font-family: 'Noto Sans KR', sans-serif;
 }
+.banner {
+  font-family: 'Do Hyeon', sans-serif;
+}
 </style>
