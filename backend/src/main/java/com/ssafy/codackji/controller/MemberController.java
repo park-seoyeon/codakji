@@ -46,6 +46,13 @@ public class MemberController {
 
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private EmailController emailController;
+
+	@ApiOperation(value = "회원가입", notes = "회원가입 시작!", response = String.class)
+	@PostMapping(value = "/confirm/add")
+	public ResponseEntity<String> addUser(@RequestBody MemberDto memberDto) {
 
 	@ApiOperation(value = "회원가입", notes = "회원가입 시작!", response = String.class)
 	@PostMapping(value = "/confirm/add")
@@ -55,6 +62,7 @@ public class MemberController {
 			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 		} else {
 			memberService.addUser(memberDto);
+			emailController.sendEmail(memberDto.getEmail());
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 	}
@@ -212,6 +220,11 @@ public class MemberController {
 			MemberDto loginUser = memberService.login(memberDto);
 			if (loginUser != null) {
 
+				if(!memberService.userInfo(memberDto.getEmail()).isCertification()) {
+					System.out.println("비인증회원");
+					resultMap.put("message", "uncertificated");
+					return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.ACCEPTED);
+				}
 				System.out.println("로그인 토큰 반환");
 
 				String token = jwtService.create("userid", loginUser.getEmail(), "access-token");// key, data, subject
