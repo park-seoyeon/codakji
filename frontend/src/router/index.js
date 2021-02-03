@@ -16,6 +16,9 @@ import SolveResult from '@/views/Problems/SolveResult'
 import Notice from '@/views/Notices/Notice.vue'
 import CoFAQ from '@/views/Notices/CoFAQ.vue'
 
+import Introduce from '@/views/About/Introduce.vue'
+
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -80,6 +83,11 @@ const routes = [
     path: '/codackji/CoFAQ',
     name: 'CoFAQ',
     component: CoFAQ,
+  },
+  {
+    path: '/about/introduce',
+    name: 'Introduce',
+    component: Introduce,
   },
 ];
 
