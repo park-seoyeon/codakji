@@ -21,21 +21,20 @@
           </div>
         </div>
         <div align="right">
-          <div v-show="description" align="right">
+          <div v-if="description" align="right">
             해설보러가기!
           </div>
-          <v-btn plain>
-            <v-img
-              height="80px"
-              width="80px"
-              src="@/assets/sleep_cogi.png"
-              @mouseover="mouseOver"
-              @mouseleave="mouseLeave"
-            />
-          </v-btn>
+          <!-- <v-btn plain x-large> -->
+          <v-img
+            width="60px"
+            src="@/assets/watting_cogi.png"
+            @mouseover="mouseOver"
+            @mouseleave="mouseLeave"
+          />
+          <!-- </v-btn> -->
         </div>
       </v-col>
-      <v-col cols="6">
+      <!-- <v-col cols="6">
         <iframe
           width="100%"
           height="500"
@@ -43,8 +42,18 @@
           allowfullscreen="allowfullscreen"
           frameborder="0"
         ></iframe>
-      </v-col>
+      </v-col> -->
     </v-row>
+
+    <hr>
+
+    <div align="left">
+      <div>1. 덧글 하나</div>
+      <div>2. 덧글 둘</div>
+      <div>3. 덧글 셋</div>
+      <div>4. 덧글 넷</div>
+      <div>5. 덧글 다섯</div>
+    </div>
   </v-container>
 </template>
 

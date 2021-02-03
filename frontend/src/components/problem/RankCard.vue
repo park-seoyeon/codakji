@@ -1,6 +1,6 @@
 <template>
   <v-col cols="4">
-    <v-card class="mx-auto" max-width="500" @click="goRankList(rank.id)">
+    <v-card class="mx-auto" max-width="500" @click="moveRankList(rank.id)">
       <v-card-title>{{ rank.title }} 풀어보기</v-card-title>
       <v-card-text class="text--primary">{{ rank.content }}</v-card-text>
     </v-card>
@@ -13,7 +13,7 @@ export default {
     rank: Object,
   },
   methods: {
-    goRankList(rank) {
+    moveRankList(rank) {
       this.$router
         .push({ name: 'ProblemRankList', params: { problemrank: rank } })
         .catch((error) => {
