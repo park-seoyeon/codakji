@@ -175,6 +175,8 @@ public class KakaoLoginController {
 				String token = jwtService.create("userid", loginUser.getEmail(), "access-token");// key, data, subject
 
 				System.out.println("token:" + token);
+				memberDto.setToken(token);
+				jwtService.setToken(memberDto);
 
 				logger.debug("로그인 토큰정보 : {}", token);
 				resultMap.put("access-token", token);
