@@ -8,7 +8,7 @@
           </v-icon>
         </v-btn>
         <v-fab-transition>
-          <v-btn right fixed black small fab v-show="btnShow" @click="$vuetify.goTo('header')">
+          <v-btn right fixed black small fab v-if="btnShow" @click="$vuetify.goTo('header')">
             <v-icon>mdi-chevron-double-up</v-icon>
           </v-btn>
         </v-fab-transition>
