@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.codackji.model.CodeAPIDto;
 import com.ssafy.codackji.model.CodeAPIResponseDto;
+import com.ssafy.codackji.model.MemberDto;
 import com.ssafy.codackji.model.SolvedProblemDto;
 import com.ssafy.codackji.model.service.CodeAPIService;
+import com.ssafy.codackji.model.service.JwtService;
+import com.ssafy.codackji.model.service.MemberService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,16 +30,32 @@ public class CodeAPIController {
 	@Autowired
 	private CodeAPIService codeAPIService;
 
+	@Autowired
+	private MemberService memberService;
+
+	@Autowired
+	private JwtService jwtService;
+
 	// 단순히 코드만 미리 실행 - DB반영 X
 	@ApiOperation(value = "코드 실행하기", notes = "단순히 코드만 미리 실행 - DB반영 X", response = Map.class)
 	@PostMapping("/test")
 	public ResponseEntity<CodeAPIResponseDto> test(
-			@RequestBody @ApiParam(value = "채점할 코드 정보(input은 사용자 입력 기준)", required = true) CodeAPIDto codeAPIDto) {
+			@RequestBody @ApiParam(value = "채점할 코드 정보(input은 사용자 입력 기준)", required = true) CodeAPIDto codeAPIDto)
+			throws Exception {
 
 		HttpStatus status = null;
 
 		// 1.토큰검사
-		// 나중에 구현
+		String token = codeAPIDto.getToken();
+		if (jwtService.isUsable(token) && jwtService.isInTime(token)) {
+			MemberDto memberDto = new MemberDto();
+			memberDto.setEmail(jwtService.getUserEmail(token));
+			memberDto.setToken(token);
+			jwtService.setToken(memberDto);
+		} else {
+			CodeAPIResponseDto rtnNull = new CodeAPIResponseDto();
+			return new ResponseEntity<CodeAPIResponseDto>(rtnNull, HttpStatus.UNAUTHORIZED);
+		}
 
 		// 2.API결과 가져오기
 		CodeAPIResponseDto codeAPIResponseDto = new CodeAPIResponseDto();
@@ -46,6 +65,12 @@ public class CodeAPIController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		// user_number 값 지정하기
+		// 토큰에서 이메일 > 이메일에서 userInfo Dto > 에서 user_number가져오기
+		String email = jwtService.getUserEmail(token);
+		MemberDto memberdto = memberService.userInfo(email);
+		codeAPIDto.setUser_number(memberdto.getUser_number());
 
 		// 3.컴파일 에러가 났다면 채점결과분석 - 머신러닝(에러가 난건지 원하던 결과값인지 판별하는 로직도 필요)
 		// 나중에 구현
@@ -60,12 +85,28 @@ public class CodeAPIController {
 	@ApiOperation(value = "코드 제출하기", notes = "제출하기 - DB반영됨", response = Map.class)
 	@PostMapping("/submit")
 	public ResponseEntity<CodeAPIResponseDto> submit(
-			@RequestBody @ApiParam(value = "채점할 코드 정보(DB에 있는 TC기준으로 실행)", required = true) CodeAPIDto codeAPIDto) {
+			@RequestBody @ApiParam(value = "채점할 코드 정보(DB에 있는 TC기준으로 실행)", required = true) CodeAPIDto codeAPIDto)
+			throws Exception {
 
 		HttpStatus status = null;
 
 		// 1.토큰검사
-		// 나중에 구현
+		String token = codeAPIDto.getToken();
+		if (jwtService.isUsable(token) && jwtService.isInTime(token)) {
+			MemberDto memberDto = new MemberDto();
+			memberDto.setEmail(jwtService.getUserEmail(token));
+			memberDto.setToken(token);
+			jwtService.setToken(memberDto);
+		} else {
+			CodeAPIResponseDto rtnNull = new CodeAPIResponseDto();
+			return new ResponseEntity<CodeAPIResponseDto>(rtnNull, HttpStatus.UNAUTHORIZED);
+		}
+
+		// user_number 값 지정하기
+		// 토큰에서 이메일 > 이메일에서 userInfo Dto > 에서 user_number가져오기
+		String email = jwtService.getUserEmail(token);
+		MemberDto memberdto = memberService.userInfo(email);
+		codeAPIDto.setUser_number(memberdto.getUser_number());
 
 		// 문제 제출 수 증가
 		try {
@@ -283,13 +324,11 @@ public class CodeAPIController {
 			System.out.println("TC5 통과못함");
 		}
 
-		
-		//오답일 경우 정답 여부를 false로 리턴
+		// 오답일 경우 정답 여부를 false로 리턴
 		if (!flag) {
 			System.out.println("오답");
 			codeAPIResponseDto.setAnswer(false); // TC 하나라도 통과 못했다면
-		}
-		else // 정답을 맞췄으면 정답 맞춘 횟수 증가, 정답 여부를 true로 리턴
+		} else // 정답을 맞췄으면 정답 맞춘 횟수 증가, 정답 여부를 true로 리턴
 		{
 			System.out.println("정답");
 			codeAPIResponseDto.setAnswer(true);
