@@ -25,6 +25,12 @@ public class ProblemController {
 	@Autowired
 	private ProblemService problemService;
 	
+	@ApiOperation(value="전체 문제 목록", notes = "전체 문제리스트를 반환한다", response = List.class)
+	@GetMapping("/all")
+	public ResponseEntity<List<ProblemDto>> allProblem() throws Exception{
+		return new ResponseEntity<List<ProblemDto>>(problemService.allProblem(), HttpStatus.OK);
+	}
+	
 	@ApiOperation(value="단계별 문제 목록", notes = "해당 단계의 문제리스트를 반환한다", response = List.class)
 	@GetMapping("/rank/{problem_rank}")
 	public ResponseEntity<List<ProblemDto>> listProblem(@PathVariable("problem_rank") @ApiParam(value="문제 단계(난이도)", required = true) int problem_rank) throws Exception{

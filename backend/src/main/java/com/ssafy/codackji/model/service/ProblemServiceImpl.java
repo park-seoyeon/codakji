@@ -16,6 +16,11 @@ public class ProblemServiceImpl implements ProblemService{
 	private SqlSession sqlSession;
 
 	@Override
+	public List<ProblemDto> allProblem() throws Exception {
+		return sqlSession.getMapper(ProblemMapper.class).allProblem();
+	}
+	
+	@Override
 	public List<ProblemDto> listProblem(int problem_rank) throws Exception {
 		return sqlSession.getMapper(ProblemMapper.class).listProblem(problem_rank);
 	}

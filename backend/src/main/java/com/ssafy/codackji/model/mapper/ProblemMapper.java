@@ -10,6 +10,7 @@ import com.ssafy.codackji.model.ProblemDto;
 @Mapper
 public interface ProblemMapper {
 
+	List<ProblemDto> allProblem() throws SQLException;
 	List<ProblemDto> listProblem(int problem_rank) throws SQLException;
 	ProblemDto getProblem(int problem_number) throws SQLException;
 

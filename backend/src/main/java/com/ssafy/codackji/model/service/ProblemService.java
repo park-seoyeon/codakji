@@ -6,6 +6,8 @@ import com.ssafy.codackji.model.ProblemDto;
 
 public interface ProblemService {
 
+	List<ProblemDto> allProblem() throws Exception;
+	
 	List<ProblemDto> listProblem(int problem_rank) throws Exception;
 
 	ProblemDto getProblem(int problem_number) throws Exception;
