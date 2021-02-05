@@ -103,7 +103,7 @@
     <v-app-bar app color="white" elevate-on-scroll>
       <v-app-bar-nav-icon color="grey darken-5" @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title @click="moveHome" style="cursor: pointer; margin-left:30px;"
-        ><v-img width="90px" src="@/assets/codackji_logo.png"
+        ><v-img width="90px" src="@/assets/img/codackji_logo.png"
       /></v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -111,6 +111,7 @@
       <div v-if="isLogin">
         <v-chip outlined small @click="logOut" color="grey darken-1">
           <span>로그아웃</span>
+          <v-icon>mdi-logout</v-icon>
         </v-chip>
       </div>
       <div v-else>
@@ -128,7 +129,13 @@
 </template>
 
 <script>
+import axios from 'axios';
+
+const SERVER_URL = process.env.VUE_APP_SERVER_URL;
+
+
 export default {
+  name: 'Header',
   data() {
     return {
       drawer: false,
@@ -168,8 +175,7 @@ export default {
       }
     },
     moveLogin() {
-      if (!this.isLogin)
-        this.$emit('openModal', true);
+      if (!this.isLogin) this.$emit('openModal', true);
     },
     moveAllRank() {
       this.drawer = false;
@@ -221,13 +227,60 @@ export default {
         this.isLogin = false;
         this.userName = '';
       }
-    }
+    },
   },
   created() {
     const token = localStorage.getItem('jwt');
     if (token) {
       this.isLogin = true;
       this.userName = localStorage.getItem('name');
+    }
+
+    this.code = this.$route.query.code;
+    if (this.code != null || this.code != undefined) {
+      axios
+        .post(`${SERVER_URL}/kakao/login/request`, this.code)
+        .then((response) => {
+          history.pushState(null, "", `/`);
+          let userInfo = null;
+          if (response.data['oauth-result'] === 'success') {
+            userInfo = response.data['userInfo'];
+            localStorage.setItem('jwt', response.data['access-token']);
+            localStorage.setItem('name', response.data['userInfo'].name);
+            alert(userInfo.email + '님 로그인!');
+            location.reload();
+          } else {
+            const result = confirm('이미 존재하는 이메일입니다. 카카오 계정으로 통합하시겠습니까?');
+            if (result) {
+              userInfo = response.data['userInfo'];
+              axios.post(`${SERVER_URL}/kakao/login/merge`, userInfo).then((response) => {
+                history.pushState(null, "", `/`);
+                if (response.data['oauth-result'] === 'success') {
+                  userInfo = response.data['userInfo'];
+                  localStorage.setItem('jwt', response.data['access-token']);
+                  localStorage.setItem('name', response.data['userInfo'].name);
+                  alert(userInfo.name + '님! 통합 후 로그인 성공');
+                  location.reload();
+                } else {
+                  alert('카카오 로그인에 실패하셨습니다');
+                  this.$router.push({ name: 'Home' }).catch((error) => {
+                    if (error.name === 'NavigationDuplicated') {
+                      location.reload();
+                    }
+                  });
+                }
+              });
+            }
+          }
+        })
+        .catch(() => {
+          alert('로그인중 오류가 발생했습니다. 다시 로그인 해주세요.');
+          this.$router.push({ name: 'Home' }).catch((error) => {
+            if (error.name === 'NavigationDuplicated') {
+              location.reload();
+            }
+          });
+        });
     }
   },
 };

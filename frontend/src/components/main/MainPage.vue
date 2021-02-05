@@ -39,13 +39,13 @@ export default {
       ],
       items: [
         {
-          src: require('@/assets/banner1.png'),
+          src: require('@/assets/img/banner1.png'),
         },
         {
-          src: require('@/assets/banner2.png'),
+          src: require('@/assets/img/banner2.png'),
         },
         {
-          src: require('@/assets/banner3.png'),
+          src: require('@/assets/img/banner3.png'),
         },
       ],
     };
