@@ -1,0 +1,289 @@
+<template>
+  <nav>
+    <v-navigation-drawer app v-model="drawer">
+      <span v-if="userName" @click="moveMyProfile" style="cursor: pointer;">
+        <v-list-item style="padding: 15px">
+          <v-badge v-if="notice.length" color="red darken-1" content="6" overlap bottom bordered>
+            <v-avatar color="yellow darken-2" size="40">
+              <v-icon dark size="20">
+                mdi-account-circle
+              </v-icon>
+            </v-avatar>
+          </v-badge>
+          <v-avatar v-else color="yellow darken-2" size="40">
+            <v-icon dark size="20">
+              mdi-account-circle
+            </v-icon>
+          </v-avatar>
+          <v-list-item-title style="font-size: 20px">{{ userName }}</v-list-item-title>
+        </v-list-item>
+      </span>
+
+      <span v-else>
+        <v-list-item style="padding: 15px">
+          <v-badge v-if="notice.length" color="red darken-1" content="6" overlap bottom bordered>
+            <v-avatar color="yellow darken-2" size="40">
+              <v-icon dark size="20">
+                mdi-account-circle
+              </v-icon>
+            </v-avatar>
+          </v-badge>
+          <v-avatar v-else color="yellow darken-2" size="40">
+            <v-icon dark size="20">
+              mdi-account-circle
+            </v-icon>
+          </v-avatar>
+
+          <v-list-item-title style="font-size: 20px">
+            로그인 해주세요
+          </v-list-item-title>
+        </v-list-item>
+      </span>
+
+      <v-divider></v-divider>
+
+      <v-list flat align="left">
+        <v-list-item>
+          <v-menu offset-x max-width="100px">
+            <template v-slot:activator="{ on, attrs }">
+              <v-list-item @click="toggleMenu" v-bind="attrs" v-on="on" style="padding-left: 0px">
+                <v-list-item-icon>
+                  <v-icon color="yellow darken-2" size="25">mdi-folder-search</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title style="font-size: 17px">문제풀기</v-list-item-title>
+                <v-list-item-icon>
+                  <v-icon v-if="isMenu" size="25">mdi-menu-right</v-icon>
+                  <v-icon v-else size="25">mdi-menu-down</v-icon>
+                </v-list-item-icon>
+              </v-list-item>
+            </template>
+            <v-list>
+              <v-list-item @click="moveAllRank" class="px-5">
+                <!-- 여기 수정해야 함 -->
+                <v-list-item-title> 모든 단계</v-list-item-title>
+              </v-list-item>
+              <v-list-item
+                v-for="(item, index) in items"
+                :key="index"
+                @click="moveRankList(item.rank)"
+              >
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-list-item>
+
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon color="yellow darken-2" size="25">mdi-video-account</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title style="font-size: 17px">화상으로 함께 하기</v-list-item-title>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon color="yellow darken-2" size="25">mdi-microphone</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title style="font-size: 17px">음성으로 코딩하기</v-list-item-title>
+        </v-list-item>
+        <v-list-item link @click="moveNotice">
+          <v-list-item-icon>
+            <v-icon color="yellow darken-2" size="25">mdi-bullhorn</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title style="font-size: 17px">공지사항</v-list-item-title>
+        </v-list-item>
+        <v-list-item link @click="moveCoFAQ">
+          <v-list-item-icon>
+            <v-icon color="yellow darken-2" size="25">mdi-chat-question</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title style="font-size: 17px">FAQ</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar app color="white" elevate-on-scroll>
+      <v-app-bar-nav-icon color="grey darken-5" @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title @click="moveHome" style="cursor: pointer; margin-left:30px;"
+        ><v-img width="90px" src="@/assets/img/codackji_logo.png"
+      /></v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <div v-if="isLogin">
+        <v-chip outlined small @click="logOut" color="grey darken-1">
+          <span>로그아웃</span>
+          <v-icon>mdi-logout</v-icon>
+        </v-chip>
+      </div>
+      <div v-else>
+        <v-chip outlined small @click="moveSignup" color="grey darken-1" class="mx-5">
+          <span>회원가입</span>
+          <v-icon>mdi-account</v-icon>
+        </v-chip>
+        <v-chip outlined small @click="moveLogin" color="grey darken-1">
+          <span>로그인</span>
+          <v-icon>mdi-login</v-icon>
+        </v-chip>
+      </div>
+    </v-app-bar>
+  </nav>
+</template>
+
+<script>
+import axios from 'axios';
+
+const SERVER_URL = process.env.VUE_APP_SERVER_URL;
+
+
+export default {
+  name: 'Header',
+  data() {
+    return {
+      drawer: false,
+      isMenu: false,
+      isLogin: false,
+      notice: '',
+      userName: '',
+      items: [
+        { rank: 1, title: 'level 1' },
+        { rank: 2, title: 'level 2' },
+        { rank: 3, title: 'level 3' },
+        { rank: 4, title: 'level 4' },
+        { rank: 5, title: 'level 5' },
+        { rank: 6, title: 'level 6' },
+        { rank: 7, title: 'level 7' },
+        { rank: 8, title: 'level 8' },
+        { rank: 9, title: 'level 9' },
+      ],
+    };
+  },
+  methods: {
+    moveHome() {
+      this.drawer = false;
+      this.$router.push({ name: 'Home' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
+    },
+    moveSignup() {
+      if (!this.isLogin) {
+        this.$router.push({ name: 'SignUp' }).catch((error) => {
+          if (error.name === 'NavigationDuplicated') {
+            location.reload();
+          }
+        });
+      }
+    },
+    moveLogin() {
+      if (!this.isLogin) this.$emit('openModal', true);
+    },
+    moveAllRank() {
+      this.drawer = false;
+      this.$router.push({ name: 'AllProblemRank' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
+    },
+    moveRankList(rank) {
+      this.drawer = false;
+      this.$router
+        .push({ name: 'ProblemRankList', params: { problemrank: rank } })
+        .then(() => location.reload()) // 문제목록 갱신을 위한 어쩔 수 없는 선택
+        .catch((error) => {
+          if (error.name === 'NavigationDuplicated') {
+            location.reload();
+          }
+        });
+    },
+    moveMyProfile() {
+      this.$router.push({ name: 'UserProfile' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
+    },
+    moveNotice() {
+      this.$router.push({ name: 'Notice' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
+    },
+    moveCoFAQ() {
+      this.$router.push({ name: 'CoFAQ' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
+    },
+    toggleMenu() {
+      this.isMenu = !this.isMenu;
+    },
+    logOut() {
+      if (this.isLogin) {
+        localStorage.removeItem('jwt');
+        localStorage.removeItem('name');
+        this.isLogin = false;
+        this.userName = '';
+      }
+    },
+  },
+  created() {
+    const token = localStorage.getItem('jwt');
+    if (token) {
+      this.isLogin = true;
+      this.userName = localStorage.getItem('name');
+    }
+
+    this.code = this.$route.query.code;
+    if (this.code != null || this.code != undefined) {
+      axios
+        .post(`${SERVER_URL}/kakao/login/request`, this.code)
+        .then((response) => {
+          history.pushState(null, "", `/`);
+          let userInfo = null;
+          if (response.data['oauth-result'] === 'success') {
+            userInfo = response.data['userInfo'];
+            localStorage.setItem('jwt', response.data['access-token']);
+            localStorage.setItem('name', response.data['userInfo'].name);
+            alert(userInfo.email + '님 로그인!');
+            location.reload();
+          } else {
+            const result = confirm('이미 존재하는 이메일입니다. 카카오 계정으로 통합하시겠습니까?');
+            if (result) {
+              userInfo = response.data['userInfo'];
+              axios.post(`${SERVER_URL}/kakao/login/merge`, userInfo).then((response) => {
+                history.pushState(null, "", `/`);
+                if (response.data['oauth-result'] === 'success') {
+                  userInfo = response.data['userInfo'];
+                  localStorage.setItem('jwt', response.data['access-token']);
+                  localStorage.setItem('name', response.data['userInfo'].name);
+                  alert(userInfo.name + '님! 통합 후 로그인 성공');
+                  location.reload();
+                } else {
+                  alert('카카오 로그인에 실패하셨습니다');
+                  this.$router.push({ name: 'Home' }).catch((error) => {
+                    if (error.name === 'NavigationDuplicated') {
+                      location.reload();
+                    }
+                  });
+                }
+              });
+            }
+          }
+        })
+        .catch(() => {
+          alert('로그인중 오류가 발생했습니다. 다시 로그인 해주세요.');
+          this.$router.push({ name: 'Home' }).catch((error) => {
+            if (error.name === 'NavigationDuplicated') {
+              location.reload();
+            }
+          });
+        });
+    }
+  },
+};
+</script>
+
+<style></style>

@@ -11,6 +11,7 @@ public class MemberDto {
 	private String created_at;
 	private boolean certification;
 	private String oauth;
+	private String token;
 	
 	public MemberDto() {
 		super();
@@ -23,9 +24,20 @@ public class MemberDto {
 		this.password = password;
 		this.oauth = oauth;
 	}
+	
 
+	public MemberDto(String email, String name, String password, String oauth, String token) {
+		super();
+		this.email = email;
+		this.name = name;
+		this.password = password;
+		this.oauth = oauth;
+		this.token = token;
+	}
+
+	
 	public MemberDto(int user_number, boolean admin, boolean teach, String email, String name, String password,
-			String created_at, boolean certification, String oauth) {
+			String created_at, boolean certification, String oauth, String token) {
 		super();
 		this.user_number = user_number;
 		this.admin = admin;
@@ -36,7 +48,9 @@ public class MemberDto {
 		this.created_at = created_at;
 		this.certification = certification;
 		this.oauth = oauth;
+		this.token = token;
 	}
+
 	public int getUser_number() {
 		return user_number;
 	}
@@ -92,14 +106,22 @@ public class MemberDto {
 	public void setOauth(String oauth) {
 		this.oauth = oauth;
 	}
+	
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	@Override
 	public String toString() {
 		return "MemberDto [user_number=" + user_number + ", admin=" + admin + ", teach=" + teach + ", email=" + email
 				+ ", name=" + name + ", password=" + password + ", created_at=" + created_at + ", certification="
-				+ certification + ", oauth=" + oauth + "]";
+				+ certification + ", oauth=" + oauth + ", token=" + token + "]";
 	}
 
-	
-	
 	
 }

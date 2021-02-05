@@ -4,37 +4,37 @@
       <v-col cols="6">
         <div align="left">
           <div>
-            <h1>{{ problemTitle }}</h1>
-            <p>{{ problemGroup }}</p>
+            <h1>{{ problemDetails.problem_title }}</h1>
+            <p>&lt;문제 유형: {{ problemDetails.problem_group }}&gt;</p>
           </div>
           <div>
-            <p>{{ problemContent }}</p>
+            <h3>문제</h3>
+            <p>{{ problemDetails.problem_content }}</p>
           </div>
           <div>
             <h3>문제 입력</h3>
-            <p>{{ problemInput }}</p>
+            <p>{{ problemDetails.problem_input }}</p>
           </div>
           <div>
             <h3>문제 출력</h3>
-            <p>{{ problemOutput }}</p>
+            <p>{{ problemDetails.problem_output }}</p>
           </div>
         </div>
         <div align="right">
-          <div v-show="description" align="right">
+          <div v-if="description" align="right">
             해설보러가기!
           </div>
-          <v-btn plain>
-            <v-img
-              height="80px"
-              width="80px"
-              src="@/assets/sleep_cogi.png"
-              @mouseover="mouseOver"
-              @mouseleave="mouseLeave"
-            />
-          </v-btn>
+          <!-- <v-btn plain x-large> -->
+          <v-img
+            width="60px"
+            src="@/assets/img/watting_cogi.png"
+            @mouseover="mouseOver"
+            @mouseleave="mouseLeave"
+          />
+          <!-- </v-btn> -->
         </div>
       </v-col>
-      <v-col cols="6">
+      <!-- <v-col cols="6">
         <iframe
           width="100%"
           height="500"
@@ -42,24 +42,57 @@
           allowfullscreen="allowfullscreen"
           frameborder="0"
         ></iframe>
+      </v-col> -->
+      <v-col cols="6">
+        <Ide @getCode="getChildMessage"/>
+        <v-row>
+          <v-col cols="6">
+            <button @click="test()">click to test</button>
+          </v-col>
+          <v-col cols="6">
+            <button @click="submit()">click to submit</button>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
+
+    <hr />
+
+    <div align="left">
+      <div>1. 덧글 하나</div>
+      <div>2. 덧글 둘</div>
+      <div>3. 덧글 셋</div>
+      <div>4. 덧글 넷</div>
+      <div>5. 덧글 다섯</div>
+    </div>
   </v-container>
 </template>
 
 <script>
+import Ide from './../../components/problem/Ide.vue'
+import axios from 'axios';
+
+const SERVER_URL = process.env.VUE_APP_SERVER_URL;
+
 export default {
   data: () => {
     return {
-      problemTitle: 'We Love Kriii',
-      problemContent:
-        'ACM-ICPC 인터넷 예선, Regional, 그리고 World Finals까지 이미 2회씩 진출해버린 kriii는 미련을 버리지 못하고 왠지 모르게 올해에도 파주 World Finals 준비 캠프에 참여했다.대회를 뜰 줄 모르는 지박령 kriii를 위해서 격려의 문구를 출력해주자.',
-      problemInput: '본 문제는 입력이 없다.',
-      problemOutput: '두 줄에 걸쳐 "강한친구 대한육군"을 한 줄에 한 번씩 출력한다.',
-      problemGroup: '입출력과 사칙연산',
-      problemRank: '1',
+      problemDetails: '',
       description: false,
+
+      childMessage: '',
+      problem_number: '',
+      user_number:'',
+      user_input:'',
+      language:'',
+      script:''
     };
+  },
+  components: {
+    Ide
+  },
+  created() {
+    this.getProblemDetail();
   },
   methods: {
     mouseOver: function() {
@@ -68,6 +101,48 @@ export default {
     mouseLeave: function() {
       this.description = !this.description;
     },
+    getProblemDetail() {
+      axios
+        .get(`${SERVER_URL}/problem/${this.$route.params.problemnumber}`)
+        .then((response) => {
+          this.problemDetails = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    getChildMessage: function(text) {
+      this.childMessage = text
+    },
+    test() {
+      axios
+          .post(`${SERVER_URL}/codeAPI/test`, {
+            problem_number: this.$route.params.problemnumber,
+            user_number: localStorage.getItem("user_number"),
+            user_input: "",
+            language: "python3",
+            token: localStorage.getItem("jwt"),
+            script: this.childMessage,
+          })
+          .then(res => {
+            console.log(res.data)
+          });
+    },
+    submit() {
+      axios
+          .post(`${SERVER_URL}/codeAPI/submit`, {
+            problem_number: this.$route.params.problemnumber,
+            user_number: localStorage.getItem("user_number"),
+            user_input: "",
+            language: "python3",
+            token: localStorage.getItem("jwt"),
+            script: this.childMessage,
+          })
+          .then(res => {
+            console.log(res.data)
+          });
+    }
   },
 };
 </script>

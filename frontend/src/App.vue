@@ -9,9 +9,9 @@
   </v-app>
 </template>
 <script>
-import Header from '@/components/Header.vue';
-import Footer from '@/components/Footer.vue';
-import ModalCareer from '@/components/ModalCareer';
+import Header from '@/components/nav/Header.vue';
+import Footer from '@/components/nav/Footer.vue';
+import ModalCareer from '@/components/modal/ModalCareer';
 
 export default {
   data: () => {
@@ -34,6 +34,9 @@ export default {
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
+@import './assets/css/rankcard.css';
+@import './assets/css/problemcard.css';
+
 #app {
   font-family: 'Do Hyeon', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -58,5 +61,8 @@ footer {
 }
 .guide {
   font-family: 'Noto Sans KR', sans-serif;
+}
+.banner {
+  font-family: 'Do Hyeon', sans-serif;
 }
 </style>

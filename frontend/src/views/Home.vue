@@ -1,8 +1,8 @@
 <template>
-  <v-row no-gutters justify="center" align="center">
-    <v-col cols="12" sm="4">
+  <v-row justify="center" align="center">
+    <v-col>
       <div class="home">
-        <HelloWorld msg="Welcome to Your Vue.js App" />
+        <MainPage />
       </div>
     </v-col>
   </v-row>
@@ -10,12 +10,16 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+import MainPage from '@/components/main/MainPage.vue';
+
 
 export default {
   name: 'Home',
+  data: () => ({
+    code: '',
+  }),
   components: {
-    HelloWorld,
+    MainPage,
   },
 };
 </script>

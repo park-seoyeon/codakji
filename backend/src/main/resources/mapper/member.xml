@@ -19,6 +19,12 @@
 		where email = #{email} and password = #{password}
 	</select>
 	
+	<select id="socialLogin" parameterType="memberDto" resultType="memberDto">
+		select *
+		from User
+		where email = #{email} and oauth = #{oauth}
+	</select>
+	
 	<select id="userInfo" parameterType="String" resultType="memberDto">
 		select *
 		from User

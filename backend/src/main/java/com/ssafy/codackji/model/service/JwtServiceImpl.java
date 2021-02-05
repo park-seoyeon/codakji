@@ -1,19 +1,28 @@
 package com.ssafy.codackji.model.service;
 
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.codackji.model.MemberDto;
+import com.ssafy.codackji.model.mapper.JwtMapper;
 import com.ssafy.common.error.UnauthorizedException;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtServiceImpl implements JwtService {
@@ -21,12 +30,17 @@ public class JwtServiceImpl implements JwtService {
 	public static final Logger logger = LoggerFactory.getLogger(JwtServiceImpl.class);
 
 	private static final String TK = "ssafySecret";
-	private static final int EXPIRE_MINUTES = 60;
+	private static final Long EXPIRE_MINUTES = 1000L;
+	
+	@Autowired
+	private ObjectMapper objectMapper;
+	@Autowired
+	private SqlSession sqlSession;
 
 	@Override
 	public <T> String create(String key, T data, String subject) {
 		String jwt = Jwts.builder().setHeaderParam("typ", "JWT").setHeaderParam("regDate", System.currentTimeMillis())
-				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * EXPIRE_MINUTES))
+				//.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * EXPIRE_MINUTES))
 				.setSubject(subject).claim(key, data).signWith(SignatureAlgorithm.HS256, this.generateKey()).compact();
 		return jwt;
 	}
@@ -92,5 +106,28 @@ public class JwtServiceImpl implements JwtService {
 	@Override
 	public String getUserId() {
 		return (String) this.get("user").get("userid");
+	}
+	
+	@Override
+	public String getUserEmail(String jwt) {//복호화
+		Jws<Claims> claims = null;
+		try {
+			claims = Jwts.parser()
+					.setSigningKey(this.generateKey())
+					.parseClaimsJws(jwt);			
+		}catch(Exception e) {
+			throw new UnauthorizedException();
+		}
+		return objectMapper.convertValue(claims.getBody().get("userid"), String.class);
+	}
+
+	@Override
+	public boolean isInTime(String token) throws Exception {//토큰 생성한지 30분 지났는지 비교
+		return sqlSession.getMapper(JwtMapper.class).isInTime(token);
+	}
+
+	@Override
+	public void setToken(MemberDto memberDto) throws Exception {
+		sqlSession.getMapper(JwtMapper.class).setToken(memberDto);
 	}
 }

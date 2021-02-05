@@ -1,8 +1,10 @@
 <template>
-  <v-col cols="4">
-    <v-card class="mx-auto" max-width="500" @click="goRankList(rank.id)">
+  <v-col cols="4" class="mt-3">
+    <v-card elevation="3" class="mx-auto" width="300px" @click="moveRankList(rank.id)" id="rank">
+      <div align="center" class="pt-2">
+        <v-sheet :color="rank.color" height="120" max-width="95%" rounded elevation="2"></v-sheet>
+      </div>
       <v-card-title>{{ rank.title }} 풀어보기</v-card-title>
-      <v-card-text class="text--primary">{{ rank.content }}</v-card-text>
     </v-card>
   </v-col>
 </template>
@@ -13,7 +15,7 @@ export default {
     rank: Object,
   },
   methods: {
-    goRankList(rank) {
+    moveRankList(rank) {
       this.$router
         .push({ name: 'ProblemRankList', params: { problemrank: rank } })
         .catch((error) => {
