@@ -10,10 +10,13 @@
                 style="font-size:40px;"
                 v-if="$route.params.problemrank == 1"
               >
-                {{ $route.params.problemrank }} 단계 문제들
+                3 ~ 4 학년 문제들
+              </div>
+              <div class="banner text-center white--text" style="font-size:40px" v-else-if="$route.params.problemrank == 2">
+                5 ~ 6 학년 문제들
               </div>
               <div class="banner text-center white--text" style="font-size:40px" v-else>
-                {{ $route.params.problemrank }} 단계 문제들
+                중등 이상 문제들
               </div>
               <div
                 class="guide text-center"
