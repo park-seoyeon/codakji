@@ -2,7 +2,7 @@
   <v-container fill-height fluid class="py-0">
     <v-row no-gutters justify="center" align="center">
       <v-col cols="12">
-        <div align="center"><v-img width="60px" src="@/assets/codackji_logo.png" /></div>
+        <div align="center"><v-img width="60px" src="@/assets/img/codackji_logo.png" /></div>
         <h1 class="text--primary pt-3">로그인</h1>
         <v-form persistent ref="form">
           <v-text-field
@@ -25,7 +25,7 @@
             <v-icon right>mdi-login</v-icon>
           </v-chip>
           <div align="center" class="mt-2">
-            <img src="../../assets/kakao_login.png" width="250px" @click="logInKakao" />
+            <img src="@/assets/img/kakao_login.png" width="250px" @click="logInKakao" />
           </div>
           <div class="px-5 pt-3 d-flex flex-column guide">
             <div class="d-flex justify-space-between">
@@ -82,8 +82,12 @@ export default {
         axios
           .post(`${SERVER_URL}/user/confirm/login`, form)
           .then((response) => {
-            localStorage.setItem('jwt', response.data['access-token']);
-            localStorage.setItem('name', response.data['userInfo'].name);
+            if (response.data['message'] === "uncertificated") {
+              return alert('보내진 메일을 통해 인증을 해주세요.');
+            } else {
+              localStorage.setItem('jwt', response.data['access-token']);
+              localStorage.setItem('name', response.data['userInfo'].name);
+            }
             this.$emit('closeModal');
             location.reload();
             this.$router.push({ name: 'Home' }).catch((error) => {
@@ -93,14 +97,14 @@ export default {
             });
           })
           .catch(() => {
-            alert('이메일 혹은 비밀번호가 맞지 않습니다');
+            alert('아이디 혹은 비밀번호가 맞지 않습니다.');
           });
       }
     },
     logInKakao() {
       window.Kakao.Auth.authorize({
         //현재 url 찾아야해
-        redirectUri: `${SERVER_URL}/`,
+        redirectUri: `http://localhost:8080/`,
       });
     },
     moveSignUp() {

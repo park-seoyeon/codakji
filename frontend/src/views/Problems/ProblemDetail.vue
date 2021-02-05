@@ -27,7 +27,7 @@
           <!-- <v-btn plain x-large> -->
           <v-img
             width="60px"
-            src="@/assets/watting_cogi.png"
+            src="@/assets/img/watting_cogi.png"
             @mouseover="mouseOver"
             @mouseleave="mouseLeave"
           />
@@ -56,7 +56,7 @@
       </v-col>
     </v-row>
 
-    <hr>
+    <hr />
 
     <div align="left">
       <div>1. 덧글 하나</div>

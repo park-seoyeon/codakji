@@ -8,14 +8,14 @@
           </v-icon>
         </v-btn>
         <v-fab-transition>
-          <v-btn right fixed black small fab v-show="btnShow" @click="$vuetify.goTo('header')">
+          <v-btn right fixed black small fab v-if="btnShow" @click="$vuetify.goTo('header')">
             <v-icon>mdi-chevron-double-up</v-icon>
           </v-btn>
         </v-fab-transition>
       </v-card-text>
 
-      <v-card-text class="grey--text pt-0">
-        <p>&copy; 코딱지 by All rights reserved.</p>
+      <v-card-text class="grey--text py-0">
+        <div>&copy; 코딱지 by All rights reserved.</div>
         <span @click="moveIntroduce" style="cursor: pointer; padding-right: 6px;">About us</span> |
         <span class="px-2">codackjiworld@gmail.com</span>
       </v-card-text>

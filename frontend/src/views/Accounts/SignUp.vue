@@ -2,7 +2,7 @@
   <v-container fill-height fluid>
     <v-row no-gutters justify="center" align="center">
       <v-col cols="12" sm="4">
-        <div align="center"><v-img width="70px" src="@/assets/codackji_logo.png" /></div>
+        <div align="center"><v-img width="70px" src="@/assets/img/codackji_logo.png" /></div>
         <h1 class="text--primary pt-3">회원가입</h1>
         <v-form persistent ref="form">
           <v-text-field
@@ -109,10 +109,13 @@ export default {
           .then(({ data }) => {
             let msg = '이메일이 중복되었습니다.';
             if (data === 'success') {
-              msg = '등록이 완료되었습니다.';
+              msg = '인증 이메일이 전송되었습니다.';
               this.$router.push({ name: 'Home' });
             }
             alert(msg);
+          })
+          .catch(() => {
+            alert('서버와 통신할 수 없습니다.');
           });
         this.$refs.form.reset();
       }
