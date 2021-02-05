@@ -7,7 +7,7 @@ public class CodeAPIDto {
 	private String user_input; //사용자 입력
 	private String language; //코드 작성한 언어
 	private String script; //코드
-	private String user_token; //토큰
+	private String token; //토큰
 	
 	
 	public CodeAPIDto() {}
@@ -62,17 +62,14 @@ public class CodeAPIDto {
 		this.script = script;
 	}
 
-
-	public String getUser_token() {
-		return user_token;
+	public String getToken() {
+		return token;
 	}
 
 
-	public void setUser_token(String user_token) {
-		this.user_token = user_token;
+	public void setToken(String token) {
+		this.token = token;
 	}
-	
-
 
 
 	@Override
@@ -80,7 +77,7 @@ public class CodeAPIDto {
 		StringBuilder builder = new StringBuilder();
 		builder.append("CodeAPIDto [problem_number=").append(problem_number).append(", user_number=")
 				.append(user_number).append(", language=").append(language).append(", script=").append(script)
-				.append(", user_token=").append(user_token).append("]");
+				.append("]");
 		return builder.toString();
 	}
 	
