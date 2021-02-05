@@ -33,6 +33,7 @@ export default {
             userInfo = response.data['userInfo'];
             localStorage.setItem('jwt', response.data['access-token']);
             localStorage.setItem('name', response.data['userInfo'].name);
+            localStorage.setItem('user_number', response.data['userInfo'].user_number);
             alert(userInfo.email + '님 로그인!');
             this.$emit('closeModal');
             this.$router.push({ name: 'Home' }).catch((error) => {
@@ -49,6 +50,7 @@ export default {
                   userInfo = response.data['userInfo'];
                   localStorage.setItem('jwt', response.data['access-token']);
                   localStorage.setItem('name', response.data['userInfo'].name);
+                  localStorage.setItem('user_number', response.data['userInfo'].user_number);
                   alert(userInfo.name + '님! 통합 후 로그인 성공');
                   this.$emit('closeModal');
                   this.$router.push({ name: 'Home' }).catch((error) => {

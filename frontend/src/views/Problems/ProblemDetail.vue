@@ -43,6 +43,17 @@
           frameborder="0"
         ></iframe>
       </v-col> -->
+      <v-col cols="6">
+        <Ide @getCode="getChildMessage"/>
+        <v-row>
+          <v-col cols="6">
+            <button @click="test()">click to test</button>
+          </v-col>
+          <v-col cols="6">
+            <button @click="submit()">click to submit</button>
+          </v-col>
+        </v-row>
+      </v-col>
     </v-row>
 
     <hr>
@@ -58,6 +69,7 @@
 </template>
 
 <script>
+import Ide from './../../components/problem/Ide.vue'
 import axios from 'axios';
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
@@ -67,7 +79,17 @@ export default {
     return {
       problemDetails: '',
       description: false,
+
+      childMessage: '',
+      problem_number: '',
+      user_number:'',
+      user_input:'',
+      language:'',
+      script:''
     };
+  },
+  components: {
+    Ide
   },
   created() {
     this.getProblemDetail();
@@ -89,6 +111,38 @@ export default {
           console.log(error);
         });
     },
+
+    getChildMessage: function(text) {
+      this.childMessage = text
+    },
+    test() {
+      axios
+          .post(`${SERVER_URL}/codeAPI/test`, {
+            problem_number: this.$route.params.problemnumber,
+            user_number: localStorage.getItem("user_number"),
+            user_input: "",
+            language: "python3",
+            token: localStorage.getItem("jwt"),
+            script: this.childMessage,
+          })
+          .then(res => {
+            console.log(res.data)
+          });
+    },
+    submit() {
+      axios
+          .post(`${SERVER_URL}/codeAPI/submit`, {
+            problem_number: this.$route.params.problemnumber,
+            user_number: localStorage.getItem("user_number"),
+            user_input: "",
+            language: "python3",
+            token: localStorage.getItem("jwt"),
+            script: this.childMessage,
+          })
+          .then(res => {
+            console.log(res.data)
+          });
+    }
   },
 };
 </script>
