@@ -113,6 +113,9 @@ export default {
               this.$router.push({ name: 'Home' });
             }
             alert(msg);
+          })
+          .catch(() => {
+            alert('서버와 통신할 수 없습니다.');
           });
         this.$refs.form.reset();
       }
