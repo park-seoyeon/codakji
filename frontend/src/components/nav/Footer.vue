@@ -7,11 +7,6 @@
             {{ icon }}
           </v-icon>
         </v-btn>
-        <v-fab-transition>
-          <v-btn right fixed black small fab v-if="btnShow" @click="$vuetify.goTo('header')">
-            <v-icon>mdi-chevron-double-up</v-icon>
-          </v-btn>
-        </v-fab-transition>
       </v-card-text>
 
       <v-card-text class="grey--text py-0">
@@ -36,16 +31,7 @@ export default {
     btnShow: false,
     icons: ['mdi-facebook', 'mdi-twitter', 'mdi-linkedin', 'mdi-instagram'],
   }),
-  beforeMount: function() {
-    window.addEventListener('scroll', this.handleScroll);
-  },
-  beforeDestroy: function() {
-    window.removeEventListener('scroll', this.handleScroll);
-  },
   methods: {
-    handleScroll() {
-      this.btnShow = window.scrollY > 10;
-    },
     moveIntroduce() {
       this.$router.push({ name: 'Introduce' }).catch((error) => {
         if (error.name === 'NavigationDuplicated') {

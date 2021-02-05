@@ -1,10 +1,24 @@
 <template>
   <v-app>
-    <Header @openModal="toggleModal" />
+    <Header id="header" @openModal="toggleModal" />
     <v-main>
       <router-view />
     </v-main>
     <ModalCareer v-if="isModal" @closeModal="toggleModal" />
+    <v-fab-transition>
+      <v-btn
+        bottom
+        right
+        fixed
+        fab
+        dark
+        small
+        v-show="btnShow"
+        @click="$vuetify.goTo('#header')"
+      >
+        <v-icon>mdi-chevron-double-up</v-icon>
+      </v-btn>
+    </v-fab-transition>
     <Footer />
   </v-app>
 </template>
@@ -17,6 +31,7 @@ export default {
   data: () => {
     return {
       isModal: false,
+      btnShow: '',
     };
   },
   components: {
@@ -28,9 +43,16 @@ export default {
     toggleModal(data) {
       this.isModal = data;
     },
+    handleScroll() {
+      this.btnShow = window.scrollY > 100;
+    },
   },
+  created() {
+    window.addEventListener("scroll", this.handleScroll);
+  }
 };
 </script>
+
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');

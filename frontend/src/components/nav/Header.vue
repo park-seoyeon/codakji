@@ -13,9 +13,9 @@
           offset-y
         >
           <template v-slot:activator="{ on, attrs }">
-            <div @click="toggleMenu" v-bind="attrs" v-on="on" class="mx-10">
+            <div @click="toggleMenu" v-bind="attrs" v-on="on" class="d-flex mx-10">
               <v-icon color="yellow darken-2" size="25">mdi-folder-search</v-icon>
-              <v-title style="font-size: 17px">문제풀기</v-title>
+              <div style="font-size: 17px">문제풀기</div>
               <v-icon size="25">mdi-menu-down</v-icon>
             </div>
           </template>
@@ -36,23 +36,23 @@
 
         <v-spacer></v-spacer>
 
-        <div class="mx-10" style="cursor: pointer;">
+        <div class="d-flex mx-10" style="cursor: pointer;">
           <v-icon color="yellow darken-2" size="25">mdi-video-account</v-icon>
-          <v-title style="font-size: 17px">화상으로 함께 하기</v-title>
+          <div style="font-size: 17px">화상으로 함께 하기</div>
         </div>
         <!-- <div class="mx-10" style="cursor: pointer;">
           <v-icon color="yellow darken-2" size="25">mdi-microphone</v-icon>
           <v-title style="font-size: 17px">음성으로 코딩하기</v-title>
         </div> -->
         <v-spacer></v-spacer>
-        <div @click="moveNotice" class="mx-10" style="cursor: pointer;">
+        <div @click="moveNotice" class="d-flex mx-10" style="cursor: pointer;">
           <v-icon color="yellow darken-2" size="25">mdi-bullhorn</v-icon>
-          <v-title style="font-size: 17px">공지사항</v-title>
+          <div style="font-size: 17px">공지사항</div>
         </div>
         <v-spacer></v-spacer>
-        <div link @click="moveCoFAQ" class="mx-10" style="cursor: pointer;">
+        <div link @click="moveCoFAQ" class="d-flex mx-10" style="cursor: pointer;">
           <v-icon color="yellow darken-2" size="25">mdi-chat-question</v-icon>
-          <v-title style="font-size: 17px">FAQ</v-title>
+          <div style="font-size: 17px">FAQ</div>
         </div>
       </v-subheader>
     
@@ -154,6 +154,8 @@ export default {
   name: 'Header',
   data() {
     return {
+      attrs: null,
+      on: null,
       drawer: false,
       isMenu: false,
       isLogin: false,
