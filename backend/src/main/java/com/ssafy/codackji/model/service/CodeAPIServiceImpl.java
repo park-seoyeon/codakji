@@ -109,7 +109,10 @@ public class CodeAPIServiceImpl implements CodeAPIService {
 		System.out.println("들어옴");
 		// 요청 url
 		String url = "https://api.jdoodle.com/v1/execute";
-
+		String input = codeAPIDto.getUser_input();
+		if(input.equals("")||input==null) input = getInput1(codeAPIDto.getProblem_number());
+		System.out.println("input : "+input);
+		
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -120,7 +123,7 @@ public class CodeAPIServiceImpl implements CodeAPIService {
 		map.put("clientId", "43a27528b836136335df7e0d4472a5f1");
 		map.put("clientSecret", "6fab09897bfb0a8cfc6f1e9daf1d2af2cafb434a774690a5692c6c9a5d6a6ccc");
 		map.put("script", codeAPIDto.getScript()); // 실행할 코드
-		map.put("stdin", codeAPIDto.getUser_input()); // input 데이터
+		map.put("stdin", input); // input 데이터
 		map.put("language", codeAPIDto.getLanguage()); // 사용 언어
 
 		// 사용 언어 버전 가져오기
