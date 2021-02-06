@@ -105,7 +105,7 @@ export default {
       'access-token': this.setToken()
     }
 
-    console.log(userKey);
+    // console.log(userKey);
 
     axios.post(`${SERVER_URL}`, userKey)
     .then(response => {
