@@ -89,12 +89,12 @@ export default {
               localStorage.setItem('name', response.data['userInfo'].name);
             }
             this.$emit('closeModal');
-            location.reload();
             this.$router.push({ name: 'Home' }).catch((error) => {
               if (error.name === 'NavigationDuplicated') {
                 location.reload();
               }
             });
+            location.reload();
           })
           .catch(() => {
             alert('아이디 혹은 비밀번호가 맞지 않습니다.');

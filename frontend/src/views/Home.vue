@@ -1,9 +1,9 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col>
-      <div class="home">
-        <MainPage />
-      </div>
+    <v-col class="pt-0">
+      <MainPage />
+      <!-- <div class="home">
+      </div> -->
     </v-col>
   </v-row>
 </template>
