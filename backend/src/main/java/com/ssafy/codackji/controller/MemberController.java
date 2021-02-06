@@ -107,10 +107,11 @@ public class MemberController {
 	@ApiOperation(value = "회원정보 삭제_토큰검사를 한다", notes = "해당 아이디(==이메일)와 일치하는 회원 정보를 삭제한다", response = String.class)
 	@DeleteMapping
 	public ResponseEntity<String> deleteUser(
-			@RequestBody @ApiParam(value = "토큰", required = true)String token)
+			@RequestBody @ApiParam(value = "토큰", required = true)MemberDto memberDto)
 			throws Exception {
 		logger.info("deleteUser - 호출");
 
+		String token = memberDto.getToken();
 		if (jwtService.isUsable(token)) {
 			if(jwtService.isInTime(token)) {
 				String email = jwtService.getUserEmail(token);
