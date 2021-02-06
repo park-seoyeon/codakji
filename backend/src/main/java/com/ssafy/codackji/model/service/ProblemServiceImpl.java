@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.codackji.model.ProblemDto;
+import com.ssafy.codackji.model.SolvedProblemDto;
 import com.ssafy.codackji.model.mapper.ProblemMapper;
 
 @Service
@@ -23,6 +24,11 @@ public class ProblemServiceImpl implements ProblemService{
 	@Override
 	public List<ProblemDto> listProblem(int problem_rank) throws Exception {
 		return sqlSession.getMapper(ProblemMapper.class).listProblem(problem_rank);
+	}
+	
+	@Override
+	public List<SolvedProblemDto> userSolvedProblem(int user_number) throws Exception{
+		return sqlSession.getMapper(ProblemMapper.class).userSolvedProblem(user_number);
 	}
 
 	@Override

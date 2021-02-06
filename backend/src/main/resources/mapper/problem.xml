@@ -14,6 +14,15 @@
 		where problem_rank = #{problem_rank}
 	</select>
 	
+	<select id="userSolvedProblem" parameterType="int" resultType="SolvedProblemDto">
+		select problem_title, problem_content, problem_group, language, solved_problem_content, solved_problem_correct
+		from Solved_Problem
+		inner join Problem
+		on Solved_Problem.problem_number = Problem.problem_number
+		where user_number = #{user_number}
+		and solved_problem_correct = true;
+	</select>
+	
 	<select id="getProblem" parameterType="int" resultType="ProblemDto">
 		select *
 		from Problem
