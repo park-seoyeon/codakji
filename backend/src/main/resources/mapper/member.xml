@@ -4,8 +4,8 @@
 <mapper namespace = "com.ssafy.codackji.model.mapper.MemberMapper">
 	
 	<insert id="addUser">
-		insert into User (email, name, password, oauth)
-		values(#{email}, #{name}, #{password}, #{oauth})
+		insert into User (email, name, password, oauth, certification)
+		values(#{email}, #{name}, #{password}, #{oauth}, #{certification})
 	</insert>
 	
 	<select id="emailCheck" resultType="int">
@@ -33,7 +33,7 @@
 	
 	<update id="updateUser" parameterType="memberDto">
 		update User
-		set admin = #{admin}, teach = #{teach}, name = #{name}, password = #{password}, oauth = #{oauth}
+		set admin = #{admin}, teach = #{teach}, name = #{name}, password = #{password}, oauth = #{oauth}, certification = #{certification}
 		where email = #{email}
 	</update>
 	

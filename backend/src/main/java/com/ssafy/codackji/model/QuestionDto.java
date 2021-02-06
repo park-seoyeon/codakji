@@ -12,6 +12,7 @@ public class QuestionDto {
 	private boolean question_check;
 	private String created_at;
 	private String updated_at;
+	private String question_reply;
 	private String token;
 	
 	
@@ -77,6 +78,12 @@ public class QuestionDto {
 		this.updated_at = updated_at;
 	}
 	
+	public String getQuestion_reply() {
+		return question_reply;
+	}
+	public void setQuestion_reply(String question_reply) {
+		this.question_reply = question_reply;
+	}
 	public String getToken() {
 		return token;
 	}
@@ -89,7 +96,9 @@ public class QuestionDto {
 				+ ", teach_user_number=" + teach_user_number + ", problem_number=" + problem_number
 				+ ", question_title=" + question_title + ", question_content=" + question_content
 				+ ", question_answered=" + question_answered + ", question_check=" + question_check + ", created_at="
-				+ created_at + ", updated_at=" + updated_at + ", token=" + token + "]";
+				+ created_at + ", updated_at=" + updated_at + ", question_reply=" + question_reply + ", token=" + token
+				+ "]";
 	}
+
 	
 }

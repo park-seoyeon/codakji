@@ -140,6 +140,7 @@ public class KakaoLoginController {
 			    } catch (Exception ignored) {}
 			    
 			    kakaoUser.setPassword(newPassword);
+			    kakaoUser.setCertification(true);
 				memberService.addUser(kakaoUser);
 				System.out.println("[카카오 자동 로그인]");
 				return kakaoLogin(kakaoUser);
@@ -219,6 +220,7 @@ public class KakaoLoginController {
 		    } catch (Exception ignored) {}
 		    
 		    originMember.setPassword(newPassword);
+		    originMember.setCertification(true);
 			if(memberService.updateUser(originMember)) {
 				return kakaoLogin(originMember);
 			}
