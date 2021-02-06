@@ -65,9 +65,11 @@ public class MemberController {
 
 	@ApiOperation(value = "회원 정보_토큰검사를 한다", notes = "DB에 저장된 회원정보를 보여줍니다", response = MemberDto.class)
 	@PostMapping("/info")
-	public ResponseEntity<MemberDto> userInfo(@RequestBody @ApiParam(value = "토큰", required = true) String token)
+	public ResponseEntity<MemberDto> userInfo(@RequestBody @ApiParam(value = "토큰", required = true) MemberDto memDto)
 			throws Exception {
-
+		
+		String token = memDto.getToken();
+		
 		MemberDto nullMember = null;
 		if (jwtService.isUsable(token)) {
 			String email = jwtService.getUserEmail(token);
