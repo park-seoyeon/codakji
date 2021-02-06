@@ -1,0 +1,69 @@
+<template>
+  <div>
+    <input type="checkbox" id="menuicon">
+    <label for="menuicon">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+    <div class="sidebar">
+      <p>첫번째</p>
+      <p>두번째</p>
+      <p>세번째</p>
+    </div>
+  </div>
+</template>
+
+
+<style scoped>
+    input[id="menuicon"] {display: none;}
+    input[id="menuicon"] + label {
+      display: block;
+      margin: 30px;
+      width: 60px;
+      height: 50px;
+      position: relative;
+      cursor: pointer;
+    }
+    input[id="menuicon"] + label span {
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 5px;
+      border-radius: 30px;
+      background: #000;
+      transition: all .35s;
+    }
+    input[id="menuicon"] + label span:nth-child(1) {top: 0;}
+    input[id="menuicon"] + label span:nth-child(2) {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    input[id="menuicon"] + label span:nth-child(3) {bottom: 0;}
+    input[id="menuicon"]:checked + label {z-index: 2;}
+    input[id="menuicon"]:checked + label span {background: #fff;}
+    input[id="menuicon"]:checked + label span:nth-child(1) {
+      top:50%;
+      transform: translateY(-50%) rotate(45deg);
+    }
+    input[id="menuicon"]:checked + label span:nth-child(2) {opacity: 0;}
+    input[id="menuicon"]:checked + label span:nth-child(3) {
+      bottom: 50%;
+      transform: translateY(50%) rotate(-45deg);
+    }
+
+    div[class="sidebar"] {
+      width: 300px;
+      height: 100%;
+      background: #222;
+      position: fixed;
+      top: 0;
+      right: -300px;
+      z-index: 100;
+      transition: all .35s;
+    }
+
+    input[id=menuicon]:checked + label + div {top: 0;}
+
+
+  </style>
