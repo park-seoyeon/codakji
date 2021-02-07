@@ -1,10 +1,22 @@
 <template>
-  <v-col cols="4" class="mt-3">
-    <v-card elevation="3" class="mx-auto" width="300px" @click="moveRankList(rank.id)" id="rank">
-      <div align="center" class="pt-2">
-        <v-sheet :color="rank.color" height="120" max-width="95%" rounded elevation="2"></v-sheet>
+  <v-col cols="3">
+    <v-card>
+      <div>
+        <v-sheet color="grey darken-2" dark>
+          <v-card-text align="left" class="pa-1 guide">{{ rank.title }}</v-card-text>
+        </v-sheet>
+        <v-sheet>
+          <div class="img_container">
+            <v-img :src="rank.item" id="problem" />
+            <div class="btn-plus">
+              <v-btn @click="moveRankList(rank.id)" class="go" plain outlined x-large dark
+                >바로가기</v-btn
+              >
+            </div>
+          </div>
+        </v-sheet>
+        <v-card-title> {{ rank.content }}</v-card-title>
       </div>
-      <v-card-title>{{ rank.title }} 풀어보기</v-card-title>
     </v-card>
   </v-col>
 </template>
@@ -16,13 +28,21 @@ export default {
   },
   methods: {
     moveRankList(rank) {
-      this.$router
-        .push({ name: 'ProblemRankList', params: { problemrank: rank } })
-        .catch((error) => {
+      if (rank == 0) {
+        this.$router.push({ name: 'AllProblemRank' }).catch((error) => {
           if (error.name === 'NavigationDuplicated') {
             location.reload();
           }
         });
+      } else {
+        this.$router
+          .push({ name: 'ProblemRankList', params: { problemrank: rank } })
+          .catch((error) => {
+            if (error.name === 'NavigationDuplicated') {
+              location.reload();
+            }
+          });
+      }
     },
   },
 };

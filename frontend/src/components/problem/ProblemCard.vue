@@ -1,15 +1,30 @@
 <template>
-  <v-col cols="12" sm="6" md="4" lg="3" xl="2">
+  <v-col cols="4">
     <v-card>
-      <div
-        @click="moveProblemDetail(problem.problem_number)"
-        style="cursor: pointer;"
-        class="to-right-underline"
-      >
-        <v-card-title> {{ problem.problem_number }}. {{ problem.problem_title }}</v-card-title>
-        <v-card-text></v-card-text>
+      <div>
+        <v-sheet color="grey lighten-1" dark>
+          <v-card-text align="right" class="pa-1 guide">{{ problem.problem_group }}</v-card-text>
+        </v-sheet>
+        <v-sheet>
+          <div class="img_container">
+            <v-img src="@/assets/img/We_love_ kriii.png" id="problem" />
+            <div class="btn-plus">
+              <v-btn
+                @click="moveProblemDetail(problem.problem_number)"
+                class="go"
+                plain
+                outlined
+                x-large
+                dark
+                >바로가기</v-btn
+              >
+            </div>
+          </div>
+        </v-sheet>
+        <v-card-title> {{ problem.problem_title }}</v-card-title>
+        <v-card-text align="left">{{ problem.problem_content.slice(0, 30) }}...</v-card-text>
       </div>
-      <v-card-actions style="background-color:#F5F5F5;">
+      <!-- <v-card-actions style="background-color:#F5F5F5;">
         <v-spacer></v-spacer>
 
         <v-btn icon @click="likeButton()" v-if="like">
@@ -18,7 +33,7 @@
         <v-btn icon @click="likeButton()" v-else>
           <v-icon>mdi-heart</v-icon>
         </v-btn>
-      </v-card-actions>
+      </v-card-actions> -->
     </v-card>
   </v-col>
 </template>
