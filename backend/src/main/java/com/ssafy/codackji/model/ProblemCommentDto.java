@@ -5,6 +5,7 @@ public class ProblemCommentDto {
 	private int comment_number; //댓글 번호(AutoIncremented, PK값)
 	private int problem_number; //댓글이 달린 문제 번호
 	private int user_number; //댓글을 남긴 사용자 번호
+	private String name; //댓글을 남긴 사용자 이름
 	private String comment_content; //댓글 내용
 	private String created_at; //처음 댓글 생성 시각
 	private String updated_at; //가장 마지막으로 수정된 시각
@@ -82,15 +83,28 @@ public class ProblemCommentDto {
 	}
 
 
+	
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
 	@Override
 	public String toString() {
-		return "ProblemCommentDto [comment_number=" + comment_number + ", problem_number=" + problem_number
-				+ ", user_number=" + user_number + ", comment_content=" + comment_content + ", created_at=" + created_at
-				+ ", updated_at=" + updated_at + ", likes=" + likes + ", token=" + token + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("ProblemCommentDto [comment_number=").append(comment_number).append(", problem_number=")
+				.append(problem_number).append(", user_number=").append(user_number).append(", name=").append(name)
+				.append(", comment_content=").append(comment_content).append(", created_at=").append(created_at)
+				.append(", updated_at=").append(updated_at).append(", likes=").append(likes).append(", token=")
+				.append(token).append("]");
+		return builder.toString();
 	}
-	
-	
-	
-	
-	
+
+
 }
