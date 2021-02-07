@@ -7,23 +7,23 @@
         /></div>
 
         <div id="baritem">
-          <div class="d-flex mx-10 align-self-center">
-            <v-icon color="yellow darken-2" size="25">mdi-folder-search</v-icon>
-            <div class="mx-1" style="font-size: 17px;">문제풀기</div>
-            <v-icon size="25">mdi-menu-down</v-icon>
-          </div>
+          <span class="d-flex">
+            <div class="d-flex mx-10 align-self-center">
+              <!-- <v-icon color="yellow darken-2" size="25">mdi-folder-search</v-icon> -->
+              <div class="mx-1" style="font-size: 17px;">문제풀기</div>
+              <v-icon size="25">mdi-menu-down</v-icon>
+            </div>
 
-          <div class="d-flex mx-10 align-self-center" style="cursor: pointer;">
-            <v-icon color="yellow darken-2" size="25">mdi-video-account</v-icon>
-            <div class="mx-1" style="font-size: 17px">화상으로 함께 하기</div>
-          </div>
+            <div class="d-flex mx-10 align-self-center" style="cursor: pointer;">
+              <!-- <v-icon color="yellow darken-2" size="25">mdi-video-account</v-icon> -->
+              <div class="mx-1" style="font-size: 17px">화상으로 함께 하기</div>
+            </div>
 
-          <div class="d-flex mx-10 align-self-center">
-            <v-icon color="yellow darken-2" size="25">mdi-bullhorn</v-icon>
-            <div class="mx-1" style="font-size: 17px">공지사항</div>
-          </div>
-
-          <v-spacer></v-spacer>
+            <div class="d-flex mx-10 align-self-center">
+              <!-- <v-icon color="yellow darken-2" size="25">mdi-bullhorn</v-icon> -->
+              <div class="mx-1" style="font-size: 17px">공지사항</div>
+            </div>
+          </span>
 
           <v-subheader>
             <div app v-if="isLogin">
@@ -58,7 +58,7 @@
           ><v-img width="90px" src="@/assets/img/codackji_logo.png"
         /></v-toolbar-title>
 
-        <v-list class="mx-11" @click="hideNaviMenu">
+        <v-list class="mx-6" @click="hideNaviMenu">
           <v-list-item @click="moveAllRank" class="px-6">
             <v-list-item-title>학습 하기</v-list-item-title>
           </v-list-item>
@@ -71,20 +71,20 @@
           </v-list-item>
         </v-list>
 
-        <div class="mx-11">
+        <div class="mx-15">
           <div class="d-flex" style="visibility: hidden;">
-            <v-icon color="yellow darken-2" size="25">mdi-video-account</v-icon>
+            <!-- <v-icon color="yellow darken-2" size="25">mdi-video-account</v-icon> -->
             <div style="font-size: 17px">화상으로 함께 하기</div>
           </div>
         </div>
 
-        <div class="mx-11" @click="hideNaviMenu">
+        <div class="mx-5" @click="hideNaviMenu">
           <div @click="moveNotice" class="d-flex my-5" style="cursor: pointer;">
-            <v-icon color="yellow darken-2" size="25">mdi-bullhorn</v-icon>
+            <!-- <v-icon color="yellow darken-2" size="25">mdi-bullhorn</v-icon> -->
             <div class="mx-1" style="font-size: 17px">공지사항</div>
           </div>
           <div link @click="moveCoFAQ" class="d-flex my-5" style="cursor: pointer;">
-            <v-icon color="yellow darken-2" size="25">mdi-chat-question</v-icon>
+            <!-- <v-icon color="yellow darken-2" size="25">mdi-chat-question</v-icon> -->
             <div class="mx-1" style="font-size: 17px">FAQ</div>
           </div>
         </div>
@@ -131,39 +131,41 @@
 
     <div id="smallnav">
       <div id="sidebar" :class="{ sidenav: isSide }">
-        <div class="d-flex mx-5 mt-10 align-self-center">
-          <v-icon color="yellow darken-2" size="35">mdi-folder-search</v-icon>
-          <div class="mx-1" style="font-size: 35px;">문제풀기</div>
-          <v-icon v-if="isMenu" size="25">mdi-menu-up</v-icon>
-          <v-icon v-else size="25">mdi-menu-down</v-icon>
-        </div>
+        <div @click="isSide = !isSide">
+          <div class="d-flex mx-5 mt-10 align-self-center">
+            <v-icon color="yellow darken-2" size="35">mdi-folder-search</v-icon>
+            <div class="mx-1" style="font-size: 35px;">문제풀기</div>
+            <v-icon v-if="isMenu" size="25">mdi-menu-up</v-icon>
+            <v-icon v-else size="25">mdi-menu-down</v-icon>
+          </div>
 
-        <v-list class="mx-10" @click="hideNaviMenu">
-          <v-list-item @click="moveAllRank" class="px-6">
-            <v-list-item-title>학습 하기</v-list-item-title>
-          </v-list-item>
-          <v-list-item
-            v-for="(item, index) in items"
-            :key="index"
-            @click="moveRankList(item.rank)"
-          >
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
+          <v-list class="mx-10">
+            <v-list-item @click="moveAllRank" class="px-6">
+              <v-list-item-title>학습 하기</v-list-item-title>
+            </v-list-item>
+            <v-list-item
+              v-for="(item, index) in items"
+              :key="index"
+              @click="moveRankList(item.rank)"
+            >
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
 
-        <div class="d-flex mx-5 my-10 align-self-center" style="cursor: pointer;">
-          <v-icon color="yellow darken-2" size="35">mdi-video-account</v-icon>
-          <div class="mx-1" style="font-size: 35px">화상으로<br>함께하기</div>
-        </div>
+          <div class="d-flex mx-5 my-10 align-self-center" style="cursor: pointer;">
+            <v-icon color="yellow darken-2" size="35">mdi-video-account</v-icon>
+            <div class="mx-1" style="font-size: 35px">화상으로<br>함께하기</div>
+          </div>
 
-        <div @click="moveNotice" class="d-flex mx-5 my-10" style="cursor: pointer;">
-          <v-icon color="yellow darken-2" size="35">mdi-bullhorn</v-icon>
-          <div class="mx-1" style="font-size: 35px">공지사항</div>
-        </div>
+          <div @click="moveNotice" class="d-flex mx-5 my-10" style="cursor: pointer;">
+            <v-icon color="yellow darken-2" size="35">mdi-bullhorn</v-icon>
+            <div class="mx-1" style="font-size: 35px">공지사항</div>
+          </div>
 
-        <div link @click="moveCoFAQ" class="d-flex mx-5 my-10" style="cursor: pointer;">
-          <v-icon color="yellow darken-2" size="35">mdi-chat-question</v-icon>
-          <div class="mx-1" style="font-size: 35px">FAQ</div>
+          <div link @click="moveCoFAQ" class="d-flex mx-5 my-10" style="cursor: pointer;">
+            <v-icon color="yellow darken-2" size="35">mdi-chat-question</v-icon>
+            <div class="mx-1" style="font-size: 35px">FAQ</div>
+          </div>
         </div>
       </div>
     </div>
@@ -353,6 +355,8 @@ export default {
 <style scoped>
 #baritem {
   display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
 #navimenu {
