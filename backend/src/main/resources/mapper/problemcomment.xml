@@ -9,8 +9,10 @@
 	</insert>
 	
 	<select id="listProblemComment" parameterType="int" resultType="problemCommentDto">
-		select *
+		select Comment.comment_number, Comment.problem_number, Comment.user_number, Comment.comment_content, Comment.created_at, Comment.updated_at, Comment.likes, User.name
 		from Comment
+		left join User
+		on Comment.user_number = User.user_number
 		where problem_number = #{problem_number}
 		order by updated_at
 	</select>
