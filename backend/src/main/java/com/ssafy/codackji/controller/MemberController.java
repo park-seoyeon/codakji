@@ -126,8 +126,26 @@ public class MemberController {
 	@ApiOperation(value = "비밀번호 찾기", notes = "임시비밀번호를 생성해서 메일로 전송하고 암호화 후에는 DB에 저장한다. 메일이 존재하지 않거나 에러가 발생하면 fail을 리턴한다.", response = String.class)
 	@PostMapping("/changepassword")
 	public ResponseEntity<String> changePassword(
-			@RequestBody @ApiParam(value = "아이디(==이메일)", required = true) MemberDto member) {
-		String email = member.getEmail();
+			@RequestBody @ApiParam(value = "아이디(==이메일)", required = true) MemberDto member) throws Exception {
+		
+		
+		String token = member.getToken();
+		String email = "";
+		
+		if (jwtService.isUsable(token)) {
+			if (jwtService.isInTime(token)) {
+				MemberDto memberDto = new MemberDto();
+				memberDto.setEmail(jwtService.getUserEmail(token));
+				memberDto.setToken(token);
+				jwtService.setToken(memberDto);
+
+				email = jwtService.getUserEmail(token);
+
+			}
+		}
+		else return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+		
+		System.out.println(email+"비밀번호 임시발급");
 		// 우선 메일 계정이 존재하는지 체크
 		if (memberService.emailCheck(email) > 0) { // 메일 계정이 존재함
 			System.out.println("계정 있음");
@@ -250,6 +268,9 @@ public class MemberController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
+
+	
+	
 	/*
 	 * 토큰검사 관련해서 아래와 같이 안하기로 해서 일단 주석처리 - 제출 시 삭제예정
 	 * 
