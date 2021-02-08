@@ -56,6 +56,7 @@ public class ProblemCommentController {
 				memberDto.setToken(token);
 				jwtService.setToken(memberDto);
 				if (problemCommentService.writeProblemComment(problemCommentDto)) {
+					System.out.println(problemCommentDto);
 					return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 				}
 			}
@@ -66,10 +67,9 @@ public class ProblemCommentController {
 	///
 	@ApiOperation(value = "댓글 불러오기_토큰 검사를 한다", notes = "RETRIEVE 댓글목록을 불러온다", response = String.class)
 	@GetMapping("{problem_number}")
-	public ResponseEntity<List<ProblemCommentDto>> listProblemComment(@PathVariable("problem_number") @ApiParam(value = "댓글 목록을 불러올 문제 번호", required = true) ProblemCommentDto problemCommentDto)
+	public ResponseEntity<List<ProblemCommentDto>> listProblemComment(@PathVariable("problem_number") @ApiParam(value = "댓글 목록을 불러올 문제 번호", required = true) int problem_number)
 			throws Exception {
-			return new ResponseEntity<List<ProblemCommentDto>>(problemCommentService.listProblemComment(problemCommentDto.getProblem_number()), HttpStatus.OK);
-
+			return new ResponseEntity<List<ProblemCommentDto>>(problemCommentService.listProblemComment(problem_number), HttpStatus.OK);
 	}
 
 
