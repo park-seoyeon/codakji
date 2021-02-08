@@ -14,7 +14,7 @@
 		left join User
 		on Comment.user_number = User.user_number
 		where problem_number = #{problem_number}
-		order by updated_at
+		order by comment_number
 	</select>
 	
 	<update id="updateProblemComment" parameterType="problemCommentDto">
