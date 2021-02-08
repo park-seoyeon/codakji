@@ -47,8 +47,6 @@ public class AnswerController {
 			memberDto.setEmail(email);
 			memberDto.setToken(token);
 			jwtService.setToken(memberDto);
-			int teacher_number = memberService.userInfo(email).getUser_number();
-			questionDto.setTeach_user_number(teacher_number);
 			if(answerService.writeAnswer(questionDto)) {
 				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 			}
@@ -66,11 +64,6 @@ public class AnswerController {
 			memberDto.setEmail(email);
 			memberDto.setToken(token);
 			jwtService.setToken(memberDto);
-			int teacher_number = memberService.userInfo(email).getUser_number();
-			System.out.println("답변작성자:"+questionDto.getTeach_user_number()+"/ 토큰유저:"+teacher_number);
-			if(teacher_number!=questionDto.getTeach_user_number()) {//답변 작성자가 본인이 아닐 경우
-				return new ResponseEntity<String>(FAIL, HttpStatus.OK);
-			}
 			if(answerService.editAnswer(questionDto)) {
 				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 			}
@@ -88,10 +81,6 @@ public class AnswerController {
 			memberDto.setEmail(email);
 			memberDto.setToken(token);
 			jwtService.setToken(memberDto);
-			int teacher_number = memberService.userInfo(email).getUser_number();
-			if(teacher_number!=questionDto.getTeach_user_number()) {//답변 작성자가 본인이 아닐 경우
-				return new ResponseEntity<String>(FAIL, HttpStatus.OK);
-			}
 			questionDto.setQuestion_reply(null);
 			if(answerService.deleteAnswer(questionDto)) {
 				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
