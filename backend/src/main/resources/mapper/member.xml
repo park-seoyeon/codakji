@@ -14,7 +14,7 @@
 	</select>
 	
 	<select id="login" parameterType="memberDto" resultType="memberDto">
-		select name, email, password
+		select *
 		from User
 		where email = #{email} and password = #{password}
 	</select>
