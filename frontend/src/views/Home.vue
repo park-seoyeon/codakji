@@ -1,6 +1,6 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col>
+  <v-row class="my-0 py-0">
+    <v-col class="my-0 py-0">
       <div class="home">
         <MainBanner />
         <v-container>
