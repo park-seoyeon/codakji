@@ -141,6 +141,14 @@ export default {
           })
           .then(res => {
             console.log(res.data)
+          })
+          .catch(error => {
+            if (error.response.status === 401) {
+              alert("로그인이 만료되었습니다.");
+              this.$emit("expireLogin");
+            } else {
+              console.log(error);
+            }
           });
     }
   },
