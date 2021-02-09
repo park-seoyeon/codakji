@@ -57,6 +57,20 @@
         <Ide @getCode="getChildMessage"/>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col cols="6">
+        <h3>Input</h3> 
+        <v-textarea v-model="test_input" placeholder="Input 값을 입력하시오"></v-textarea>
+      </v-col>
+      <v-col cols="6">
+        <h3>Output</h3>
+        <v-textarea v-model="test_output" placeholder="Output 값이 출력됩니다"></v-textarea>
+      </v-col>
+      <v-col align="right">
+        <v-btn @click="test()">test</v-btn>
+        <v-btn @click="submit()">submit</v-btn>
+      </v-col>
+    </v-row>
     <v-col cols="12" class="mt-10 guide" align="left">
       <div class="mb-3">
         <span>댓글</span><span style="font-size:10px;"> ({{ problemComments.length }})</span>
