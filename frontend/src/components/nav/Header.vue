@@ -78,8 +78,12 @@
         </div>
 
         <div class="mx-5" @click="hideNaviMenu" align="center">
-          <div @click="moveNotice" class="d-flex my-5" style="cursor: pointer;" align="center">
+          <div @click="moveIntroduce" class="d-flex my-5" style="cursor: pointer;" align="center">
             <!-- <v-icon color="yellow darken-2" size="25">mdi-bullhorn</v-icon> -->
+            <div class="mx-1" style="font-size: 17px" align="center">코딱지는?</div>
+          </div>
+          <div link @click="moveNotice" class="d-flex my-5" style="cursor: pointer;" align="center">
+            <!-- <v-icon color="yellow darken-2" size="25">mdi-chat-question</v-icon> -->
             <div class="mx-1" style="font-size: 17px" align="center">공지사항</div>
           </div>
           <div link @click="moveCoFAQ" class="d-flex my-5" style="cursor: pointer;" align="center">
@@ -254,6 +258,13 @@ export default {
     },
     moveCoFAQ() {
       this.$router.push({ name: 'CoFAQ' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
+    },
+    moveIntroduce() {
+      this.$router.push({ name: 'Introduce' }).catch((error) => {
         if (error.name === 'NavigationDuplicated') {
           location.reload();
         }
