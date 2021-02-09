@@ -83,8 +83,13 @@ export default {
               location.reload();
             }
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(error => {
+            if (error.response.status === 401) {
+              alert("세션이 만료되었습니다.");
+              this.$emit("expireLogin");
+            } else {
+              console.log(error);
+            }
           });
       }
     },
@@ -102,8 +107,13 @@ export default {
               location.reload();
             }
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(error => {
+            if (error.response.status === 401) {
+              alert("세션이 만료되었습니다.");
+              this.$emit("expireLogin");
+            } else {
+              console.log(error);
+            }
           });
       }
     },
@@ -119,8 +129,13 @@ export default {
             location.reload();
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(error => {
+          if (error.response.status === 401) {
+            alert("세션이 만료되었습니다.");
+            this.$emit("expireLogin");
+          } else {
+            console.log(error);
+          }
         });
     },
   },
