@@ -3,7 +3,7 @@
     <v-carousel cycle height="420" hide-delimiter-background show-arrows-on-hover>
       <v-carousel-item v-for="(item, i) in items" :key="i">
         <v-sheet :color="colors[i]" height="100%">
-          <v-row class="fill-height" align="center" justify="center">
+          <v-row class="fill-height my-0" align="center" justify="center">
             <div class="display-3">
               <v-img :src="item.src" align="left">
                 <v-container fill-height>

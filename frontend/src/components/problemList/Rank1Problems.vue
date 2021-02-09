@@ -30,7 +30,7 @@ export default {
         .then((response) => {
           this.problems = response.data;
           this.addRank(this.problems);
-          console.log(this.rank);
+          // console.log(this.rank);
         })
         .catch((error) => {
           console.log(error);
