@@ -164,18 +164,18 @@ export default {
     },
     test() {
       axios
-          .post(`${SERVER_URL}/codeAPI/test`, {
-            problem_number: this.$route.params.problemnumber,
-            user_number: localStorage.getItem("user_number"),
-            user_input: this.test_input,
-            language: this.select.lang,
-            token: localStorage.getItem("jwt"),
-            script: this.childMessage,
-          })
-          .then(res => {
-            //console.log(res.data)
-            this.test_output = res.data.output
-          });
+        .post(`${SERVER_URL}/codeAPI/test`, {
+          problem_number: this.$route.params.problemnumber,
+          user_number: localStorage.getItem("user_number"),
+          user_input: this.test_input,
+          language: this.select.lang,
+          token: localStorage.getItem("jwt"),
+          script: this.childMessage,
+        })
+        .then(res => {
+          //console.log(res.data)
+          this.test_output = res.data.output
+        });
     },
     submit() {
       axios
@@ -189,7 +189,7 @@ export default {
         })
         .then(res => {
           console.log(res.data)
-        });
+        })
         .catch(error => {
           if (error.response.status === 401) {
             alert("로그인이 만료되었습니다.");
