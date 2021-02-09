@@ -42,7 +42,8 @@
 export default {
   data: () => {
     return {
-      like: false,
+      // like: false,
+      isLogin: false,
     };
   },
   props: {
@@ -50,18 +51,28 @@ export default {
   },
   methods: {
     moveProblemDetail(problem) {
-      this.$router
-        .push({ name: 'ProblemDetail', params: { problemnumber: problem } })
-        .catch((error) => {
-          if (error.name === 'NavigationDuplicated') {
-            location.reload();
-          }
-        });
+      if (this.isLogin) {
+        this.$router
+          .push({ name: 'ProblemDetail', params: { problemnumber: problem } })
+          .catch((error) => {
+            if (error.name === 'NavigationDuplicated') {
+              location.reload();
+            }
+          });
+      } else {
+        alert('로그인이 필요합니다');
+      }
     },
 
     likeButton() {
       this.like = !this.like;
     },
+  },
+  created() {
+    const token = localStorage.getItem('jwt');
+    if (token) {
+      this.isLogin = true;
+    }
   },
 };
 </script>
