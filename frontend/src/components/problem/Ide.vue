@@ -66,7 +66,7 @@ export default {
       console.log('the editor is focused!', cm);
     },
     onCmCodeChange(newCode) {
-      console.log('this is new code', newCode);
+      //console.log('this is new code', newCode);
 
       this.childMessage = newCode;
       this.$emit('getCode', this.childMessage);

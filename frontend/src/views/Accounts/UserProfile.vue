@@ -20,14 +20,13 @@
       <div class="d-flex flex-column">
         <div class="d-flex justify-space-between">
           <v-img
-            lazy-src="https://picsum.photos/id/11/10/6"
             max-height="350"
             max-width="450"
-            src="https://picsum.photos/id/11/500/300"
+            :src="'/img/profile/' + result.user_number + '.png'"
           ></v-img>
           <div class="d-flex flex-column justify-space-between align-start ml-5 py-5">
-            <h1>이름 : {{ userInfo.name }}</h1>
-            <h1>이메일 : {{ userInfo.email }}</h1>
+            <h1>이름 : {{ result.name }}</h1>
+            <h1>이메일 : {{ result.email }}</h1>
             <h1>SNS 연동 여부 : {{ userInfo.sns }}</h1>
             <div>
               <v-btn>정보수정</v-btn>
@@ -72,10 +71,9 @@ export default {
   data: () => {
     return {
       userInfo: {
-        name: '이름이야',
-        email: '이메일이야',
         sns: '연동여부야',
       },
+      result: null,
       solvedProblems: [
         {id: '1', title: '문제1', content: '내용1 이 이렇게 적혀있습니다.'},
         {id: '2', title: '문제2', content: '내용2 이 이렇게 적혀있습니다.'},
@@ -102,14 +100,18 @@ export default {
   created() {
     // methods에 있는 유저의 푼 문제들 가져오기 함수 쓰기
     const userKey = {
-      'access-token': this.setToken()
+      'token': this.setToken()
     }
 
     // console.log(userKey);
 
-    axios.post(`${SERVER_URL}`, userKey)
+    axios.post(`${SERVER_URL}/user/info`, userKey)
     .then(response => {
-      console.log(response);
+      this.result = response.data;
+      if(this.result.oauth==null)
+        this.userInfo.sns = 'X'
+      else
+        this.userInfo.sns = 'O'
     })
     .catch(error => {
       console.log(error);

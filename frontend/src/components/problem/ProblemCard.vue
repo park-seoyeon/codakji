@@ -7,7 +7,7 @@
         </v-sheet>
         <v-sheet>
           <div class="img_container">
-            <v-img src="@/assets/img/We_love_ kriii.png" id="problem" />
+            <v-img :src="'/img/problem/' + problem.problem_title + '.png'" id="problem" />
             <div class="btn-plus">
               <v-btn
                 @click="moveProblemDetail(problem.problem_number)"

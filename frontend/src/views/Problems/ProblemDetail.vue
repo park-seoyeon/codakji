@@ -20,19 +20,17 @@
             <p>{{ problemDetails.problem_output }}</p>
           </div>
         </div>
-        <div align="right">
+        <!--<div align="right">
           <div v-if="description" align="right">
             해설보러가기!
           </div>
-          <!-- <v-btn plain x-large> -->
-          <v-img
+           <v-img
             width="60px"
             src="@/assets/img/watting_cogi.png"
             @mouseover="mouseOver"
             @mouseleave="mouseLeave"
           />
-          <!-- </v-btn> -->
-        </div>
+        </div> -->
       </v-col>
       <!-- <v-col cols="6">
         <iframe
@@ -44,18 +42,35 @@
         ></iframe>
       </v-col> -->
       <v-col cols="6">
+      <v-col cols="3">
+        <v-select
+          v-model="select"
+          :items="items"
+          item-text="lang"
+          item-value="mode"
+          label="Select"
+          persistent-hint
+          return-object
+          single-line
+        ></v-select>
+        </v-col>
         <Ide @getCode="getChildMessage"/>
-        <v-row>
-          <v-col cols="6">
-            <button @click="test()">click to test</button>
-          </v-col>
-          <v-col cols="6">
-            <button @click="submit()">click to submit</button>
-          </v-col>
-        </v-row>
       </v-col>
     </v-row>
-
+    <v-row>
+      <v-col cols="6">
+        <h3>Input</h3> 
+        <v-textarea v-model="test_input" placeholder="Input 값을 입력하시오"></v-textarea>
+      </v-col>
+      <v-col cols="6">
+        <h3>Output</h3>
+        <v-textarea v-model="test_output" placeholder="Output 값이 출력됩니다"></v-textarea>
+      </v-col>
+      <v-col align="right">
+        <v-btn @click="test()">test</v-btn>
+        <v-btn @click="submit()">submit</v-btn>
+      </v-col>
+    </v-row>
     <hr />
 
     <div align="left">
@@ -85,7 +100,16 @@ export default {
       user_number:'',
       user_input:'',
       language:'',
-      script:''
+      script:'',
+
+      test_input:'',
+      test_output:'',
+      
+      select: { lang: 'python3', mode: 'text/x-python' },
+        items: [
+          { lang: 'python3', mode: 'text/x-python' },
+          { lang: 'java', mode: 'java' },
+        ],
     };
   },
   components: {
@@ -119,14 +143,15 @@ export default {
       axios
           .post(`${SERVER_URL}/codeAPI/test`, {
             problem_number: this.$route.params.problemnumber,
-            user_number: localStorage.getItem("user_number"),
-            user_input: "",
-            language: "python3",
+            user_number: "",
+            user_input: this.test_input,
+            language: this.select.lang,
             token: localStorage.getItem("jwt"),
             script: this.childMessage,
           })
           .then(res => {
-            console.log(res.data)
+            //console.log(res.data)
+            this.test_output = res.data.output
           });
     },
     submit() {
@@ -135,7 +160,7 @@ export default {
             problem_number: this.$route.params.problemnumber,
             user_number: localStorage.getItem("user_number"),
             user_input: "",
-            language: "python3",
+            language: this.select.lang,
             token: localStorage.getItem("jwt"),
             script: this.childMessage,
           })
