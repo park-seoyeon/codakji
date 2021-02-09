@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <Header id="header" @openModal="toggleModal" />
+    <Header ref="header" id="header" @openModal="toggleModal" />
     <v-main>
-      <router-view />
+      <router-view @expireLogin="expireLogin" />
     </v-main>
     <ModalCareer v-if="isModal" @closeModal="toggleModal" />
     <v-fab-transition>
@@ -46,6 +46,9 @@ export default {
     handleScroll() {
       this.btnShow = window.scrollY > 100;
     },
+    expireLogin() {
+      console.log(this.$refs.header.logOut());
+    }
   },
   created() {
     window.addEventListener("scroll", this.handleScroll);

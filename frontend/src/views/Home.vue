@@ -1,8 +1,8 @@
 <template>
-  <v-row class="my-0 py-0">
-    <v-col class="my-0 py-0">
+  <v-row justify="center" align="center">
+    <v-col class="pt-0">
       <div class="home">
-        <MainBanner />
+        <MainBanner/>
         <v-container>
           <v-layout column class="mb-5">
             <ChooseRank />
@@ -35,3 +35,7 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+</style>
