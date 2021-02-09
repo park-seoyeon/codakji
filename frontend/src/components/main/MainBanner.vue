@@ -30,8 +30,8 @@ export default {
   data() {
     return {
       colors: ['#FFE183', '#FFA4A8', '#909FFF'],
-      subjects: ['소개', '공지', '단계보기'],
-      titles: ['코딱지', '새로운 공지사항 안내', '단계별 문제 보러가기'],
+      subjects: ['소개', '공지', '학습하기'],
+      titles: ['코딱지', '새로운 공지사항 안내', '학년별 문제 보러가기'],
       contents: [
         '코딱지는 무엇을 하는 곳 일까요?',
         '코딱지 사용안내! 새로운 공지사항이 업데이트 되었어요',
@@ -39,13 +39,13 @@ export default {
       ],
       items: [
         {
-          src: require('@/assets/img/banner1.png'),
+          src: require('@/assets/img/banner/banner1.png'),
         },
         {
-          src: require('@/assets/img/banner2.png'),
+          src: require('@/assets/img/banner/banner2.png'),
         },
         {
-          src: require('@/assets/img/banner3.png'),
+          src: require('@/assets/img/banner/banner3.png'),
         },
       ],
     };

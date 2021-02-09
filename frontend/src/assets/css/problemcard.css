@@ -1,20 +1,32 @@
-.to-right-underline {
+.img_container {
+  cursor: pointer;
   position: relative;
-}
-.to-right-underline:after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0px;
-  width: 0px;
-  height: 2px;
-  /* margin: 5px 0 0; */
-  transition: all 0.2s ease-in-out;
-  transition-duration: 0.3s;
-  opacity: 0;
-  background-color: #000000;
-}
-.to-right-underline:hover:after {
   width: 100%;
+}
+
+#problem {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+}
+
+.btn-plus {
+  transition: 0.5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.img_container:hover #problem {
+  filter: brightness(50%);
+}
+
+.img_container:hover .btn-plus {
   opacity: 1;
 }

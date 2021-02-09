@@ -287,10 +287,10 @@ export default {
   data: () => {
     return {
       userInfo: {
-        name: '이름이야',
-        email: '이메일이야',
-        joindate: '가입일이야',
-        sns: '연동여부야',
+        name: '이름 위치',
+        email: '이메일 위치',
+        joindate: '가입일 위치',
+        sns: '없음',
         stat: '신분',
         number: '',
       },
@@ -320,7 +320,6 @@ export default {
     setToken() {
       const token = localStorage.getItem('jwt');
       if (token) {
-        console.log('임시로 작성한 메시지');
         return token;
       }
     },
@@ -511,27 +510,33 @@ export default {
 
   created() {
     const userKey = {
-      'access-token': this.setToken(),
-    };
+      token: this.setToken()
+    }
 
-    // console.log(userKey);
-
-    axios
-      .post(`${SERVER_URL}`, userKey)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
+    axios.post(`${SERVER_URL}/user/info`, userKey)
+    .then(response => {
+      this.userInfo.name = response.data.name;
+      this.userInfo.email = response.data.email;
+      if (response.data.oauth) {
+        this.userInfo.sns = response.data.oauth;
+      }
+    })
+    .catch(error => {
+      if (error.response.status === 401) {
+        alert("세션이 만료되었습니다.");
+        this.$emit("expireLogin");
+      } else {
         console.log(error);
-      });
-
+      }
+    });
+    
     this.selectInfo();
 
     this.setUserInfo();
 
     this.setSolvedProblem();
-  },
-};
+  }
+}
 </script>
 
 <style scoped>
