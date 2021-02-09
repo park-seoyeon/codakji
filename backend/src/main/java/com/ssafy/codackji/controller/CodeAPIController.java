@@ -192,6 +192,7 @@ public class CodeAPIController {
 		int problem_number = codeAPIDto.getProblem_number();
 		int solved_problem_number = codeAPIService.getSolvedProblemNumber(codeAPIDto);
 		codeAPIDto.setScript(codeAPIService.getSolvedScript(solved_problem_number));
+		codeAPIDto.setLanguage(codeAPIService.getSolvedLanguage(solved_problem_number));
 		
 
 		// 5개의 테스트케이스 채점 >> 2.input, output 가져오기, 3.API 결과 가져오기 - TC 1 기준, 4.API결과,
@@ -222,6 +223,7 @@ public class CodeAPIController {
 		// 3.API 결과 가져오기 - TC 1 기준
 		codeAPIDto.setUser_input(input); // DB에 있는 input 파일로 설정
 		codeAPIResponseDto = new CodeAPIResponseDto();
+		System.out.println(codeAPIDto);
 		try {
 			codeAPIResponseDto = codeAPIService.codeTest(codeAPIDto); // 문제 번호, 사용자번호, 사용언어, 사용자코드
 			System.out.println("채점 완료");
@@ -231,6 +233,8 @@ public class CodeAPIController {
 		System.out.println("[정답]"+codeAPIService.getOutput1(codeAPIDto.getProblem_number()).trim());
 		// 4.API결과, output파일 비교(채점하기)
 		user_output = codeAPIResponseDto.getOutput();
+		System.out.println(codeAPIResponseDto);
+		System.out.println(user_output);
 		user_output = user_output.trim();
 		if (output.trim().equals(user_output)) {
 			codeAPIResponseDto.setAnswer(true); // DB output과 사용자 코드 실행 결과가 일치 - 정답
