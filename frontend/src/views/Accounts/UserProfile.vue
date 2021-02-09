@@ -216,14 +216,14 @@
 
     <!-- 나의 질문 목록 -->
     <div v-if="isSelectedQuestion" style="text_align: center">
-      <br />
+      <br>
       <v-container fluid >
         <v-row justify="center">
           <v-subheader v-if="userInfo.stat == '학생'" style="font-size:1.5em"
             >무엇이든 선생님에게 물어보세요</v-subheader>
           <v-subheader v-else>최근 등록된 질문 목록</v-subheader>
 
-<br/><br/><br/>
+<br><br><br>
 
           <v-expansion-panels popout >
             
@@ -271,7 +271,7 @@
           </v-expansion-panels>
         </v-row>
       </v-container>
-      <br /><br /><br />
+      <br><br><br>
     </div>
   </div>
 </template>
@@ -364,13 +364,15 @@ export default {
             this.userInfo.stat = '학생';
           }
 
-          console.log(response);
-
-          
           this.setQuestionList();
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(error => {
+          if (error.response.status === 401) {
+            alert("세션이 만료되었습니다.");
+            this.$emit("expireLogin");
+          } else {
+            console.log(error);
+          }
         });
     },
 
@@ -380,8 +382,6 @@ export default {
           token: localStorage.getItem('jwt'),
         })
         .then((response) => {
-          console.log('푼 문제 목록:');
-          console.log(response.data);
           this.solvedProblems = response.data;
         })
         .catch((error) => {

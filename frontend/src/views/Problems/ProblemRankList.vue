@@ -70,7 +70,6 @@ export default {
         .get(`${SERVER_URL}/problem/rank/${this.$route.params.problemrank}`)
         .then((response) => {
           this.rankProblems = response.data;
-          // console.log(response.data);
         })
         .catch((error) => {
           console.log(error);

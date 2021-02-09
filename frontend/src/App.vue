@@ -47,7 +47,7 @@ export default {
       this.btnShow = window.scrollY > 100;
     },
     expireLogin() {
-      console.log(this.$refs.header.logOut());
+      this.$refs.header.logOut();
     }
   },
   created() {
