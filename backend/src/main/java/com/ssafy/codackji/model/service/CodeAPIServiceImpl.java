@@ -1,5 +1,6 @@
 package com.ssafy.codackji.model.service;
 
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -161,6 +162,46 @@ public class CodeAPIServiceImpl implements CodeAPIService {
 		}
 
 		return codeAPIResponseDto;
+	}
+
+	// Java 정답코드 가져오기
+	@Override
+	public String getCorrectJavaCode(int problem_number) throws Exception {
+		return sqlSession.getMapper(CodeAPIMapper.class).getCorrectJavaCode(problem_number);
+	}
+
+	// Python 정답코드 가져오기
+	@Override
+	public String getCorrectPythonCode(int problem_number) throws Exception {
+		return sqlSession.getMapper(CodeAPIMapper.class).getCorrectPythonCode(problem_number);
+	}
+
+	// 해설 이미지 개수 가져오기
+	@Override
+	public int getImgNumber(int problem_number) throws Exception {
+		return sqlSession.getMapper(CodeAPIMapper.class).getImgNumber(problem_number);
+	}
+
+	// solvedProblemNumber를 가져오기
+	@Override
+	public int getSolvedProblemNumber(CodeAPIDto codeAPIDto) throws SQLException {
+		return sqlSession.getMapper(CodeAPIMapper.class).getSolvedProblemNumber(codeAPIDto);
+	}
+
+	// SolvedProblem 테이블 업데이트하기
+	@Override
+	public boolean updateSolvedProblem(int solved_problem_number) throws SQLException {
+		return sqlSession.getMapper(CodeAPIMapper.class).updateSolvedProblem(solved_problem_number) == 1;
+	}
+
+	@Override
+	public String getSolvedScript(int solved_problem_number) throws SQLException {
+		return sqlSession.getMapper(CodeAPIMapper.class).getSolvedScript(solved_problem_number);
+	}
+
+	@Override
+	public String getSolvedLanguage(int solved_problem_number) throws SQLException {
+		return sqlSession.getMapper(CodeAPIMapper.class).getSolvedLanguage(solved_problem_number);
 	}
 
 	// API 컴파일 에러 분석하기 - 머신러닝
