@@ -1,5 +1,13 @@
 package com.ssafy.codackji.controller;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -114,6 +122,17 @@ public class KakaoLoginController {
 		System.out.println("=======[카카오에서 받은 회원정보]======");
 		System.out.println("카카오 이메일:" + kakaoProfile.getKakao_account().getEmail());
 		System.out.println("카카오 닉네임(이름):" + kakaoProfile.getProperties().getNickname());
+		System.out.println("카카오 프로필(링크):" + kakaoProfile.getKakao_account().getProfile().getProfile_image_url());
+//		Image image = null;
+//        try {
+//            URL url = new URL(kakaoProfile.getKakao_account().getProfile().getProfile_image_url());
+//            BufferedImage img = ImageIO.read(url);
+//            File file=new File("C:/ssafy/Project1/subpjt2/s04p13a203/frontend/public/img/profile/test.png");
+//            ImageIO.write(img, "png", file);
+//        } catch (IOException e) {
+//         e.printStackTrace();
+//        }
+
 		System.out.println("===============================");
 
 		String password = "1234";
@@ -126,6 +145,22 @@ public class KakaoLoginController {
 		HttpStatus status = HttpStatus.OK;
 		try {
 			originMemberDto = memberService.userInfo(kakaoUser.getEmail());
+			
+			//profile 이미지 저장
+			if(!originMemberDto.isProfile()) {
+				Image image = null;
+				try {
+					URL url = new URL(kakaoProfile.getKakao_account().getProfile().getProfile_image_url());
+					BufferedImage img = ImageIO.read(url);
+					File file=new File("C:/ssafy/Project1/subpjt2/s04p13a203/frontend/public/img/profile/" + originMemberDto.getUser_number() + ".png");
+					ImageIO.write(img, "png", file);
+					originMemberDto.setProfile(true);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			//
+	        
 			if (originMemberDto == null) {
 				System.out.println("[카카오 새회원 가입처리]");
 			    String newPassword = "";

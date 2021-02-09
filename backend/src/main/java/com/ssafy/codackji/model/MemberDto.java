@@ -12,6 +12,7 @@ public class MemberDto {
 	private boolean certification;
 	private String oauth;
 	private String token;
+	public boolean profile;
 	
 	public MemberDto() {
 		super();
@@ -37,7 +38,7 @@ public class MemberDto {
 
 	
 	public MemberDto(int user_number, boolean admin, boolean teach, String email, String name, String password,
-			String created_at, boolean certification, String oauth, String token) {
+			String created_at, boolean certification, String oauth, String token, boolean profile) {
 		super();
 		this.user_number = user_number;
 		this.admin = admin;
@@ -49,6 +50,7 @@ public class MemberDto {
 		this.certification = certification;
 		this.oauth = oauth;
 		this.token = token;
+		this.profile = profile;
 	}
 
 	public int getUser_number() {
@@ -116,11 +118,19 @@ public class MemberDto {
 		this.token = token;
 	}
 
+	public boolean isProfile() {
+		return profile;
+	}
+
+	public void setProfile(boolean profile) {
+		this.profile = profile;
+	}
+	
 	@Override
 	public String toString() {
 		return "MemberDto [user_number=" + user_number + ", admin=" + admin + ", teach=" + teach + ", email=" + email
 				+ ", name=" + name + ", password=" + password + ", created_at=" + created_at + ", certification="
-				+ certification + ", oauth=" + oauth + ", token=" + token + "]";
+				+ certification + ", oauth=" + oauth + ", token=" + token + ", profile=" + profile + "]";
 	}
 
 	
