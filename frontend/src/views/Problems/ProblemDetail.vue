@@ -20,6 +20,17 @@
             <p>{{ problemDetails.problem_output }}</p>
           </div>
         </div>
+        <!--<div align="right">
+          <div v-if="description" align="right">
+            해설보러가기!
+          </div>
+           <v-img
+            width="60px"
+            src="@/assets/img/watting_cogi.png"
+            @mouseover="mouseOver"
+            @mouseleave="mouseLeave"
+          />
+        </div> -->
       </v-col>
       <!-- <v-col cols="6">
         <iframe
@@ -31,18 +42,21 @@
         ></iframe>
       </v-col> -->
       <v-col cols="6">
-        <Ide @getCode="getChildMessage" />
-        <v-row>
-          <v-col cols="6">
-            <button @click="test()">click to test</button>
-          </v-col>
-          <v-col cols="6">
-            <button @click="submit()">click to submit</button>
-          </v-col>
-        </v-row>
+      <v-col cols="3">
+        <v-select
+          v-model="select"
+          :items="items"
+          item-text="lang"
+          item-value="mode"
+          label="Select"
+          persistent-hint
+          return-object
+          single-line
+        ></v-select>
+        </v-col>
+        <Ide @getCode="getChildMessage"/>
       </v-col>
     </v-row>
-
     <v-col cols="12" class="mt-10 guide" align="left">
       <div class="mb-3">
         <span>댓글</span><span style="font-size:10px;"> ({{ problemComments.length }})</span>
@@ -94,9 +108,19 @@ export default {
       comment: '',
       childMessage: '',
       problem_number: '',
-      user_input: '',
-      language: '',
-      script: '',
+      user_number:'',
+      user_input:'',
+      language:'',
+      script:'',
+
+      test_input:'',
+      test_output:'',
+      
+      select: { lang: 'python3', mode: 'text/x-python' },
+        items: [
+          { lang: 'python3', mode: 'text/x-python' },
+          { lang: 'java', mode: 'java' },
+        ],
     };
   },
   components: {
@@ -140,31 +164,32 @@ export default {
     },
     test() {
       axios
-        .post(`${SERVER_URL}/codeAPI/test`, {
-          problem_number: this.$route.params.problemnumber,
-          user_number: localStorage.getItem('user_number'),
-          user_input: '',
-          language: 'python3',
-          token: localStorage.getItem('jwt'),
-          script: this.childMessage,
-        })
-        .then((res) => {
-          console.log(res.data);
-        });
+          .post(`${SERVER_URL}/codeAPI/test`, {
+            problem_number: this.$route.params.problemnumber,
+            user_number: localStorage.getItem("user_number"),
+            user_input: this.test_input,
+            language: this.select.lang,
+            token: localStorage.getItem("jwt"),
+            script: this.childMessage,
+          })
+          .then(res => {
+            //console.log(res.data)
+            this.test_output = res.data.output
+          });
     },
     submit() {
       axios
         .post(`${SERVER_URL}/codeAPI/submit`, {
           problem_number: this.$route.params.problemnumber,
-          user_number: localStorage.getItem('user_number'),
-          user_input: '',
-          language: 'python3',
-          token: localStorage.getItem('jwt'),
+          user_number: localStorage.getItem("user_number"),
+          user_input: "",
+          language: this.select.lang,
+          token: localStorage.getItem("jwt"),
           script: this.childMessage,
         })
-        .then((res) => {
-          console.log(res.data);
-        })
+        .then(res => {
+          console.log(res.data)
+        });
         .catch(error => {
           if (error.response.status === 401) {
             alert("로그인이 만료되었습니다.");
@@ -174,7 +199,6 @@ export default {
           }
         });
     },
-
     writeComment() {
       axios
         .post(`${SERVER_URL}/problem/comment`, {
