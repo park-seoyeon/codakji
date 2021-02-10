@@ -48,6 +48,16 @@ public class NoticeController {
 		
 		return new ResponseEntity<List<NoticeDto>>(noticeService.listNotice(), HttpStatus.OK);
 	}
+	
+	@ApiOperation(value="공지 조회수 증가시키기", notes="조회 수를 증가시킵니다", response=String.class)
+	@GetMapping("/views/{notice_number}")
+	public ResponseEntity<String> updateViews(@PathVariable("notice_number") @ApiParam(value = "조회수를 증가시킬 공지의 번호.", required = true) int notice_number) throws Exception {
+		
+		if (noticeService.updateViews(notice_number)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
 		
 	
 	@ApiOperation(value="공지 수정", notes="공지를 수정합니다", response=String.class)

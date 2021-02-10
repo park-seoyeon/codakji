@@ -11,8 +11,14 @@
 	<select id="listNotice" resultType="noticeDto">
 		select *
 		from Notice
-		order by updated_at
+		order by updated_at desc
 	</select>
+	
+	<update id="updateViews" parameterType="int">
+		update Notice
+		set views = views + 1
+		where notice_number = #{notice_number}
+	</update>
 	
 	<update id="updateNotice" parameterType="noticeDto">
 		update Notice
