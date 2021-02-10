@@ -23,7 +23,7 @@
                 no-resize
                 rows="5"
                 :value="yourAnswer"
-                readonly="true"
+                readonly
                 outlined
                 ></v-textarea>
               </v-col>
@@ -36,7 +36,7 @@
                   no-resize
                   rows="5"
                   :value="correctAnswer"
-                  readonly="true"
+                  readonly
                   outlined
                 ></v-textarea>
               </v-col>
@@ -46,15 +46,15 @@
 
         <!-- '코드 비교'라는 탭의 아이템 -->
         <v-tab-item>
-          <v-contatiner>
-            <v-row class="mt-1" no-gutters justify="center">
+          <v-container>
+            <v-row no-gutters justify="center">
               <v-col cols="12" sm="8" md="4">
                 <v-textarea
                   label="Your Answer"
                   no-resize
                   rows="20"
                   :value="yourCode"
-                  readonly="true"
+                  readonly
                   outlined
                 ></v-textarea>
               </v-col>
@@ -65,12 +65,12 @@
                   no-resize
                   rows="20"
                   :value="correctCode"
-                  readonly="true"
+                  readonly
                   outlined
                 ></v-textarea>
               </v-col>
             </v-row>
-          </v-contatiner>
+          </v-container>
         </v-tab-item>
 
         <!-- '해설'이라는 탭의 아이템 -->
@@ -109,6 +109,10 @@
 </template>
 
 <script>
+import axios from 'axios';
+
+const SERVER_URL = process.env.VUE_APP_SERVER_URL;
+
 export default {
   name: 'SolveResult',
   data: () => {
@@ -120,6 +124,7 @@ export default {
       correctAnswer: '원래 정답이 나오는 부분',
       yourCode: '사용자의 코드가 적히는 부분\n마찬가지로 개행문자로 줄이 바뀐다',
       correctCode: '올바른 코드들이 적히는 부분',
+      imageNumber: 0,
       model: 0,
       colors: [
         'primary',
@@ -137,6 +142,36 @@ export default {
     mouseLeave: function() {
       this.description = !this.description;
     },
+  },
+  created() {
+    const resultInfo = {
+      token: localStorage.getItem('jwt'),
+      solved_problem_number: this.$route.params.resultnumber,
+    }
+
+    axios
+      .post(`${SERVER_URL}/codeAPI/result`, resultInfo)
+      .then(response => {
+        console.log(response);
+        // answer : true
+        // cpuTime: "0.02"
+        // error: null
+        // memory: "5308"
+        // statusCode: "200"
+        this.yourAnswer = response.data.my_output;
+        this.correctAnswer = response.data.correct_output;
+        this.yourCode = response.data.my_code;
+        this.correctCode = response.data.correct_code;
+        this.imageNumber = response.data.img_number;
+      })
+      .catch(error => {
+        if (error.response.status === 401) {
+          alert("세션이 만료되었습니다.");
+          this.$emit("expireLogin");
+        } else {
+          console.log(error);
+        }
+      });
   }
 }
 </script>

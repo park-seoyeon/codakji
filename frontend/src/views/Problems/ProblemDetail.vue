@@ -192,17 +192,26 @@ export default {
         });
     },
     submit() {
+      const solvedInfo = {
+        problem_number: this.$route.params.problemnumber,
+        user_number: localStorage.getItem("user_number"),
+        user_input: "",
+        language: this.select.lang,
+        token: localStorage.getItem("jwt"),
+        script: this.childMessage,
+      }
+
       axios
-        .post(`${SERVER_URL}/codeAPI/submit`, {
-          problem_number: this.$route.params.problemnumber,
-          user_number: localStorage.getItem("user_number"),
-          user_input: "",
-          language: this.select.lang,
-          token: localStorage.getItem("jwt"),
-          script: this.childMessage,
-        })
+        .post(`${SERVER_URL}/codeAPI/submit`, solvedInfo)
         .then(res => {
           console.log(res.data)
+          this.$router.push({
+            name: 'SolveResult',
+            params: {
+              problemnumber: solvedInfo.problem_number,
+              resultnumber: res.data
+            }
+          })
         })
         .catch(error => {
           if (error.response.status === 401) {
