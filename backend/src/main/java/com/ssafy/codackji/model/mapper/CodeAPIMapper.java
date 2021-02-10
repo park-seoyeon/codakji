@@ -46,9 +46,9 @@ public interface CodeAPIMapper {
 	
 	public int getSolvedProblemNumber(CodeAPIDto codeAPIDto) throws SQLException;
 	
-	public int updateSolvedProblem(int solved_problem_number) throws SQLException;
+	public int updateSolvedProblem(SolvedProblemDto solvedProblemDto) throws SQLException;
 	
-	public String getSolvedScript(int solved_problem_number) throws SQLException;
+	public SolvedProblemDto getSolvedProblemInfo(int solved_problem_number) throws SQLException;
 	
-	public String getSolvedLanguage(int solved_problem_number) throws SQLException;
+	
 }

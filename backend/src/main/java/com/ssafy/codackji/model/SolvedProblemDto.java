@@ -2,6 +2,7 @@ package com.ssafy.codackji.model;
 
 public class SolvedProblemDto {
 
+	private int solved_problem_number;
 	private int user_number; //문제 푼 사용자 번호
 	private int problem_number; //푼 문제의 번호
 	private String problem_title; //문제 이름 - 나중에 추가
@@ -10,8 +11,22 @@ public class SolvedProblemDto {
 	private String solved_problem_content; //작성한 코드
 	private boolean solved_problem_correct; //정답 여부
 	private String language; //사용 언어
+	private boolean api_done;
+	private String my_output;
+	private String correct_output;
 	
 	public SolvedProblemDto() {}
+
+	
+	public int getSolved_problem_number() {
+		return solved_problem_number;
+	}
+
+
+	public void setSolved_problem_number(int solved_problem_number) {
+		this.solved_problem_number = solved_problem_number;
+	}
+
 
 	public int getUser_number() {
 		return user_number;
@@ -78,15 +93,42 @@ public class SolvedProblemDto {
 		this.problem_group = problem_group;
 	}
 
+	
+	public boolean isApi_done() {
+		return api_done;
+	}
+
+	public void setApi_done(boolean api_done) {
+		this.api_done = api_done;
+	}
+
+	public String getMy_output() {
+		return my_output;
+	}
+
+	public void setMy_output(String my_output) {
+		this.my_output = my_output;
+	}
+
+	public String getCorrect_output() {
+		return correct_output;
+	}
+
+
+	public void setCorrect_output(String correct_output) {
+		this.correct_output = correct_output;
+	}
+
+
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("SolvedProblemDto [user_number=").append(user_number).append(", problem_number=")
-				.append(problem_number).append(", problem_title=").append(problem_title).append(", problem_content=")
-				.append(problem_content).append(", problem_group=").append(problem_group)
-				.append(", solved_problem_content=").append(solved_problem_content).append(", solved_problem_correct=")
-				.append(solved_problem_correct).append(", language=").append(language).append("]");
-		return builder.toString();
-	}	
+		return "SolvedProblemDto [solved_problem_number=" + solved_problem_number + ", user_number=" + user_number
+				+ ", problem_number=" + problem_number + ", problem_title=" + problem_title + ", problem_content="
+				+ problem_content + ", problem_group=" + problem_group + ", solved_problem_content="
+				+ solved_problem_content + ", solved_problem_correct=" + solved_problem_correct + ", language="
+				+ language + ", api_done=" + api_done + ", my_output=" + my_output + ", correct_output="
+				+ correct_output + "]";
+	}
+	
 	
 }

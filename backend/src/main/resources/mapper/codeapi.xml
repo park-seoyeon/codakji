@@ -157,22 +157,20 @@
 		limit 1
 	</select>
 	
-	<update id="updateSolvedProblem" parameterType="int">
+	<update id="updateSolvedProblem" parameterType="solvedProblemDto">
 		update Solved_Problem
-		set solved_problem_correct = 1
+		set solved_problem_correct = #{solved_problem_correct},
+			api_done = #{api_done},
+			my_output = #{my_output},
+			correct_output = #{correct_output}
 		where solved_problem_number = #{solved_problem_number}
 	</update>
 	
-	<select id ="getSolvedScript" parameterType="int" resultType="String">
-		select solved_problem_content
-		from Solved_Problem
-		where solved_problem_number = #{solved_problem_number} 
-	</select>
 	
-	<select id ="getSolvedLanguage" parameterType = "int" resultType="String">
-		select language
+	<select id ="getSolvedProblemInfo" parameterType = "int" resultType = "SolvedProblemDto">
+		select *
 		from Solved_Problem
-		where solved_problem_number = #{solved_problem_number} 
+		where solved_problem_number = #{solved_problem_number}
 	</select>
 	
 </mapper>

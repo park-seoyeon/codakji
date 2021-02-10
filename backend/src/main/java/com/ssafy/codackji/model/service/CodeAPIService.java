@@ -58,14 +58,11 @@ public interface CodeAPIService {
 	public int getImgNumber(int problem_number) throws Exception;
 	
 	// solvedProblemNumber를 가져오기
-	public int getSolvedProblemNumber(CodeAPIDto codeAPIDto) throws SQLException;
+	public int getSolvedProblemNumber(CodeAPIDto codeAPIDto) throws Exception;
 	
 	// SolvedProblem을 업데이트하기
-	public boolean updateSolvedProblem(int solved_problem_number) throws SQLException;
+	public boolean updateSolvedProblem(SolvedProblemDto solvedProblemDto) throws Exception;
 	
-	// solvedProblem의 script 가져오기
-	public String getSolvedScript(int solved_problem_number) throws SQLException;
-	
-	// solvedProblem의 language 가져오기
-	public String getSolvedLanguage(int solved_problem_number) throws SQLException;
+	// solvedProblem 정보 가져오기
+	public SolvedProblemDto getSolvedProblemInfo(int solved_problem_number) throws Exception;
 }

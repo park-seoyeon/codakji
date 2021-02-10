@@ -190,18 +190,13 @@ public class CodeAPIServiceImpl implements CodeAPIService {
 
 	// SolvedProblem 테이블 업데이트하기
 	@Override
-	public boolean updateSolvedProblem(int solved_problem_number) throws SQLException {
-		return sqlSession.getMapper(CodeAPIMapper.class).updateSolvedProblem(solved_problem_number) == 1;
+	public boolean updateSolvedProblem(SolvedProblemDto solvedProblemDto) throws SQLException {
+		return sqlSession.getMapper(CodeAPIMapper.class).updateSolvedProblem(solvedProblemDto) == 1;
 	}
 
 	@Override
-	public String getSolvedScript(int solved_problem_number) throws SQLException {
-		return sqlSession.getMapper(CodeAPIMapper.class).getSolvedScript(solved_problem_number);
-	}
-
-	@Override
-	public String getSolvedLanguage(int solved_problem_number) throws SQLException {
-		return sqlSession.getMapper(CodeAPIMapper.class).getSolvedLanguage(solved_problem_number);
+	public SolvedProblemDto getSolvedProblemInfo(int solved_problem_number) throws Exception {
+		return sqlSession.getMapper(CodeAPIMapper.class).getSolvedProblemInfo(solved_problem_number);
 	}
 
 	// API 컴파일 에러 분석하기 - 머신러닝
