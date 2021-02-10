@@ -198,15 +198,15 @@ public class CodeAPIController {
 			
 		if(api_done) {
 
-			String correct_Java_code = codeAPIService.getCorrectJavaCode(codeAPIDto.getProblem_number()); // 자바 정답 코드
-			String correct_Python_code = codeAPIService.getCorrectPythonCode(codeAPIDto.getProblem_number()); // 파이썬 정답 코드
-			int image_number = codeAPIService.getImgNumber(codeAPIDto.getProblem_number()); // 해설 이미지 개수
+			String correct_Java_code = codeAPIService.getCorrectJavaCode(solvedProblemDto.getProblem_number()); // 자바 정답 코드
+			String correct_Python_code = codeAPIService.getCorrectPythonCode(solvedProblemDto.getProblem_number()); // 파이썬 정답 코드
+			int image_number = codeAPIService.getImgNumber(solvedProblemDto.getProblem_number()); // 해설 이미지 개수
 			
 			// 프론트로 반환할 값 지정
 			CodeAPIResultDto codeAPIResultDto = new CodeAPIResultDto();
 			codeAPIResultDto.setAnswer(solvedProblemDto.isSolved_problem_correct());
 			
-			if(codeAPIDto.getLanguage().equals("java"))
+			if(solvedProblemDto.getLanguage().equals("java"))
 				codeAPIResultDto.setCorrect_code(correct_Java_code); //
 			else
 				codeAPIResultDto.setCorrect_code(correct_Python_code);
@@ -214,7 +214,7 @@ public class CodeAPIController {
 			codeAPIResultDto.setCorrect_output(solvedProblemDto.getCorrect_output());
 			codeAPIResultDto.setError(null);
 			codeAPIResultDto.setImg_number(image_number);
-			codeAPIResultDto.setMy_code(codeAPIDto.getScript());
+			codeAPIResultDto.setMy_code(solvedProblemDto.getSolved_problem_content());
 			codeAPIResultDto.setMy_output(solvedProblemDto.getMy_output());
 			
 			status = HttpStatus.OK;
