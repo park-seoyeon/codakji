@@ -227,7 +227,9 @@ public class CodeAPIController {
 //		int solved_problem_number = codeAPIService.getSolvedProblemNumber(codeAPIDto);
 		codeAPIDto.setScript(solvedProblemDto.getSolved_problem_content());
 		codeAPIDto.setLanguage(solvedProblemDto.getLanguage());
+		codeAPIDto.setProblem_number(solvedProblemDto.getProblem_number());
 		
+		System.out.println(codeAPIDto);
 
 		// 5개의 테스트케이스 채점 >> 2.input, output 가져오기, 3.API 결과 가져오기 - TC 1 기준, 4.API결과,
 		// output파일 비교(채점하기)
