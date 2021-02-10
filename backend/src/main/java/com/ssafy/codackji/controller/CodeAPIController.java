@@ -193,7 +193,7 @@ public class CodeAPIController {
 		
 		if(memberdto.getUser_number() != codeAPIService.getSolvedProblemInfo(solved_problem_number).getUser_number()) {
 			CodeAPIResultDto rtnNull = new CodeAPIResultDto();
-			return new ResponseEntity<CodeAPIResultDto>(rtnNull, HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<CodeAPIResultDto>(rtnNull, HttpStatus.FORBIDDEN);
 		}
 			
 		if(api_done) {
