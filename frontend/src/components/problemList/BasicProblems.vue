@@ -1,5 +1,5 @@
 <template>
-  <v-flex>
+  <v-col>
     <v-sheet class="mx-auto mt-5" align="left" width="1024">
       <div style=" display: inline-block;">
         <img src="@/assets/img/wheel.png" width="50" height="50" />
@@ -12,12 +12,13 @@
         처음 시작하는 학생들을 위한 기초 문제들
       </div>
     </v-sheet>
-    <v-sheet class="mx-auto mt-5" width="1024">
+    <br>
+    <v-sheet class="mx-15">
       <v-row>
         <ProblemCard v-for="(problem, idx) in getBasic()" :key="idx" :problem="problem" />
       </v-row>
     </v-sheet>
-  </v-flex>
+  </v-col>
 </template>
 
 <script>

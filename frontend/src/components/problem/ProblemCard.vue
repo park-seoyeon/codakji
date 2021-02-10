@@ -1,29 +1,28 @@
 <template>
-  <v-col cols="4">
-    <v-card>
-      <div>
-        <v-sheet color="grey lighten-1" dark>
-          <v-card-text align="right" class="pa-1 guide">{{ problem.problem_group }}</v-card-text>
-        </v-sheet>
-        <v-sheet>
-          <div class="img_container">
-            <v-img :src="'/img/problem/' + problem.problem_title + '.png'" id="problem" />
-            <div class="btn-plus">
-              <v-btn
-                @click="moveProblemDetail(problem.problem_number)"
-                class="go"
-                plain
-                outlined
-                x-large
-                dark
-                >바로가기</v-btn
-              >
-            </div>
+  <v-col cols="12" sm="6" md="4">
+    <v-card @click="moveProblemDetail(problem.problem_number)">
+      <v-sheet color="grey lighten-1" dark>
+        <v-card-text align="right" class="pa-1 guide">{{ problem.problem_group }}</v-card-text>
+      </v-sheet>
+      <v-sheet>
+        <div class="img_container">
+          <v-img :src="'/img/problem/' + problem.problem_title + '.png'" id="problem" />
+          <div class="btn-plus">
+            <v-btn
+              
+              class="go"
+              plain
+              outlined
+              x-large
+              dark
+              >바로가기</v-btn
+            >
           </div>
-        </v-sheet>
-        <v-card-title> {{ problem.problem_title }}</v-card-title>
-        <v-card-text align="left">{{ problem.problem_content.slice(0, 30) }}...</v-card-text>
-      </div>
+        </div>
+      </v-sheet>
+      <v-card-title> {{ problem.problem_title }}</v-card-title>
+      <v-card-text align="left">{{ problem.problem_content.slice(0, 30) }}...</v-card-text>
+
       <!-- <v-card-actions style="background-color:#F5F5F5;">
         <v-spacer></v-spacer>
 
@@ -77,4 +76,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+</style>

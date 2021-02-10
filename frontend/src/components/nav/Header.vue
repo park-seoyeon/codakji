@@ -126,7 +126,7 @@
       </div>
     </div>
 
-    <v-btn id="navbtn" top right fixed @click="isSide = !isSide" :class="{ sidebtn: isSide }">
+    <v-btn id="navbtn" @click="isSide = !isSide" :class="{ sidebtn: isSide }">
       <v-icon>mdi-menu</v-icon>
     </v-btn>
 
@@ -299,11 +299,6 @@ export default {
         naviMenu.style = 'display: none;';
       }
     },
-    showSideNav() {
-      if (window.innerWidth < 768) {
-        // const sideNav = document.querySelector('#navbtn')
-      }
-    },
   },
   created() {
     const token = localStorage.getItem('jwt');
@@ -382,6 +377,9 @@ export default {
 
 #navbtn {
   display: none;
+  position: absolute;
+  right: 10px;
+  top: 15px;
 }
 
 #smallnav {

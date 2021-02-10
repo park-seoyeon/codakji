@@ -69,7 +69,7 @@ const routes = [
     component: SolveProblemPage,
   },
   {
-    path: '/problem/problem_:problemnumber/result',
+    path: '/problem/problem_:problemnumber/result_:resultnumber',
     name: 'SolveResult',
     component: SolveResult,
   },
