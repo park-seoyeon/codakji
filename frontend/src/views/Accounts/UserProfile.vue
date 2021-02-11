@@ -18,179 +18,166 @@
     </v-sheet>
 
     <!--상단 탭 메뉴-->
-    <v-tabs fixed-tabs background-color="indigo" dark>
-      <v-tab @click="selectInfo">내 정보 보기</v-tab>
-      <v-tab @click="selectSolved"> 내가 푼 문제 목록 </v-tab>
-      <v-tab v-if="userInfo.stat == '학생'" @click="selectQuestion">
+    <v-tabs fixed-tabs v-model="tabs" background-color="indigo" dark>
+      <v-tab>내 정보 보기</v-tab>
+      <!-- <v-tab @click="selectInfo">내 정보 보기</v-tab> -->
+      <v-tab> 내가 푼 문제 목록 </v-tab>
+      <!-- <v-tab @click="selectSolved"> 내가 푼 문제 목록 </v-tab> -->
+      <v-tab v-if="userInfo.stat == '학생'">
+      <!-- <v-tab v-if="userInfo.stat == '학생'" @click="selectQuestion"> -->
         나의 질문 목록
       </v-tab>
-      <v-tab v-else @click="selectQuestion"> 전체 질문 목록 </v-tab>
+      <v-tab v-else> 전체 질문 목록 </v-tab>
+      <!-- <v-tab v-else @click="selectQuestion"> 전체 질문 목록 </v-tab> -->
     </v-tabs>
 
-    <!-- 내 정보 보기 -->
-    <div v-if="isSelectedInfo" style="text_align: center">
-      <br /><br />
-      <template>
-        <v-card class="mx-auto" max-width="60%" min-height="400px">
-          <img
-            src="@/assets/img/watting_cogi.png"
-            width="10%"
-            style="margin-top: 50px"
-          />
-          <v-card-text style="font-size:1.5em">
-            <div class="text--primary">
-              {{ userInfo.name }} 님 ({{ userInfo.stat }})<br /><br /><br />
+    <!-- <br /><br /> -->
+    <v-tabs-items v-model="tabs" class="my-15">
+      <!-- 내 정보 보기 -->
+      <v-tab-item>
+        <template style="text_align: center">
+          <v-card class="mx-auto" max-width="60%" min-height="400px">
+            <img
+              src="@/assets/img/watting_cogi.png"
+              width="10%"
+              style="margin-top: 50px"
+            />
+            <v-card-text style="font-size:1.5em">
+              <div class="text--primary">
+                {{ userInfo.name }} 님 ({{ userInfo.stat }})<br /><br /><br />
 
-              이메일 : {{ userInfo.email }}<br /><br />
-              SNS 연동 여부 : {{ userInfo.sns }}<br /><br />
-              가입일 : {{ userInfo.joindate }}
-            </div>
-          </v-card-text>
-          <br />
+                이메일 : {{ userInfo.email }}<br /><br />
+                SNS 연동 여부 : {{ userInfo.sns }}<br /><br />
+                가입일 : {{ userInfo.joindate }}
+              </div>
+            </v-card-text>
+            <br />
 
-          <!--비밀번호 재입력 모달창 -->
-          <template>
-            <v-row justify="center">
-              <v-dialog v-model="dialog" persistent max-width="500">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="primary" dark v-bind="attrs" v-on="on">
-                    <v-icon>mdi-pencil</v-icon>
-                  </v-btn>
-                </template>
-                <v-card>
-                  <br />
-
-                  <v-text-field
-                    label="비밀번호"
-                    type="password"
-                    v-model="password"
-                    prepend-icon="mdi-lock"
-                  ></v-text-field>
-                  <v-card-actions>
-                    <v-btn color="green darken-1" text @click="getNewPassword">
-                      비밀번호 찾기
+            <!--비밀번호 재입력 모달창 -->
+            <template>
+              <v-row justify="center">
+                <v-dialog v-model="dialog" persistent max-width="500">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn color="primary" dark v-bind="attrs" v-on="on">
+                      <v-icon>mdi-pencil</v-icon>
                     </v-btn>
-                    <v-spacer></v-spacer>
-                    <v-btn color="green darken-1" text @click="checkPassword">
-                      확인
-                    </v-btn>
-                    <v-btn color="green darken-1" text @click="dialog = false">
-                      취소
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </v-row>
-          </template>
-          <br /><br />
+                  </template>
+                  <v-card>
+                    <br />
 
-          <!-- 정보 수정 페이지 -->
-          <v-expand-transition>
-            <v-card
-              v-if="reveal"
-              class="transition-fast-in-fast-out v-card--reveal"
-              style="height: 100%"
-            >
-              <br /><br />
-
-              <v-row>
-                <v-col cols="2"></v-col>
-                <v-col cols="4">
-                  <img
-                    src="@/assets/img/watting_cogi.png"
-                    width="170px"
-                    style="border: 3px solid gold; border-radius: 10px"
-                  />
-                  <div style="cursor:pointer" @click="editProfilePic">
-                    프로필 사진 수정하기<v-icon>mdi-pencil</v-icon>
-                  </div>
-                  <br />
-                </v-col>
-                <v-col cols="4">
-                  <v-textarea
-                    label="이름"
-                    auto-grow
-                    outlined
-                    rows="1"
-                    row-height="15"
-                    v-model="newName"
-                  ></v-textarea>
-                  <v-text-field
-                    type="password"
-                    :rules="passwordRules"
-                    label="비밀번호"
-                    auto-grow
-                    outlined
-                    rows="1"
-                    row-height="15"
-                    v-model="newPassword"
-                  ></v-text-field>
-                  <v-text-field
-                    type="password"
-                    label="비밀번호 확인"
-                    auto-grow
-                    outlined
-                    rows="1"
-                    row-height="15"
-                    v-model="newPassword2"
-                  ></v-text-field>
-                </v-col>
+                    <v-text-field
+                      label="비밀번호"
+                      type="password"
+                      v-model="password"
+                      prepend-icon="mdi-lock"
+                    ></v-text-field>
+                    <v-card-actions>
+                      <v-btn color="green darken-1" text @click="getNewPassword">
+                        비밀번호 찾기
+                      </v-btn>
+                      <v-spacer></v-spacer>
+                      <v-btn color="green darken-1" text @click="checkPassword">
+                        확인
+                      </v-btn>
+                      <v-btn color="green darken-1" text @click="dialog = false">
+                        취소
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
               </v-row>
-              <br />
+            </template>
+            <br /><br />
 
-              <v-btn
-                class="ma-2"
-                color="orange darken-2"
-                dark
-                @click="editCancel"
+            <!-- 정보 수정 페이지 -->
+            <v-expand-transition>
+              <v-card
+                v-if="reveal"
+                class="transition-fast-in-fast-out v-card--reveal"
+                style="height: 100%"
               >
-                <v-icon dark left> mdi-arrow-left </v-icon>돌아가기
-              </v-btn>
+                <br /><br />
 
-              <v-btn class="ma-2" color="purple" dark @click="updateUser">
-                <v-icon dark> mdi-wrench </v-icon>수정하기
-              </v-btn>
+                <v-row>
+                  <v-col cols="2"></v-col>
+                  <v-col cols="4">
+                    <img
+                      src="@/assets/img/watting_cogi.png"
+                      width="170px"
+                      style="border: 3px solid gold; border-radius: 10px"
+                    />
+                    <div style="cursor:pointer" @click="editProfilePic">
+                      프로필 사진 수정하기<v-icon>mdi-pencil</v-icon>
+                    </div>
+                    <br />
+                  </v-col>
+                  <v-col cols="4">
+                    <v-textarea
+                      label="이름"
+                      auto-grow
+                      outlined
+                      rows="1"
+                      row-height="15"
+                      v-model="newName"
+                    ></v-textarea>
+                    <v-text-field
+                      type="password"
+                      :rules="passwordRules"
+                      label="비밀번호"
+                      auto-grow
+                      outlined
+                      rows="1"
+                      row-height="15"
+                      v-model="newPassword"
+                    ></v-text-field>
+                    <v-text-field
+                      type="password"
+                      label="비밀번호 확인"
+                      auto-grow
+                      outlined
+                      rows="1"
+                      row-height="15"
+                      v-model="newPassword2"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <br />
 
-              <v-card-text style="cursor: pointer" @click="deleteUser"
-                >| 회원탈퇴 |</v-card-text
-              >
-            </v-card>
-          </v-expand-transition>
-        </v-card>
-      </template>
-      <br /><br />
-    </div>
+                <v-btn
+                  class="ma-2"
+                  color="orange darken-2"
+                  dark
+                  @click="editCancel"
+                >
+                  <v-icon dark left> mdi-arrow-left </v-icon>돌아가기
+                </v-btn>
 
-    <!-- 내가 푼 문제 목록 -->
-    <div v-if="isSelectedSolved" style="text_align: center">
-      <br /><br />
+                <v-btn class="ma-2" color="purple" dark @click="updateUser">
+                  <v-icon dark> mdi-wrench </v-icon>수정하기
+                </v-btn>
 
-      <v-simple-table>
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th class="text-center" style="width: 20%">제목</th>
-              <th class="text-center" style="width: 40%">내용</th>
-              <th class="text-center" style="width: 20%">유형</th>
-              <th class="text-center" style="width: 20%">제출 코드</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(item, index) in solvedProblems" :key="index">
-              <td>{{ item.problem_title }}</td>
-              <td>{{ item.problem_content.substring(0, 50) }}...</td>
-              <td>{{ item.problem_group }}</td>
-              <td @click="showSource(index)" style="cursor: pointer">
-                {{ item.language }}
-              </td>
-            </tr>
-          </tbody>
+                <v-card-text style="cursor: pointer" @click="deleteUser"
+                  >| 회원탈퇴 |</v-card-text
+                >
+              </v-card>
+            </v-expand-transition>
+          </v-card>
         </template>
-      </v-simple-table>
-    </div>
+      </v-tab-item>
+      
+      <!-- 내가 푼 문제 목록 -->
+      <v-tab-item style="text_align: center">
+        <MySolvedProblem />
+      </v-tab-item>
+      
+      <!-- 나의 질문 목록 -->
+      <v-tab-item>
+        <MyQuestion :userInfo="userInfo" />
+      </v-tab-item>
+    </v-tabs-items>
 
     <!-- 소스코드 모달창 -->
-    <v-dialog v-model="isSourceCode" width="50%">
+    <!-- <v-dialog v-model="isSourceCode" width="50%">
       <v-card height="500px" style="position: relative">
         <v-card-title class="headline yellow lighten-2">
           <br />
@@ -216,71 +203,13 @@
           </v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog>
-
-    <!-- 나의 질문 목록 -->
-    <div v-if="isSelectedQuestion" style="text_align: center">
-      <br />
-      <v-container fluid>
-        <v-row justify="center">
-          <v-subheader v-if="userInfo.stat == '학생'" style="font-size:1.5em"
-            >무엇이든 선생님에게 물어보세요</v-subheader
-          >
-          <v-subheader v-else>최근 등록된 질문 목록</v-subheader>
-
-          <br /><br /><br />
-
-          <v-expansion-panels popout>
-            <v-expansion-panel
-              v-for="(question, i) in questionList"
-              :key="i"
-              hide-actions
-            >
-              <v-expansion-panel-header>
-                <v-row align="center" class="spacer" no-gutters>
-                  <!--선생님 프로필사진 -->
-                  <v-col>
-                    선생님 프로필사진
-                  </v-col>
-
-                  <!--선생님 이름 -->
-                  <v-col>
-                    선생님 이름
-                  </v-col>
-
-                  <!--질문 제목 -->
-                  <v-col>
-                    {{ question.question_title.substring(0, 50) }}...
-                  </v-col>
-
-                  <!--질문 등록 시간 -->
-                  <v-col>
-                    {{ question.created_at }}
-                  </v-col>
-
-                  <!--답변 유무 -->
-                  <v-col>
-                    <span v-if="question.question_answered">답변완료</span>
-                    <span v-else>답변 대기중</span>
-                  </v-col>
-                </v-row>
-              </v-expansion-panel-header>
-
-              <v-expansion-panel-content>
-                <v-divider></v-divider>
-                <!--답변 내용 -->
-                <v-card-text>{{ question.question_reply }}</v-card-text>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
-        </v-row>
-      </v-container>
-      <br /><br /><br />
-    </div>
+    </v-dialog> -->
   </div>
 </template>
 
 <script>
+import MySolvedProblem from '../../components/user/MySolvedProblem.vue';
+import MyQuestion from '../../components/user/MyQuestion.vue';
 import axios from 'axios';
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
@@ -298,10 +227,7 @@ export default {
         stat: '신분',
         number: '',
       },
-      solvedProblems: [],
-      isSelectedInfo: false,
-      isSelectedSolved: false,
-      isSelectedQuestion: false,
+      tabs: null,
       reveal: false,
       dialog: false,
       isSourceCode: false,
@@ -317,8 +243,11 @@ export default {
           /^(?=.*[a-z])(?=.*[0-9]).{8,16}$/.test(v) ||
           '소문자, 숫자를 포함한 8-16자로 입력해 주세요',
       ],
-      questionList: [],
     };
+  },
+  components: {
+    MySolvedProblem,
+    MyQuestion,
   },
   methods: {
     setToken() {
@@ -327,25 +256,6 @@ export default {
         return token;
       }
     },
-
-    selectInfo() {
-      this.isSelectedInfo = true;
-      this.isSelectedSolved = false;
-      this.isSelectedQuestion = false;
-    },
-
-    selectSolved() {
-      this.isSelectedInfo = false;
-      this.isSelectedSolved = true;
-      this.isSelectedQuestion = false;
-    },
-
-    selectQuestion() {
-      this.isSelectedInfo = false;
-      this.isSelectedSolved = false;
-      this.isSelectedQuestion = true;
-    },
-
     setUserInfo() {
       axios
         .post(`${SERVER_URL}/user/info`, { token: localStorage.getItem('jwt') })
@@ -367,8 +277,6 @@ export default {
           } else {
             this.userInfo.stat = '학생';
           }
-
-          this.setQuestionList();
         })
         .catch((error) => {
           if (error.response.status === 401) {
@@ -378,39 +286,6 @@ export default {
             console.log(error);
           }
         });
-    },
-
-    setSolvedProblem() {
-      axios
-        .post(`${SERVER_URL}/problem/user/solved`, {
-          token: localStorage.getItem('jwt'),
-        })
-        .then((response) => {
-          this.solvedProblems = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-
-    setQuestionList() {
-      if (this.userInfo.stat == '학생') {
-        //나의 질문 목록
-        axios
-          .post(`${SERVER_URL}/question`, {
-            token: localStorage.getItem('jwt'),
-          })
-          .then((response) => {
-            console.log('나의질문리스트');
-            console.log(response.data);
-            this.questionList = response.data;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      } else {
-        //전체 질문 목록
-      }
     },
 
     editProfilePic() {
@@ -482,12 +357,12 @@ export default {
 
     
 
-    showSource(idx) {
-      //alert(this.solvedProblems[idx].solved_problem_content);
-      this.sourceTitle = this.solvedProblems[idx].problem_title;
-      this.sourceCode = this.solvedProblems[idx].solved_problem_content;
-      this.isSourceCode = true;
-    },
+    // showSource(idx) {
+    //   //alert(this.solvedProblems[idx].solved_problem_content);
+    //   this.sourceTitle = this.solvedProblems[idx].problem_title;
+    //   this.sourceCode = this.solvedProblems[idx].solved_problem_content;
+    //   this.isSourceCode = true;
+    // },
 
     checkPassword() {
       const crypto = require('crypto');
@@ -555,11 +430,11 @@ export default {
         }
       });
 
-    this.selectInfo();
+    // this.selectInfo();
 
     this.setUserInfo();
 
-    this.setSolvedProblem();
+    // this.setSolvedProblem();
   },
 };
 </script>
