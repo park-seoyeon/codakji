@@ -266,6 +266,7 @@ export default {
       if (this.isLogin) {
         localStorage.removeItem('jwt');
         localStorage.removeItem('name');
+        localStorage.removeItem('user_number');
         this.isLogin = false;
         this.userName = '';
         alert('로그아웃 되었습니다.');

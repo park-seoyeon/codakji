@@ -80,11 +80,10 @@
               <!-- 카로셀로 이미지 보여줄까 -->
               <v-carousel v-model="model">
                 <v-carousel-item
-                  v-for="(color, i) in colors"
-                  :key="color"
+                  v-for="i in imageNumber"
+                  :key="i"
                 >
                   <v-sheet
-                    :color="color"
                     height="100%"
                     tile
                   >
@@ -94,7 +93,7 @@
                       justify="center"
                     >
                       <div class="display-3">
-                        결과이미지 {{ i + 1 }}
+                        <v-img :src="`/img/analysis/codackji_problem_${$route.params.problemnumber}_${i}.png`" />
                       </div>
                     </v-row>
                   </v-sheet>
@@ -148,6 +147,8 @@ export default {
       token: localStorage.getItem('jwt'),
       solved_problem_number: this.$route.params.resultnumber,
     }
+    
+    // console.log('/img/analysis/codackji_problem' + this.$route.params.resultnumber + '_' + 1 + '.png')
 
     axios
       .post(`${SERVER_URL}/codeAPI/result`, resultInfo)
@@ -168,6 +169,9 @@ export default {
         if (error.response.status === 401) {
           alert("세션이 만료되었습니다.");
           this.$emit("expireLogin");
+        } else if (error.response.status === 403) {
+          alert("권한이 없습니다.");
+          this.$router.push({ name: 'Home' });
         } else {
           console.log(error);
         }
