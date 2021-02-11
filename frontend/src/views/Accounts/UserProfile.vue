@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--상단 배너 -->
-    <v-sheet color="#FFFFFF" height="300" light align="center">
+    <v-sheet color="#FFFFFF" height="300" dark align="center">
       <v-row class="fill-height" align="center" justify="center">
         <div class="display-3">
           <v-img src="@/assets/img/mypage_banner.png" max-width="1000px">
@@ -150,6 +150,10 @@
               <v-btn class="ma-2" color="purple" dark @click="updateUser">
                 <v-icon dark> mdi-wrench </v-icon>수정하기
               </v-btn>
+
+              <v-card-text style="cursor: pointer" @click="deleteUser"
+                >| 회원탈퇴 |</v-card-text
+              >
             </v-card>
           </v-expand-transition>
         </v-card>
@@ -187,12 +191,12 @@
 
     <!-- 소스코드 모달창 -->
     <v-dialog v-model="isSourceCode" width="50%">
-      <v-card height='500px' style="position: relative">
+      <v-card height="500px" style="position: relative">
         <v-card-title class="headline yellow lighten-2">
           <br />
           {{ this.sourceTitle }}
         </v-card-title>
-     
+
         <v-card-text style="font-size:1.2em; height:70%">
           <br />
           {{ this.sourceCode }}
@@ -216,22 +220,22 @@
 
     <!-- 나의 질문 목록 -->
     <div v-if="isSelectedQuestion" style="text_align: center">
-      <br>
-      <v-container fluid >
+      <br />
+      <v-container fluid>
         <v-row justify="center">
           <v-subheader v-if="userInfo.stat == '학생'" style="font-size:1.5em"
-            >무엇이든 선생님에게 물어보세요</v-subheader>
+            >무엇이든 선생님에게 물어보세요</v-subheader
+          >
           <v-subheader v-else>최근 등록된 질문 목록</v-subheader>
 
-<br><br><br>
+          <br /><br /><br />
 
-          <v-expansion-panels popout >
-            
+          <v-expansion-panels popout>
             <v-expansion-panel
               v-for="(question, i) in questionList"
               :key="i"
               hide-actions
-            >            
+            >
               <v-expansion-panel-header>
                 <v-row align="center" class="spacer" no-gutters>
                   <!--선생님 프로필사진 -->
@@ -251,13 +255,13 @@
 
                   <!--질문 등록 시간 -->
                   <v-col>
-                     {{question.created_at}}
+                    {{ question.created_at }}
                   </v-col>
 
                   <!--답변 유무 -->
                   <v-col>
-                     <span v-if="question.question_answered">답변완료</span>
-                     <span v-else>답변 대기중</span>
+                    <span v-if="question.question_answered">답변완료</span>
+                    <span v-else>답변 대기중</span>
                   </v-col>
                 </v-row>
               </v-expansion-panel-header>
@@ -265,13 +269,13 @@
               <v-expansion-panel-content>
                 <v-divider></v-divider>
                 <!--답변 내용 -->
-                <v-card-text>{{question.question_reply}}</v-card-text>
+                <v-card-text>{{ question.question_reply }}</v-card-text>
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
         </v-row>
       </v-container>
-      <br><br><br>
+      <br /><br /><br />
     </div>
   </div>
 </template>
@@ -366,10 +370,10 @@ export default {
 
           this.setQuestionList();
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response.status === 401) {
-            alert("세션이 만료되었습니다.");
-            this.$emit("expireLogin");
+            alert('세션이 만료되었습니다.');
+            this.$emit('expireLogin');
           } else {
             console.log(error);
           }
@@ -389,23 +393,23 @@ export default {
         });
     },
 
-    setQuestionList() {     
+    setQuestionList() {
       if (this.userInfo.stat == '학생') {
         //나의 질문 목록
         axios
-        .post(`${SERVER_URL}/question`, { token: localStorage.getItem('jwt') })
-        .then((response) => {
-          console.log('나의질문리스트');
-          console.log(response.data);
-          this.questionList = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
+          .post(`${SERVER_URL}/question`, {
+            token: localStorage.getItem('jwt'),
+          })
+          .then((response) => {
+            console.log('나의질문리스트');
+            console.log(response.data);
+            this.questionList = response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       } else {
         //전체 질문 목록
-        
       }
     },
 
@@ -457,6 +461,26 @@ export default {
           console.log(error);
         });
     },
+
+    deleteUser() {
+      axios
+        .delete(`${SERVER_URL}/user`, {data: {token: localStorage.getItem('jwt')}} )
+        .then((response) => {
+          console.log(response);
+          alert('정말 탈퇴하시겠습니까?');
+          alert(
+            '\n정상적으로 회원 탈퇴 되셨습니다.\n\n\n -코기는 항상 기다리고 있을게-'
+          );
+
+          //자동 로그아웃해서 홈페이지로 가기
+        })
+        .catch((error) => {
+          alert('\n회원 탈퇴에 실패하셨습니다. \n\n\n 탈퇴 못하지롱\n가지마...');
+          console.log(error);
+        });
+    },
+
+    
 
     showSource(idx) {
       //alert(this.solvedProblems[idx].solved_problem_content);
@@ -510,33 +534,34 @@ export default {
 
   created() {
     const userKey = {
-      token: this.setToken()
-    }
+      token: this.setToken(),
+    };
 
-    axios.post(`${SERVER_URL}/user/info`, userKey)
-    .then(response => {
-      this.userInfo.name = response.data.name;
-      this.userInfo.email = response.data.email;
-      if (response.data.oauth) {
-        this.userInfo.sns = response.data.oauth;
-      }
-    })
-    .catch(error => {
-      if (error.response.status === 401) {
-        alert("세션이 만료되었습니다.");
-        this.$emit("expireLogin");
-      } else {
-        console.log(error);
-      }
-    });
-    
+    axios
+      .post(`${SERVER_URL}/user/info`, userKey)
+      .then((response) => {
+        this.userInfo.name = response.data.name;
+        this.userInfo.email = response.data.email;
+        if (response.data.oauth) {
+          this.userInfo.sns = response.data.oauth;
+        }
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          alert('세션이 만료되었습니다.');
+          this.$emit('expireLogin');
+        } else {
+          console.log(error);
+        }
+      });
+
     this.selectInfo();
 
     this.setUserInfo();
 
     this.setSolvedProblem();
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
