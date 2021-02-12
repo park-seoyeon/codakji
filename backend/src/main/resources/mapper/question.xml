@@ -6,13 +6,14 @@
 	<select id="allQuestion" parameterType="int" resultType="QuestionDto">
 		select *
 		from Question
-		order by question_answered
+		order by question_answered asc, created_at
 	</select>
 	
 	<select id="listQuestion" parameterType="int" resultType="QuestionDto">
 		select *
 		from Question
 		where user_number = #{user_number}
+		order by question_check desc, created_at desc
 	</select>
 	
 	<insert id="writeQuestion" parameterType="QuestionDto">

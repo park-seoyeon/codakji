@@ -20,6 +20,7 @@
 		inner join Problem
 		on Solved_Problem.problem_number = Problem.problem_number
 		where user_number = #{user_number}
+		order by Solved_Problem.submit_at desc
 	</select>
 	
 	<select id="getProblem" parameterType="int" resultType="ProblemDto">
