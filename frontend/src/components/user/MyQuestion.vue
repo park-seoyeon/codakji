@@ -1,4 +1,4 @@
-<template>
+<template> <!--낙영님 안녕하세요 -->
   <v-container fluid>
     <v-row justify="center">
       <v-subheader v-if="userInfo.stat == '학생'" style="font-size:1.5em"
