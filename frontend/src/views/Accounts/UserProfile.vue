@@ -24,7 +24,7 @@
       <v-tab> 내가 푼 문제 목록 </v-tab>
       <!-- <v-tab @click="selectSolved"> 내가 푼 문제 목록 </v-tab> -->
       <v-tab v-if="userInfo.stat == '학생'">
-      <!-- <v-tab v-if="userInfo.stat == '학생'" @click="selectQuestion"> -->
+        <!-- <v-tab v-if="userInfo.stat == '학생'" @click="selectQuestion"> -->
         나의 질문 목록
       </v-tab>
       <v-tab v-else> 전체 질문 목록 </v-tab>
@@ -47,8 +47,8 @@
                 {{ userInfo.name }} 님 ({{ userInfo.stat }})<br /><br /><br />
 
                 이메일 : {{ userInfo.email }}<br /><br />
-                SNS 연동 여부 : {{ userInfo.sns }}<br /><br />
-                가입일 : {{ userInfo.joindate }}
+                SNS 연동 : {{ userInfo.sns }}<br /><br />
+                가입일 : {{ userInfo.joindate.substring(0,10) }}
               </div>
             </v-card-text>
             <br />
@@ -72,14 +72,22 @@
                       prepend-icon="mdi-lock"
                     ></v-text-field>
                     <v-card-actions>
-                      <v-btn color="green darken-1" text @click="getNewPassword">
+                      <v-btn
+                        color="green darken-1"
+                        text
+                        @click="getNewPassword"
+                      >
                         비밀번호 찾기
                       </v-btn>
                       <v-spacer></v-spacer>
                       <v-btn color="green darken-1" text @click="checkPassword">
                         확인
                       </v-btn>
-                      <v-btn color="green darken-1" text @click="dialog = false">
+                      <v-btn
+                        color="green darken-1"
+                        text
+                        @click="dialog = false"
+                      >
                         취소
                       </v-btn>
                     </v-card-actions>
@@ -164,12 +172,12 @@
           </v-card>
         </template>
       </v-tab-item>
-      
+
       <!-- 내가 푼 문제 목록 -->
       <v-tab-item style="text_align: center">
         <MySolvedProblem />
       </v-tab-item>
-      
+
       <!-- 나의 질문 목록 -->
       <v-tab-item>
         <MyQuestion :userInfo="userInfo" />
@@ -271,12 +279,18 @@ export default {
           if (response.data.admin == true) {
             this.userInfo.stat = '관리자';
             console.log(response.data.admin);
-          } else if (response.data.teach == true) {
-            this.userInfo.stat = '선생님';
+          } 
+          
+          if (response.data.teach == true) {
+            if(response.data.admin)this.userInfo.stat += ', 교사';
+            else this.userInfo.stat = '교사';
             console.log(response.data.teach);
-          } else {
+          } 
+          
+          if(!response.data.admin && !response.data.teach){
             this.userInfo.stat = '학생';
           }
+
         })
         .catch((error) => {
           if (error.response.status === 401) {
@@ -313,49 +327,55 @@ export default {
           .digest('base64'),
       };
 
-      axios
-        .put(`${SERVER_URL}/user`, {
-          name: this.newName,
-          password: form.password,
-          token: localStorage.getItem('jwt'),
-          email: this.userInfo.email,
-        })
-        .then((response) => {
-          console.log(response);
-          this.setUserInfo();
+      if (confirm('정말 수정하시겠습니까?')) {
+        axios
+          .put(`${SERVER_URL}/user`, {
+            name: this.newName,
+            password: form.password,
+            token: localStorage.getItem('jwt'),
+            email: this.userInfo.email,
+          })
+          .then((response) => {
+            console.log(response);
+            this.setUserInfo();
 
-          alert('정보 수정이 완료되었습니다!');
+            alert('정보 수정이 완료되었습니다!');
 
-          this.newName = '';
-          this.newPassword = '';
-          this.newPassword2 = '';
-          this.reveal = false;
-        })
-        .catch((error) => {
-          alert('정보 수정에 실패했습니다');
-          console.log(error);
-        });
+            this.newName = '';
+            this.newPassword = '';
+            this.newPassword2 = '';
+            this.reveal = false;
+          })
+          .catch((error) => {
+            alert('정보 수정에 실패했습니다');
+            console.log(error);
+          });
+      }
     },
 
     deleteUser() {
-      axios
-        .delete(`${SERVER_URL}/user`, {data: {token: localStorage.getItem('jwt')}} )
-        .then((response) => {
-          console.log(response);
-          alert('정말 탈퇴하시겠습니까?');
-          alert(
-            '\n정상적으로 회원 탈퇴 되셨습니다.\n\n\n -코기는 항상 기다리고 있을게-'
-          );
+      if (confirm('정말 탈퇴하시겠습니까?')) {
+        axios
+          .delete(`${SERVER_URL}/user`, {
+            data: { token: localStorage.getItem('jwt') },
+          })
+          .then((response) => {
+            console.log(response);
 
-          //자동 로그아웃해서 홈페이지로 가기
-        })
-        .catch((error) => {
-          alert('\n회원 탈퇴에 실패하셨습니다. \n\n\n 탈퇴 못하지롱\n가지마...');
-          console.log(error);
-        });
+            alert(
+              '\n정상적으로 회원 탈퇴 되셨습니다.\n\n\n -코기는 항상 기다리고 있을게-'
+            );
+
+            //자동 로그아웃해서 홈페이지로 가기
+          })
+          .catch((error) => {
+            alert(
+              '\n회원 탈퇴에 실패하셨습니다. \n\n\n 탈퇴 못하지롱\n가지마...'
+            );
+            console.log(error);
+          });
+      }
     },
-
-    
 
     // showSource(idx) {
     //   //alert(this.solvedProblems[idx].solved_problem_content);

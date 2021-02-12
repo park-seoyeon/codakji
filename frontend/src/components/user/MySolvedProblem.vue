@@ -3,10 +3,12 @@
     <template v-slot:default>
       <thead>
         <tr>
-          <th class="text-center" style="width: 20%">제목</th>
-          <th class="text-center" style="width: 40%">내용</th>
-          <th class="text-center" style="width: 20%">유형</th>
-          <th class="text-center" style="width: 20%">제출 코드</th>
+          <th class="text-center" style="width: 15%">제목</th>
+          <th class="text-center" style="width: 30%">내용</th>
+          <th class="text-center" style="width: 15%">유형</th>
+          <th class="text-center" style="width: 10%">제출 코드</th>
+          <th class="text-center" style="width: 10%">정답</th>
+          <th class="text-center" style="width: 15%">제출 날짜</th>
         </tr>
       </thead>
       <tbody>
@@ -15,8 +17,13 @@
           <td>{{ item.problem_content.substring(0, 50) }}...</td>
           <td>{{ item.problem_group }}</td>
           <td @click="showSource(index)" style="cursor: pointer">
-            {{ item.language }}
+            {{ item.language }}<v-icon color="#FFB911">mdi-arrow-right-bold-box</v-icon>
+          </td>          
+          <td>            
+            <v-icon color="#6CB832" v-if="item.solved_problem_correct == 1">mdi-check-circle</v-icon>
+            <v-icon v-else>mdi-checkbox-blank-circle-outline</v-icon>
           </td>
+          <td>{{ item.submit_at.substring(0,10)}}</td>
         </tr>
       </tbody>
     </template>
@@ -30,7 +37,7 @@ const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 // const SECRET_KEY = process.env.VUE_APP_SECRET_KEY;
 
 export default {
-  name: 'MySolvedProblem',
+  name: 'MySolvedProblem', 
   data: () => {
     return {
       solvedProblems: [],
