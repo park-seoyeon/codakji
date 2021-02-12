@@ -1,4 +1,4 @@
-<template>
+<template> <!--낙영님 안녕하세요 -->
   <v-container fluid>
     <v-row justify="center">
       <v-subheader v-if="userInfo.stat == '학생'" style="font-size:1.5em"
@@ -88,6 +88,18 @@ export default {
           });
       } else {
         //전체 질문 목록
+        axios
+          .post(`${SERVER_URL}/question/all`, {
+            token: localStorage.getItem('jwt'),
+          })
+          .then((response) => {
+            console.log('전체질문리스트');
+            console.log(response.data);
+            this.questionList = response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
     },
   },
