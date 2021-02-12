@@ -1,4 +1,4 @@
-<template>
+<template><!--이주석이보여야한다-->
   <v-simple-table>
     <template v-slot:default>
       <thead>
