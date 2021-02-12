@@ -88,6 +88,18 @@ export default {
           });
       } else {
         //전체 질문 목록
+        axios
+          .post(`${SERVER_URL}/question/all`, {
+            token: localStorage.getItem('jwt'),
+          })
+          .then((response) => {
+            console.log('전체질문리스트');
+            console.log(response.data);
+            this.questionList = response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
     },
   },
