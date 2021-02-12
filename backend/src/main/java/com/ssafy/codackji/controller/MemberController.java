@@ -130,21 +130,21 @@ public class MemberController {
 			@RequestBody @ApiParam(value = "아이디(==이메일)", required = true) MemberDto member) throws Exception {
 		
 		
-		String token = member.getToken();
-		String email = "";
+		String email = member.getEmail();
 		
-		if (jwtService.isUsable(token)) {
-			if (jwtService.isInTime(token)) {
-				MemberDto memberDto = new MemberDto();
-				memberDto.setEmail(jwtService.getUserEmail(token));
-				memberDto.setToken(token);
-				jwtService.setToken(memberDto);
-
-				email = jwtService.getUserEmail(token);
-
-			}
-		}
-		else return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+//로그인을 못해서 비밀번호를 찾기 때문에 토큰검사 X
+//		if (jwtService.isUsable(token)) {
+//			if (jwtService.isInTime(token)) {
+//				MemberDto memberDto = new MemberDto();
+//				memberDto.setEmail(jwtService.getUserEmail(token));
+//				memberDto.setToken(token);
+//				jwtService.setToken(memberDto);
+//
+//				email = jwtService.getUserEmail(token);
+//
+//			}
+//		}
+//		else return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 		
 		System.out.println(email+"비밀번호 임시발급");
 		// 우선 메일 계정이 존재하는지 체크
