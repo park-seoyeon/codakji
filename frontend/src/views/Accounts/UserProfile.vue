@@ -46,9 +46,32 @@
               <div class="text--primary">
                 {{ userInfo.name }} 님 ({{ userInfo.stat }})<br /><br /><br />
 
-                이메일 : {{ userInfo.email }}<br /><br />
-                SNS 연동 : {{ userInfo.sns }}<br /><br />
-                가입일 : {{ userInfo.joindate.substring(0,10) }}
+                <v-simple-table
+                  style="width:50%; margin-left:32%; text-align:left"
+                >
+                  <tr>
+                    <td><v-icon color="#FFB911">mdi-paw</v-icon>이메일</td>
+                    <td>
+                      <v-icon color="#FFB911">mdi-paw</v-icon
+                      >{{ userInfo.email }}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td><v-icon color="#6F85FF">mdi-paw</v-icon>SNS 연동</td>
+                    <td>
+                      <v-icon color="#6F85FF">mdi-paw</v-icon>{{ userInfo.sns }}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td><v-icon color="#FF4D55">mdi-paw</v-icon>가입일</td>
+                    <td>
+                      <v-icon color="#FF4D55">mdi-paw</v-icon
+                      >{{ userInfo.joindate.substring(0, 10) }}
+                    </td>
+                  </tr>
+                </v-simple-table>
               </div>
             </v-card-text>
             <br />
@@ -64,7 +87,6 @@
                   </template>
                   <v-card>
                     <br />
-
                     <v-text-field
                       label="비밀번호"
                       type="password"
@@ -170,6 +192,7 @@
               </v-card>
             </v-expand-transition>
           </v-card>
+          <br>
         </template>
       </v-tab-item>
 
@@ -279,18 +302,17 @@ export default {
           if (response.data.admin == true) {
             this.userInfo.stat = '관리자';
             console.log(response.data.admin);
-          } 
-          
-          if (response.data.teach == true) {
-            if(response.data.admin)this.userInfo.stat += ', 교사';
-            else this.userInfo.stat = '교사';
-            console.log(response.data.teach);
-          } 
-          
-          if(!response.data.admin && !response.data.teach){
-            this.userInfo.stat = '학생';
           }
 
+          if (response.data.teach == true) {
+            if (response.data.admin) this.userInfo.stat += ', 교사';
+            else this.userInfo.stat = '교사';
+            console.log(response.data.teach);
+          }
+
+          if (!response.data.admin && !response.data.teach) {
+            this.userInfo.stat = '학생';
+          }
         })
         .catch((error) => {
           if (error.response.status === 401) {

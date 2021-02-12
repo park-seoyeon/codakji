@@ -1,8 +1,9 @@
 <template>
+<div>
   <v-simple-table>
     <template v-slot:default>
       <thead>
-        <tr>
+        <tr style="background-color:#FFEBFF">
           <th class="text-center" style="width: 15%">제목</th>
           <th class="text-center" style="width: 30%">내용</th>
           <th class="text-center" style="width: 15%">유형</th>
@@ -28,6 +29,7 @@
       </tbody>
     </template>
   </v-simple-table>
+</div>
 </template>
 
 <script>
