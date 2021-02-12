@@ -4,21 +4,25 @@
 <mapper namespace = "com.ssafy.codackji.model.mapper.QuestionMapper">
 
 	<select id="allQuestion" parameterType="int" resultType="QuestionDto">
-		select *
-		from Question
-		order by question_answered asc, created_at
+		select q.question_number, q.user_number, q.teach_user_number, q.problem_number, q.question_title, q.question_content, q.question_answered, q.question_check, q.created_at, q.question_reply, p.problem_title
+		from Question q
+		left outer join Problem p
+		on q.problem_number = p.problem_number
+		order by question_answered asc, created_at desc
 	</select>
 	
 	<select id="listQuestion" parameterType="int" resultType="QuestionDto">
-		select *
-		from Question
+		select q.question_number, q.user_number, q.teach_user_number, q.problem_number, q.question_title, q.question_content, q.question_answered, q.question_check, q.created_at, q.question_reply, p.problem_title
+		from Question q
+		left join Problem p
+		on q.problem_number = p.problem_number
 		where user_number = #{user_number}
-		order by question_check desc, created_at desc
+		order by created_at desc
 	</select>
 	
 	<insert id="writeQuestion" parameterType="QuestionDto">
-		insert into Question (user_number, teach_user_number, problem_number, question_title, question_content) 
-		values(#{user_number},#{teach_user_number},#{problem_number}, #{question_title}, #{question_content})
+		insert into Question (user_number, problem_number, question_title, question_content) 
+		values(#{user_number},#{problem_number}, #{question_title}, #{question_content})
 	</insert>
 	
 	<select id="getQuestion" parameterType="int" resultType="QuestionDto">

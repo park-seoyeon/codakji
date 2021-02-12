@@ -67,7 +67,7 @@ public class QuestionController {
 	@ApiOperation(value = "나의 질문 리스트_토큰 검사를 한다", notes="나의 모든 질문 리스트를 반환한다", response = List.class)
 	@PostMapping
 	public ResponseEntity<List<QuestionDto>> listQuestion(@RequestBody @ApiParam(value="토큰", required=true)MemberDto memDto) throws Exception{
-		
+		System.out.println("나의 질문리스트 가져오기");
 		String token = memDto.getToken();
 		
 		List<QuestionDto> questionList = null;
@@ -166,6 +166,4 @@ public class QuestionController {
 		}
 		return new ResponseEntity<String> (FAIL, HttpStatus.OK);
 	}
-	
-	
 }
