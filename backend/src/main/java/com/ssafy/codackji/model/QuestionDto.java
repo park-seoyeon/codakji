@@ -6,6 +6,7 @@ public class QuestionDto {
 	private int user_number;
 	private int teach_user_number;
 	private int problem_number;
+	private String problem_title;
 	private String question_title;
 	private String question_content;
 	private boolean question_answered;
@@ -90,15 +91,22 @@ public class QuestionDto {
 	public void setToken(String token) {
 		this.token = token;
 	}
+	public String getProblem_title() {
+		return problem_title;
+	}
+	public void setProblem_title(String problem_title) {
+		this.problem_title = problem_title;
+	}
 	@Override
 	public String toString() {
 		return "QuestionDto [question_number=" + question_number + ", user_number=" + user_number
-				+ ", teach_user_number=" + teach_user_number + ", problem_number=" + problem_number
-				+ ", question_title=" + question_title + ", question_content=" + question_content
+				+ ", teach_user_number=" + teach_user_number + ", problem_number=" + problem_number + ", problem_title="
+				+ problem_title + ", question_title=" + question_title + ", question_content=" + question_content
 				+ ", question_answered=" + question_answered + ", question_check=" + question_check + ", created_at="
 				+ created_at + ", updated_at=" + updated_at + ", question_reply=" + question_reply + ", token=" + token
 				+ "]";
 	}
-
+	
+	
 	
 }
