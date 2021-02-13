@@ -198,7 +198,7 @@
 
       <!-- 내가 푼 문제 목록 -->
       <v-tab-item style="text_align: center">
-        <MySolvedProblem />
+        <MySolvedProblem :userInfo="userInfo"/>
       </v-tab-item>
 
       <!-- 나의 질문 목록 -->
