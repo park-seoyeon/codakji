@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="mt-16">
     <v-row>
       <v-col cols="6">
         <div align="left">
@@ -204,7 +204,7 @@ export default {
       axios
         .post(`${SERVER_URL}/codeAPI/submit`, solvedInfo)
         .then(res => {
-          console.log(res.data)
+          // console.log(res.data)
           this.$router.push({
             name: 'SolveResult',
             params: {
