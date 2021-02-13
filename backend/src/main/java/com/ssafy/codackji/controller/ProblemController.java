@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.codackji.model.MemberDto;
 import com.ssafy.codackji.model.ProblemDto;
+import com.ssafy.codackji.model.ProblemStatDto;
 import com.ssafy.codackji.model.SolvedProblemDto;
 import com.ssafy.codackji.model.service.JwtService;
 import com.ssafy.codackji.model.service.MemberService;
@@ -55,6 +56,63 @@ public class ProblemController {
 	public ResponseEntity<ProblemDto> getProblem(@PathVariable("problem_number") @ApiParam(value="얻어올 문제 번호", required=true) int problem_number) throws Exception{
 		System.out.println("[문제 보기]:"+problem_number);
 		return new ResponseEntity<ProblemDto>(problemService.getProblem(problem_number), HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="유저의 문제풀이 통계를 반환한다.", notes ="난이도별 문제풀이현황, 정답률을 반환한다.", response = ProblemStatDto.class)
+	@PostMapping("/user/stat")
+	public ResponseEntity<ProblemStatDto> userProblemStat(@RequestBody @ApiParam(value="토큰", required=true) MemberDto memDto)
+	throws Exception{
+		String token = memDto.getToken();
+		int user_number = memDto.getUser_number();
+		ProblemStatDto psDto = new ProblemStatDto();
+		
+		if (jwtService.isUsable(token)) {
+			String email = jwtService.getUserEmail(token);			
+			if (jwtService.isInTime(token)) {
+				MemberDto memberDto = new MemberDto();
+				memberDto.setEmail(email);
+				memberDto.setToken(token);
+				jwtService.setToken(memberDto);// db에 토큰 renewal_time 갱신		
+				
+				List<SolvedProblemDto> userSolvedProblemList = problemService.userSolvedProblem(user_number);
+				double rank1=0, rank2=0, rank3=0;
+				for(SolvedProblemDto sp : userSolvedProblemList) {
+					switch(sp.getProblem_rank()) {
+					case 1:
+						if(sp.isSolved_problem_correct())rank1++;
+						break;
+					case 2:
+						if(sp.isSolved_problem_correct())rank2++;
+						break;
+					case 3:
+						if(sp.isSolved_problem_correct())rank3++;
+						break;
+					}
+				}
+				double totalSolved = userSolvedProblemList.size(); //전체 문제 제출 수
+				
+				double total1 = problemService.getTotal(1);
+				double total2 = problemService.getTotal(2);
+				double total3 = problemService.getTotal(3);
+				
+				double d1 = (double)(rank1/total1) * 100;
+				double d2 = (double)(rank2/total2) * 100;
+				double d3 = (double)(rank3/total3) * 100;
+				double ac = (double)((rank1 + rank2 + rank3)/totalSolved) * 100;
+				
+				System.out.println(rank1 + " " + rank2 + " " + rank3);
+				System.out.println(total1 + " " + total2 + " " + total3 + " " + totalSolved);
+				System.out.println(d1 + " " + d2 + " " + d3 + " " + ac);
+				
+				psDto.setRank1((int)d1);
+				psDto.setRank2((int)d2);
+				psDto.setRank3((int)d3);
+				psDto.setAccuracy((int)ac); //나의 정답률
+				
+				return new ResponseEntity<ProblemStatDto>(psDto, HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<ProblemStatDto>(psDto, HttpStatus.UNAUTHORIZED);// 토큰기간만료 or 토큰유효x
 	}
 	
 	

@@ -15,7 +15,7 @@
 	</select>
 	
 	<select id="userSolvedProblem" parameterType="int" resultType="SolvedProblemDto">
-		select problem_title, Problem.problem_number, problem_content, problem_group, language, solved_problem_number, solved_problem_content, solved_problem_correct, Solved_Problem.submit_at
+		select problem_title, Problem.problem_rank, Problem.problem_number, problem_content, problem_group, language, solved_problem_number, solved_problem_content, solved_problem_correct, Solved_Problem.submit_at
 		from Solved_Problem
 		inner join Problem
 		on Solved_Problem.problem_number = Problem.problem_number
@@ -28,5 +28,12 @@
 		from Problem
 		where problem_number = #{problem_number}
 	</select> 
+	
+	<select id="getTotal" parameterType="int" resultType="int">
+		select count(*)
+		from Problem
+		where problem_rank = #{rank}
+	</select> 
+
 	
 </mapper>

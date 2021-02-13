@@ -14,5 +14,6 @@ public interface ProblemService {
 	List<SolvedProblemDto> userSolvedProblem(int user_number) throws Exception;
 
 	ProblemDto getProblem(int problem_number) throws Exception;
-
+	
+	int getTotal(int rank) throws Exception;
 }
