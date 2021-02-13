@@ -61,7 +61,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in solvedProblems" :key="index">
+          <tr
+            v-for="(item, index) in solvedProblems"
+            :key="index"
+            @click="moveResult(item)"
+            style="cursor: pointer;"
+          >
             <td>{{ item.problem_title }}</td>
             <td>{{ item.problem_content.substring(0, 50) }}...</td>
             <td>{{ item.problem_group }}</td>
@@ -109,7 +114,7 @@ export default {
         token : localStorage.getItem('jwt'),
         user_number : this.userInfo.number
       }).then((response) => {
-        console.log(response);
+        // console.log(response);
         this.accuracy = response.data.accuracy;
         this.rank1 = response.data.rank1;
         this.rank2 = response.data.rank2;
@@ -126,7 +131,7 @@ export default {
           token: localStorage.getItem("jwt"),
         })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           this.solvedProblems = response.data;
         })
         .catch((error) => {
@@ -138,6 +143,12 @@ export default {
       this.sourceTitle = this.solvedProblems[idx].problem_title;
       this.sourceCode = this.solvedProblems[idx].solved_problem_content;
       this.isSourceCode = true;
+    },
+    moveResult(item) {
+      this.$router.push({ name: 'SolveResult', params: {
+        problemnumber: item.problem_number,
+        resultnumber: item.solved_problem_number,
+      }})
     },
   },
   created() {

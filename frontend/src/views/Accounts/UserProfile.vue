@@ -301,13 +301,13 @@ export default {
 
           if (response.data.admin == true) {
             this.userInfo.stat = '관리자';
-            console.log(response.data.admin);
+            // console.log(response.data.admin);
           }
 
           if (response.data.teach == true) {
             if (response.data.admin) this.userInfo.stat += ', 교사';
             else this.userInfo.stat = '교사';
-            console.log(response.data.teach);
+            // console.log(response.data.teach);
           }
 
           if (!response.data.admin && !response.data.teach) {

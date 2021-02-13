@@ -8,8 +8,6 @@
       ref="cmEditor"
       :value="code"
       :options="cmOptions"
-      @ready="onCmReady"
-      @focus="onCmFocus"
       @input="onCmCodeChange"
       style="text-align: left;"
     />
@@ -60,12 +58,12 @@ export default {
     };
   },
   methods: {
-    onCmReady(cm) {
-      console.log('the editor is readied!', cm);
-    },
-    onCmFocus() {
-      // console.log('the editor is focused!', cm);
-    },
+    // onCmReady() {
+    //   // console.log('the editor is readied!', cm);
+    // },
+    // onCmFocus() {
+    //   // console.log('the editor is focused!', cm);
+    // },
     onCmCodeChange(newCode) {
       //console.log('this is new code', newCode);
 

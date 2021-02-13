@@ -3,6 +3,13 @@
     <v-chip style="position: absolute; top: 0; left: 10px; z-index: 50;">
       뒤로 가는 버튼
     </v-chip>
+    <!-- <v-btn
+      middle
+      left
+      fixed
+    >
+    뒤로 가는 버튼
+    </v-btn> -->
     <v-tabs v-model="tabs" centered class="mt-15">
       <!-- v-tabsdml v-model="tabs"로 선택된 탭의 번호가 tabs로 연결 -->
       <!-- <v-tab v-for="n in 3" :key=n> 과 같이 for문 가능 -->
@@ -46,28 +53,62 @@
 
         <!-- '코드 비교'라는 탭의 아이템 -->
         <v-tab-item>
+          <v-btn
+            icon
+            middle
+            right
+            fixed
+            fab
+          >
+            <v-img
+              width="60px"
+              src="@/assets/img/watting_cogi.png"
+              style="po"
+              @click="isAnswer = !isAnswer"
+            />
+          </v-btn>
           <v-container>
             <v-row no-gutters justify="center">
               <v-col cols="12" sm="8" md="4">
                 <v-textarea
-                  label="Your Answer"
+                  label="Your Code"
                   no-resize
-                  rows="20"
+                  rows="10"
                   :value="yourCode"
                   readonly
                   outlined
                 ></v-textarea>
               </v-col>
               <v-col cols="0" sm="1"></v-col>
-              <v-col cols="12" sm="8" md="4">
+
+              <v-col cols="12" sm="8" md="4"
+                v-if="error"
+              >
                 <v-textarea
-                  label="Correct Answer"
+                  label="Error Infomation"
                   no-resize
-                  rows="20"
+                  rows="10"
+                  :value="error"
+                  readonly
+                  outlined
+                ></v-textarea>
+              </v-col>
+
+              <v-col cols="12" sm="8" md="4"
+                v-show="isAnswer"
+              >
+                <v-textarea
+                  label="Correct Code"
+                  no-resize
+                  rows="10"
                   :value="correctCode"
                   readonly
                   outlined
                 ></v-textarea>
+              </v-col>
+              <v-col cols="12" sm="8" md="4"
+                v-show="!isAnswer"
+              >
               </v-col>
             </v-row>
           </v-container>
@@ -119,6 +160,8 @@ export default {
       tabs: null,
       description: false,
       isCorrect: false,
+      error: '',
+      isAnswer: false,
       yourAnswer: '사용자의 정답이 나오는 부분\n개행문자로 줄을 바꾼다',
       correctAnswer: '원래 정답이 나오는 부분',
       yourCode: '사용자의 코드가 적히는 부분\n마찬가지로 개행문자로 줄이 바뀐다',
@@ -159,6 +202,12 @@ export default {
         // error: null
         // memory: "5308"
         // statusCode: "200"
+        this.isCorrect = response.data.answer;
+        this.error = response.data.error;
+        if (!this.error) {  // 에러가 null이면 무조건 Answer를 보여준다
+          this.isAnswer = true;
+
+        }
         this.yourAnswer = response.data.my_output;
         this.correctAnswer = response.data.correct_output;
         this.yourCode = response.data.my_code;
