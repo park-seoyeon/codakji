@@ -463,7 +463,13 @@ public class CodeAPIController {
 		// 6.문제푼 결과 DB에 업데이트
 		solvedProblemDto.setSolved_problem_correct(codeAPIResponseDto.isAnswer()); // 정답 여부
 		solvedProblemDto.setApi_done(true);
-		solvedProblemDto.setMy_output(user_output);
+		
+		// 정답인 경우와 단순 오답인 경우에는 결과값을 DB에 저장하고, 문법 오류인 경우에는 '문법 오류'를 저장하도록
+		// if (codeAPIResponseDto.isAnswer() == false && !codeAPIResponseDto.getError().equals("simpleerror"))
+			// user_output = "문법오류";
+
+	    solvedProblemDto.setMy_output(user_output);	// 저장은 그냥 문법 오류 그대로 해서 나중에 어디가 틀렸는지 확인하는 용도로 할까 생각 중
+		
 		solvedProblemDto.setCorrect_output(output);
 		
 		
@@ -486,7 +492,13 @@ public class CodeAPIController {
 		codeAPIResultDto.setImg_number(image_number);
 		codeAPIResultDto.setMemory(codeAPIResponseDto.getMemory());
 		codeAPIResultDto.setMy_code(codeAPIDto.getScript());
-		codeAPIResultDto.setMy_output(user_output);
+		
+		// 정답인 경우와 단순 오답인 경우에는 결과값을 출력하고, 문법 오류인 경우에는 '문법 오류'를 출력하도록
+		if (codeAPIResponseDto.isAnswer() == false && !codeAPIResponseDto.getError().equals("simpleerror"))
+			codeAPIResultDto.setMy_output("문법오류");
+		else
+			codeAPIResultDto.setMy_output(user_output);
+//		codeAPIResultDto.setMy_output(user_output);
 		codeAPIResultDto.setStatusCode(codeAPIResponseDto.getStatusCode());
 
 		try {
