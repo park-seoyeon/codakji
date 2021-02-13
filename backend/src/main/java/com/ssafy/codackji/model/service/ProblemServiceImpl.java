@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.codackji.model.ProblemDto;
+import com.ssafy.codackji.model.ProblemStatDto;
 import com.ssafy.codackji.model.SolvedProblemDto;
 import com.ssafy.codackji.model.mapper.ProblemMapper;
 
@@ -36,6 +37,8 @@ public class ProblemServiceImpl implements ProblemService{
 		return sqlSession.getMapper(ProblemMapper.class).getProblem(problem_number);
 	}
 
-	
-
+	@Override
+	public int getTotal(int rank) throws Exception {
+		return sqlSession.getMapper(ProblemMapper.class).getTotal(rank);
+	}
 }

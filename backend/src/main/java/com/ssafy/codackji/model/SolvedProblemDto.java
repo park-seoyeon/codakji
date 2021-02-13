@@ -15,6 +15,7 @@ public class SolvedProblemDto {
 	private String my_output;
 	private String correct_output;
 	private String submit_at; //사용자가 문제를 제출한 시각
+	private int problem_rank;
 	
 	public SolvedProblemDto() {}
 
@@ -131,21 +132,26 @@ public class SolvedProblemDto {
 	}
 
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("SolvedProblemDto [solved_problem_number=").append(solved_problem_number)
-				.append(", user_number=").append(user_number).append(", problem_number=").append(problem_number)
-				.append(", problem_title=").append(problem_title).append(", problem_content=").append(problem_content)
-				.append(", problem_group=").append(problem_group).append(", solved_problem_content=")
-				.append(solved_problem_content).append(", solved_problem_correct=").append(solved_problem_correct)
-				.append(", language=").append(language).append(", api_done=").append(api_done).append(", my_output=")
-				.append(my_output).append(", correct_output=").append(correct_output).append(", submit_at=")
-				.append(submit_at).append("]");
-		return builder.toString();
+	public int getProblem_rank() {
+		return problem_rank;
 	}
 
 
-	
+	public void setProblem_rank(int problem_rank) {
+		this.problem_rank = problem_rank;
+	}
+
+
+	@Override
+	public String toString() {
+		return "SolvedProblemDto [solved_problem_number=" + solved_problem_number + ", user_number=" + user_number
+				+ ", problem_number=" + problem_number + ", problem_title=" + problem_title + ", problem_content="
+				+ problem_content + ", problem_group=" + problem_group + ", solved_problem_content="
+				+ solved_problem_content + ", solved_problem_correct=" + solved_problem_correct + ", language="
+				+ language + ", api_done=" + api_done + ", my_output=" + my_output + ", correct_output="
+				+ correct_output + ", submit_at=" + submit_at + ", problem_rank=" + problem_rank + "]";
+	}
+
+
 	
 }

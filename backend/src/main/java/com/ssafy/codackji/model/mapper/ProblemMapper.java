@@ -15,6 +15,5 @@ public interface ProblemMapper {
 	List<ProblemDto> listProblem(int problem_rank) throws SQLException;
 	List<SolvedProblemDto> userSolvedProblem(int user_number) throws SQLException;
 	ProblemDto getProblem(int problem_number) throws SQLException;
-
-
+	int getTotal(int rank)throws SQLException;
 }
