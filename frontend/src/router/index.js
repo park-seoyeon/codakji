@@ -18,6 +18,9 @@ import CoFAQ from '@/views/Notices/CoFAQ.vue'
 
 import Introduce from '@/views/About/Introduce.vue'
 
+import WebMeeting from '@/views/Meetings/WebMeeting.vue'
+import MeetingRoomList from '@/views/Meetings/MeetingRoomList.vue'
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -87,6 +90,16 @@ const routes = [
     path: '/about/introduce',
     name: 'Introduce',
     component: Introduce,
+  },
+  {
+    path: '/meeting/room/:room_number',
+    name: 'WebMeeting',
+    component: WebMeeting,
+  },
+  {
+    path: '/meeting/list',
+    name: 'MeetingRoomList',
+    component: MeetingRoomList,
   },
 ];
 
