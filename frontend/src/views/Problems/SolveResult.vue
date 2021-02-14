@@ -93,7 +93,7 @@
                       justify="center"
                     >
                       <div class="display-3">
-                        <v-img :src="`/img/analysis/codackji_problem_${$route.params.problemnumber}_${i}.png`" />
+                        <v-img :src="imageContent[i-1]" />
                       </div>
                     </v-row>
                   </v-sheet>
@@ -124,6 +124,7 @@ export default {
       yourCode: '사용자의 코드가 적히는 부분\n마찬가지로 개행문자로 줄이 바뀐다',
       correctCode: '올바른 코드들이 적히는 부분',
       imageNumber: 0,
+      imageContent: [],
       model: 0,
       colors: [
         'primary',
@@ -164,6 +165,7 @@ export default {
         this.yourCode = response.data.my_code;
         this.correctCode = response.data.correct_code;
         this.imageNumber = response.data.img_number;
+        this.imageContent =response.data.img_content;
       })
       .catch(error => {
         if (error.response.status === 401) {

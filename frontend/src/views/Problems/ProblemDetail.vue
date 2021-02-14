@@ -20,17 +20,16 @@
             <p>{{ problemDetails.problem_output }}</p>
           </div>
         </div>
-        <!--<div align="right">
-          <div v-if="description" align="right">
-            해설보러가기!
-          </div>
-           <v-img
-            width="60px"
-            src="@/assets/img/watting_cogi.png"
-            @mouseover="mouseOver"
-            @mouseleave="mouseLeave"
-          />
-        </div> -->
+        <v-col cols="6">
+          <h3>예제 입력</h3> 
+          <v-textarea v-model = "problemDetails.problem_testcase_input1" readonly>
+          </v-textarea>
+        </v-col>
+        <v-col cols="6">
+          <h3>예제출력</h3>
+          <v-textarea v-model = "problemDetails.problem_testcase_output1" readonly>
+          </v-textarea>
+        </v-col>
       </v-col>
       <!-- <v-col cols="6">
         <iframe
