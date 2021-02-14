@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "io.openvidu.js.java.model.mapper.MeetingMapper">
+
+	<select id="allMeetingRooms" resultType="MeetingDto">
+		select *
+		from Meeting
+		order by room_number
+	</select>
+	
+	<select id="getRoomInfo" parameterType="int" resultType="MeetingDto">
+		select *
+		from Meeting
+		where room_number = #{room_number}
+	</select>
+	
+	<select id="getNewRoomNumber" resultType="int">
+		select room_number
+		from Meeting
+		order by room_number desc limit 1
+	</select>
+	
+	<insert id="createRoom" parameterType="MeetingDto">
+		insert into Meeting (room_name, room_publisher_number, room_publisher_name, room_description)
+		values(#{room_name}, #{room_publisher_number}, #{room_publisher_name}, #{room_description})
+	</insert>
+	
+	<delete id="deleteRoom" parameterType="int">
+		delete from Meeting
+		where room_number = #{room_number}
+	</delete>
+	
+	<update id="enterRoom" parameterType="int" >
+		update Meeting
+		set room_people_cnt = room_people_cnt+1
+		where room_number = #{room_number}
+	</update>
+	
+	<update id="leaveRoom" parameterType="int" >
+		update Meeting
+		set room_people_cnt = room_people_cnt-1
+		where room_number = #{room_number}
+	</update>
+	
+	<select id="getRoomPeopleCnt" parameterType="int" resultType="int">
+		select room_people_cnt
+		from Meeting
+		where room_number = #{room_number}
+	</select>
+	
+	<select id="checkRoom" parameterType="int" resultType="int">
+		select count(*)
+		from Meeting
+		where room_number = #{room_number}
+	</select>
+	
+</mapper>
