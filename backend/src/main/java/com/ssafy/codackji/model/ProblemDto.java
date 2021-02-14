@@ -15,6 +15,9 @@ public class ProblemDto {
 	private int problem_correct;
 	private String problem_output;
 	private String problem_input;
+	private String problem_img;
+	private String problem_testcase_input1;
+	private String problem_testcase_output1;
 
 	public int getProblem_number() {
 		return problem_number;
@@ -119,6 +122,30 @@ public class ProblemDto {
 	public void setProblem_input(String problem_input) {
 		this.problem_input = problem_input;
 	}
+	
+	public String getProblem_img() {
+		return problem_img;
+	}
+
+	public void setProblem_img(String problem_img) {
+		this.problem_img = problem_img;
+	}
+
+	public String getProblem_testcase_input1() {
+		return problem_testcase_input1;
+	}
+
+	public void setProblem_testcase_input1(String problem_testcase_input1) {
+		this.problem_testcase_input1 = problem_testcase_input1;
+	}
+
+	public String getProblem_testcase_output1() {
+		return problem_testcase_output1;
+	}
+
+	public void setProblem_testcase_output1(String problem_testcase_output1) {
+		this.problem_testcase_output1 = problem_testcase_output1;
+	}
 
 	@Override
 	public String toString() {
@@ -127,7 +154,8 @@ public class ProblemDto {
 				+ problem_group + ", problem_rank=" + problem_rank + ", problem_date=" + problem_date + ", created_at="
 				+ created_at + ", updated_at=" + updated_at + ", problem_submit=" + problem_submit
 				+ ", problem_correct=" + problem_correct + ", problem_output=" + problem_output + ", problem_input="
-				+ problem_input + "]";
+				+ problem_input + ", problem_img=" + problem_img + ", problem_testcase_input1="
+				+ problem_testcase_input1 + ", problem_testcase_output1=" + problem_testcase_output1 + "]";
 	}
 
 }

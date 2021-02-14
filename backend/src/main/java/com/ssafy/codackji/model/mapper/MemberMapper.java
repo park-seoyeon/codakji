@@ -23,4 +23,8 @@ public interface MemberMapper {
 
 	public MemberDto socialLogin(MemberDto memberDto) throws SQLException;
 
+	public int updateProfile(MemberDto memberDto) throws SQLException;
+	
+	public int updateIsProfile(MemberDto memberDto) throws SQLException;
+	
 }

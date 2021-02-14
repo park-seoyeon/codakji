@@ -59,5 +59,16 @@ public class MemberServiceImpl implements MemberService{
 	@Transactional
 	public boolean updatePassword(MemberDto memberDto) throws Exception{
 		return sqlSession.getMapper(MemberMapper.class).updatePassword(memberDto) == 1;
-	} 
+	}
+
+	@Override
+	public boolean updateProfile(MemberDto memberDto) throws Exception {
+		return sqlSession.getMapper(MemberMapper.class).updateProfile(memberDto) == 1;
+	}
+
+	@Override
+	public boolean updateIsProfile(MemberDto memberDto) throws Exception {
+		return sqlSession.getMapper(MemberMapper.class).updateIsProfile(memberDto) == 1;
+	}
+
 }
