@@ -23,7 +23,7 @@
     </v-row>
 
     <br /><br />
-  </div>
+  </div> 
 </template>
 
 <script>
@@ -40,8 +40,8 @@ export default {
         { topic: 'variable', name: '변수' },
         { topic: 'datatype', name: '자료형' },
         { topic: 'operator', name: '연산자' },
-        { topic: 'in', name: '입력' },
-        { topic: 'out', name: '출력' },
+        { topic: 'input', name: '입력' },
+        { topic: 'output', name: '출력' },
         { topic: 'if', name: 'if 조건문' },
         { topic: 'for', name: 'for 반복문' },
         { topic: 'while', name: 'while 반복문' },

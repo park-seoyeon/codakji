@@ -8,15 +8,15 @@
     <template v-slot:default="{ hover }">
     <v-card  @click="moveTopic" height="260px" elevation="0">
 
-      <video v-if="basic.name=='변수'" height="100%" autoplay muted loop src="@/assets/video/testvideo.mp4" type="video/mp4"></video>
-      <video v-if="basic.name=='자료형'" height="100%" autoplay muted loop src="@/assets/video/testvideo.mp4" type="video/mp4"></video>
-      <video v-if="basic.name=='연산자'" height="100%" autoplay muted loop src="@/assets/video/testvideo.mp4" type="video/mp4"></video>
-      <video v-if="basic.name=='입력'" height="100%" autoplay muted loop src="@/assets/video/testvideo.mp4" type="video/mp4"></video>
-      <video v-if="basic.name=='출력'" height="100%" autoplay muted loop src="@/assets/video/testvideo.mp4" type="video/mp4"></video>
-      <video v-if="basic.name=='if 조건문'" height="100%" autoplay muted loop src="@/assets/video/testvideo.mp4" type="video/mp4"></video>
-      <video v-if="basic.name=='for 반복문'" height="100%" autoplay muted loop src="@/assets/video/testvideo.mp4" type="video/mp4"></video>
-      <video v-if="basic.name=='while 반복문'" height="100%" autoplay muted loop src="@/assets/video/testvideo.mp4" type="video/mp4"></video>
-      <video v-if="basic.name=='1차원 배열'" height="100%" autoplay muted loop src="@/assets/video/testvideo.mp4" type="video/mp4"></video>
+      <video v-if="basic.name=='변수'" height="100%" autoplay muted loop src="@/assets/video/variable.mp4" type="video/mp4"></video>
+      <video v-if="basic.name=='자료형'" height="100%" autoplay muted loop src="@/assets/video/datatype.mp4" type="video/mp4"></video>
+      <video v-if="basic.name=='연산자'" height="100%" autoplay muted loop src="@/assets/video/operator.mp4" type="video/mp4"></video>
+      <video v-if="basic.name=='입력'" height="100%" autoplay muted loop src="@/assets/video/input.mp4" type="video/mp4"></video>
+      <video v-if="basic.name=='출력'" height="100%" autoplay muted loop src="@/assets/video/output.mp4" type="video/mp4"></video>
+      <video v-if="basic.name=='if 조건문'" height="100%" autoplay muted loop src="@/assets/video/if.mp4" type="video/mp4"></video>
+      <video v-if="basic.name=='for 반복문'" height="100%" autoplay muted loop src="@/assets/video/for.mp4" type="video/mp4"></video>
+      <video v-if="basic.name=='while 반복문'" height="100%" autoplay muted loop src="@/assets/video/while.mp4" type="video/mp4"></video>
+      <video v-if="basic.name=='1차원 배열'" height="100%" autoplay muted loop src="@/assets/video/array.mp4" type="video/mp4"></video>
 
       <v-fade-transition>
           <v-overlay

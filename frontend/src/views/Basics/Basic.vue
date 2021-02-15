@@ -16,31 +16,31 @@
       </div>
     </v-row>
   </v-sheet>
-
+ 
  
   <!-- 학습 영상 -->
  <br><br>
   <v-row>
     <v-col cols="2"></v-col>
     <v-col cols="8">
-        <video v-if="title =='변수'" width="80%" controls muted loop src="@/assets/video/testvideo.mp4" type="video/mp4" class="videoOutline" ></video>
-        <video v-if="title =='자료형'" width="80%" controls muted loop src="@/assets/video/testvideo.mp4" type="video/mp4" class="videoOutline" ></video>
-        <video v-if="title =='연산자'" width="80%" controls muted loop src="@/assets/video/testvideo.mp4" type="video/mp4" class="videoOutline" ></video>
-        <video v-if="title =='입력'" width="80%" controls muted loop src="@/assets/video/testvideo.mp4" type="video/mp4" class="videoOutline" ></video>
-        <video v-if="title =='출력'" width="80%" controls muted loop src="@/assets/video/testvideo.mp4" type="video/mp4" class="videoOutline" ></video>
-        <video v-if="title =='if 조건문'" width="80%" controls muted loop src="@/assets/video/testvideo.mp4" type="video/mp4" class="videoOutline" ></video>
-        <video v-if="title =='for 반복문'" width="80%" controls muted loop src="@/assets/video/testvideo.mp4" type="video/mp4" class="videoOutline" ></video>
-        <video v-if="title =='while 반복문'" width="80%" controls muted loop src="@/assets/video/testvideo.mp4" type="video/mp4" class="videoOutline" ></video>
-        <video v-if="title =='1차원 배열'" width="80%" controls muted loop src="@/assets/video/testvideo.mp4" type="video/mp4" class="videoOutline" ></video>
+        <video v-if="title =='변수'" width="80%" controls muted loop src="@/assets/video/variable.mp4" type="video/mp4" class="videoOutline" ></video>
+        <video v-if="title =='자료형'" width="80%" controls muted loop src="@/assets/video/datatype.mp4" type="video/mp4" class="videoOutline" ></video>
+        <video v-if="title =='연산자'" width="80%" controls muted loop src="@/assets/video/operator.mp4" type="video/mp4" class="videoOutline" ></video>
+        <video v-if="title =='입력'" width="80%" controls muted loop src="@/assets/video/input.mp4" type="video/mp4" class="videoOutline" ></video>
+        <video v-if="title =='출력'" width="80%" controls muted loop src="@/assets/video/output.mp4" type="video/mp4" class="videoOutline" ></video>
+        <video v-if="title =='if 조건문'" width="80%" controls muted loop src="@/assets/video/if.mp4" type="video/mp4" class="videoOutline" ></video>
+        <video v-if="title =='for 반복문'" width="80%" controls muted loop src="@/assets/video/for.mp4" type="video/mp4" class="videoOutline" ></video>
+        <video v-if="title =='while 반복문'" width="80%" controls muted loop src="@/assets/video/while.mp4" type="video/mp4" class="videoOutline" ></video>
+        <video v-if="title =='1차원 배열'" width="80%" controls muted loop src="@/assets/video/array.mp4" type="video/mp4" class="videoOutline" ></video>
     </v-col>
   </v-row>
 
   <!-- 코드 실행창 -->
-  따라해보세요 실습 이미지 | 코드 실행창
+  <!-- 따라해보세요 실습 이미지 | 코드 실행창 -->
   <!-- 좋아요 버튼, 댓글 -->    
   <!--뒤로가기 버튼 -->
 
-  <br>
+  <br><br><br>
   <v-btn @click="back" color="primary"><v-icon>mdi-arrow-left-thin-circle-outline</v-icon>돌아가기</v-btn>
   <br><br><br><br><br>
 
