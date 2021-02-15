@@ -126,17 +126,16 @@ public class MemberController {
 				memberDto.setToken(token);
 				memberDto.setEmail(email);
 				
-				System.out.println("여까진 되나?");
 				// front에서 받아온 multipart타입의 파일을 저장
 				String sourceFileName = sourceFile.getOriginalFilename();
 				System.out.println(sourceFileName);
 				String sourceFileNameExtension = StringUtils.getFilenameExtension(sourceFileName).toLowerCase();
-				System.out.println("여긴안되겠지?");
 				File destinationFile;
 				String destinationFileName;
 				
 				destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + sourceFileNameExtension;
 		        destinationFile = new File("C:/ssafy/Project1/subpjt2/s04p13a203/frontend/public/img/profile/" + destinationFileName);
+		        //destinationFile = new File("/home/ubuntu/codackji/profileImage/" + destinationFileName);
 		        if(!destinationFile.exists())
 		        	destinationFile.getParentFile().mkdirs();
 		        sourceFile.transferTo(destinationFile);
