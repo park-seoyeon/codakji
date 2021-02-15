@@ -168,6 +168,8 @@ export default {
       items: [
         { lang: 'python3', mode: 'text/x-python' },
         { lang: 'java', mode: 'java' },
+        { lang: 'c', mode: 'c' },
+        { lang: 'cpp', mode: 'cpp' },
       ],
     };
   },
