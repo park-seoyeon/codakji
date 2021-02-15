@@ -36,7 +36,7 @@
       <!-- 내 정보 보기 -->
       <v-tab-item>
         <template style="text_align: center">
-          <v-card class="mx-auto" max-width="60%" min-height="400px">
+          <v-card class="mx-auto" max-width="80%" min-height="400px">
             <img
               src="@/assets/img/watting_cogi.png"
               width="10%"
@@ -44,10 +44,12 @@
             />
             <v-card-text style="font-size:1.5em">
               <div class="text--primary">
-                {{ userInfo.name }} 님 ({{ userInfo.stat }})<br /><br /><br />
+                <div class="mb-10">
+                  {{ userInfo.name }} 님 ({{ userInfo.stat }})
+                </div>
 
                 <v-simple-table
-                  style="width:50%; margin-left:32%; text-align:left"
+                  style="width:50%; margin-left:30%; text-align:left"
                 >
                   <tr>
                     <td><v-icon color="#FFB911">mdi-paw</v-icon>이메일</td>
@@ -58,7 +60,7 @@
                   </tr>
 
                   <tr>
-                    <td><v-icon color="#6F85FF">mdi-paw</v-icon>SNS 연동</td>
+                    <td><v-icon color="#6F85FF">mdi-paw</v-icon>SNS</td>
                     <td>
                       <v-icon color="#6F85FF">mdi-paw</v-icon>{{ userInfo.sns }}
                     </td>
@@ -79,28 +81,27 @@
             <!--비밀번호 재입력 모달창 -->
             <template>
               <v-row justify="center">
-                <v-dialog v-model="dialog" persistent max-width="500">
+                <v-dialog v-model="dialog" max-width="500">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="primary" dark v-bind="attrs" v-on="on">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                   </template>
-                  <v-card>
-                    <br />
+                  <v-card class="px-5 py-1">
                     <v-text-field
-                      label="비밀번호"
+                      label="비밀번호 재입력"
                       type="password"
                       v-model="password"
                       prepend-icon="mdi-lock"
                     ></v-text-field>
                     <v-card-actions>
-                      <v-btn
+                      <!-- <v-btn
                         color="green darken-1"
                         text
                         @click="getNewPassword"
                       >
                         비밀번호 찾기
-                      </v-btn>
+                      </v-btn> -->
                       <v-spacer></v-spacer>
                       <v-btn color="green darken-1" text @click="checkPassword">
                         확인
@@ -296,8 +297,8 @@ export default {
           this.userInfo.joindate = response.data.created_at;
           this.userInfo.number = response.data.user_number;
           if (response.data.oauth == 'kakao')
-            this.userInfo.sns = '카카오 계정과 연동되어 있습니다';
-          else this.userInfo.sns = '연동된 SNS 계정이 없습니다';
+            this.userInfo.sns = '카카오와 연동되어 있습니다';
+          else this.userInfo.sns = '연동된 정보가 없습니다';
 
           if (response.data.admin == true) {
             this.userInfo.stat = '관리자';
@@ -315,12 +316,13 @@ export default {
           }
         })
         .catch((error) => {
-          if (error.response.status === 401) {
-            alert('세션이 만료되었습니다.');
-            this.$emit('expireLogin');
-          } else {
-            console.log(error);
-          }
+          // if (error.response.status === 401) {
+          //   alert('세션이 만료되었습니다.');
+          //   this.$emit('expireLogin');
+          // } else {
+          //   console.log(error);
+          // }
+          console.log(error);
         });
     },
 
@@ -434,19 +436,19 @@ export default {
       this.password = '';
     },
 
-    getNewPassword() {
-      axios
-        .post(`${SERVER_URL}/user/changepassword`, {
-          token: localStorage.getItem('jwt'),
-        })
-        .then((response) => {
-          console.log(response);
-          alert('이메일로 임시 비밀번호를 전송했습니다.');
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
+    // getNewPassword() {
+    //   axios
+    //     .post(`${SERVER_URL}/user/changepassword`, {
+    //       token: localStorage.getItem('jwt'),
+    //     })
+    //     .then((response) => {
+    //       console.log(response);
+    //       alert('이메일로 임시 비밀번호를 전송했습니다.');
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // },
   },
 
   created() {

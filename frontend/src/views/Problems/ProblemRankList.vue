@@ -17,14 +17,14 @@
                   <div
                     class="banner text-center"
                     style="font-size:40px;"
-                    v-if="$route.params.problemrank == 2"
+                    v-else-if="$route.params.problemrank == 2"
                   >
                     초등 5-6 학년
                   </div>
                   <div
                     class="banner text-center"
                     style="font-size:40px;"
-                    v-if="$route.params.problemrank == 3"
+                    v-else
                   >
                     중등 이상
                   </div>

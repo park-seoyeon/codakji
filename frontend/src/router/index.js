@@ -14,6 +14,7 @@ import SolveProblemPage from '@/views/Problems/SolveProblemPage'
 import SolveResult from '@/views/Problems/SolveResult'
 
 import Notice from '@/views/Notices/Notice.vue'
+import NoticeDetail from '@/views/Notices/NoticeDetail'
 import CoFAQ from '@/views/Notices/CoFAQ.vue'
 
 import Introduce from '@/views/About/Introduce.vue'
@@ -77,6 +78,11 @@ const routes = [
     path: '/codackji/notices',
     name: 'Notice',
     component: Notice,
+  },
+  {
+    path: '/codackji/notices/notice:noticenumber',
+    name: 'NoticeDetail',
+    component: NoticeDetail,
   },
   {
     path: '/codackji/CoFAQ',
