@@ -47,4 +47,17 @@
 		set password = #{password}
 		where email = #{email}
 	</update>
+	
+	<update id="updateProfile" parameterType="memberDto">
+		update User
+		set profile_content = #{profile_content}
+		where email = #{email}
+	</update>
+	
+	<update id="updateIsProfile" parameterType="memberDto">
+		update User
+		set profile = #{profile}
+		where email = #{email}
+	</update>
+	
 </mapper>
