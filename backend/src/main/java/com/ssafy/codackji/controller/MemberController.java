@@ -19,6 +19,7 @@ import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.util.unit.DataSize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -125,13 +126,15 @@ public class MemberController {
 				memberDto.setToken(token);
 				memberDto.setEmail(email);
 				
+				System.out.println("여까진 되나?");
 				// front에서 받아온 multipart타입의 파일을 저장
 				String sourceFileName = sourceFile.getOriginalFilename();
-				String sourceFileNameExtension = FilenameUtils.getExtension(sourceFileName).toLowerCase();
+				System.out.println(sourceFileName);
+				String sourceFileNameExtension = StringUtils.getFilenameExtension(sourceFileName).toLowerCase();
+				System.out.println("여긴안되겠지?");
 				File destinationFile;
 				String destinationFileName;
 				
-				System.out.println(sourceFileName);
 				destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + sourceFileNameExtension;
 		        destinationFile = new File("C:/ssafy/Project1/subpjt2/s04p13a203/frontend/public/img/profile/" + destinationFileName);
 		        if(!destinationFile.exists())
@@ -160,7 +163,7 @@ public class MemberController {
 	
 	@ApiOperation(value = "회원정보 수정_토큰검사를 한다", notes = "회원 정보를 수정합니다-teach, name, password 변경", response = String.class)
 	@PutMapping("/noimage")
-	public ResponseEntity<String> updateUser(
+	public ResponseEntity<String> updateUserNoImage(
 			@RequestParam("name") @ApiParam(value = "변경할 이름", required = true) String name,
 			@RequestParam("password") @ApiParam(value = "변경할 비밀번호", required = true) String password,
 			@RequestParam("token") @ApiParam(value = "토큰 정보", required = true) String token,
