@@ -6,7 +6,7 @@
       </v-sheet>
       <v-sheet>
         <div class="img_container">
-          <v-img :src="'/img/problem/' + problem.problem_title + '.png'" id="problem" />
+          <v-img :src="problem.problem_img" id="problem" />
           <div class="btn-plus">
             <v-btn
               

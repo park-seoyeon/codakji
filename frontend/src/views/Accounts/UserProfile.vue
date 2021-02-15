@@ -38,7 +38,7 @@
         <template style="text_align: center">
           <v-card class="mx-auto" max-width="60%" min-height="400px">
             <img
-              src="@/assets/img/watting_cogi.png"
+              :src="userInfo.profileImg"
               width="10%"
               style="margin-top: 50px"
             />
@@ -132,13 +132,20 @@
                   <v-col cols="2"></v-col>
                   <v-col cols="4">
                     <img
-                      src="@/assets/img/watting_cogi.png"
+                      :src="userInfo.profileImg"
                       width="170px"
                       style="border: 3px solid gold; border-radius: 10px"
                     />
-                    <div style="cursor:pointer" @click="editProfilePic">
-                      프로필 사진 수정하기<v-icon>mdi-pencil</v-icon>
-                    </div>
+                    <v-file-input
+                      accept="image/*"
+                      label="프로필 사진 수정하기"
+                      filled
+                      prepend-icon="mdi-pencil"
+                      id="photo"
+                      enctype="multipart/form-data"
+                      @change="Preview_image"
+                      v-model="image"
+                    ></v-file-input>
                     <br />
                   </v-col>
                   <v-col cols="4">
@@ -257,7 +264,9 @@ export default {
         sns: '없음',
         stat: '신분',
         number: '',
+        profileImg: '',
       },
+      image:'',
       tabs: null,
       reveal: false,
       dialog: false,
@@ -295,6 +304,7 @@ export default {
           this.userInfo.email = response.data.email;
           this.userInfo.joindate = response.data.created_at;
           this.userInfo.number = response.data.user_number;
+          this.userInfo.profileImg = response.data.profile_content;
           if (response.data.oauth == 'kakao')
             this.userInfo.sns = '카카오 계정과 연동되어 있습니다';
           else this.userInfo.sns = '연동된 SNS 계정이 없습니다';
@@ -324,15 +334,15 @@ export default {
         });
     },
 
-    editProfilePic() {
-      alert('프로필 사진을 수정해주세요');
-    },
-
     editCancel() {
       this.newName = '';
       this.newPassword = '';
       this.newPassword2 = '';
       this.reveal = false;
+    },
+
+    Preview_image() {
+      this.userInfo.profileImg= URL.createObjectURL(this.image)
     },
 
     updateUser() {
@@ -349,29 +359,58 @@ export default {
           .digest('base64'),
       };
 
-      if (confirm('정말 수정하시겠습니까?')) {
-        axios
-          .put(`${SERVER_URL}/user`, {
-            name: this.newName,
-            password: form.password,
-            token: localStorage.getItem('jwt'),
-            email: this.userInfo.email,
-          })
-          .then((response) => {
-            console.log(response);
-            this.setUserInfo();
+      const fd = new FormData()
+      fd.append('name',this.newName)
+      fd.append('password',form.password)
+      fd.append('token', localStorage.getItem('jwt'))
+      fd.append('email', this.userInfo.email)
+      if(document.getElementById('photo').files[0]) {
+        fd.append('photo', document.getElementById('photo').files[0])
 
-            alert('정보 수정이 완료되었습니다!');
+        console.log(this.fileName)
+        console.log(fd.get('photo'))
 
-            this.newName = '';
-            this.newPassword = '';
-            this.newPassword2 = '';
-            this.reveal = false;
-          })
-          .catch((error) => {
-            alert('정보 수정에 실패했습니다');
-            console.log(error);
-          });
+
+        if (confirm('정말 수정하시겠습니까?')) {
+          axios
+            .put(`${SERVER_URL}/user`, fd)
+            .then((response) => {
+              console.log(response);
+              this.setUserInfo();
+
+              alert('정보 수정이 완료되었습니다!');
+
+              this.newName = '';
+              this.newPassword = '';
+              this.newPassword2 = '';
+              this.reveal = false;
+            })
+            .catch((error) => {
+              alert('정보 수정에 실패했습니다');
+              console.log(error);
+            });
+        }
+      }
+      else {
+        if (confirm('정말 수정하시겠습니까?')) {
+          axios
+            .put(`${SERVER_URL}/user/noimage`, fd)
+            .then((response) => {
+              console.log(response);
+              this.setUserInfo();
+
+              alert('정보 수정이 완료되었습니다!');
+
+              this.newName = '';
+              this.newPassword = '';
+              this.newPassword2 = '';
+              this.reveal = false;
+            })
+            .catch((error) => {
+              alert('정보 수정에 실패했습니다');
+              console.log(error);
+            });
+        }
       }
     },
 
