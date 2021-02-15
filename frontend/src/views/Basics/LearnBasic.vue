@@ -30,6 +30,7 @@
 import BasicCard from '@/components/basic/BasicCard.vue';
 
 export default {
+  name: 'LearnBasic',
   components: {
     BasicCard,
   },
