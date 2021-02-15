@@ -18,6 +18,9 @@ import CoFAQ from '@/views/Notices/CoFAQ.vue'
 
 import Introduce from '@/views/About/Introduce.vue'
 
+import LearnBasic from '@/views/Basics/LearnBasic.vue'
+import Basic from '@/views/Basics/Basic.vue'
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -87,6 +90,16 @@ const routes = [
     path: '/about/introduce',
     name: 'Introduce',
     component: Introduce,
+  },
+  {
+    path: '/basic',
+    name: 'LearnBasic',
+    component: LearnBasic,
+  },
+  {
+    path: '/basic/:topic',
+    name: 'Basic',
+    component: Basic,
   },
 ];
 
