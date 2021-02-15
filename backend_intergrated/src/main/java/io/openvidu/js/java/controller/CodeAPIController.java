@@ -208,8 +208,10 @@ public class CodeAPIController {
 			
 			if(solvedProblemDto.getLanguage().equals("java"))
 				codeAPIResultDto.setCorrect_code(correct_Java_code); //
-			else
+			else if(solvedProblemDto.getLanguage().equals("python"))
 				codeAPIResultDto.setCorrect_code(correct_Python_code);
+			else
+				codeAPIResultDto.setCorrect_code(null);
 			
 			codeAPIResultDto.setCorrect_output(solvedProblemDto.getCorrect_output());
 			codeAPIResultDto.setError(null);
@@ -482,10 +484,12 @@ public class CodeAPIController {
 		CodeAPIResultDto codeAPIResultDto = new CodeAPIResultDto();
 		codeAPIResultDto.setAnswer(codeAPIResponseDto.isAnswer());
 		
-		if(codeAPIDto.getLanguage().equals("java"))
+		if(solvedProblemDto.getLanguage().equals("java"))
 			codeAPIResultDto.setCorrect_code(correct_Java_code); //
-		else
+		else if(solvedProblemDto.getLanguage().equals("python"))
 			codeAPIResultDto.setCorrect_code(correct_Python_code);
+		else
+			codeAPIResultDto.setCorrect_code(null);
 		
 		codeAPIResultDto.setCorrect_output(output);
 		codeAPIResultDto.setCpuTime(codeAPIResponseDto.getCpuTime());

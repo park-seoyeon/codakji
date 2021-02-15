@@ -147,6 +147,7 @@ public class KakaoLoginController {
 				try {
 					URL url = new URL(kakaoProfile.getKakao_account().getProfile().getProfile_image_url());
 					BufferedImage img = ImageIO.read(url);
+					//File file=new File("/home/ubuntu/codackji/profileImage/" + originMemberDto.getUser_number() + ".png");
 					File file=new File("C:/ssafy/Project1/subpjt2/s04p13a203/frontend/public/img/profile/" + originMemberDto.getUser_number() + ".png");
 					ImageIO.write(img, "png", file);
 					
