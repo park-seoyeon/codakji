@@ -1,131 +1,182 @@
 <template>
-  <nav>
-    <v-navigation-drawer app v-model="drawer">
-      <span v-if="userName" @click="moveMyProfile" style="cursor: pointer;">
-        <v-list-item style="padding: 15px">
-          <v-badge v-if="notice.length" color="red darken-1" content="6" overlap bottom bordered>
-            <v-avatar color="yellow darken-2" size="40">
-              <v-icon dark size="20">
-                mdi-account-circle
-              </v-icon>
-            </v-avatar>
-          </v-badge>
-          <v-avatar v-else color="yellow darken-2" size="40">
-            <v-icon dark size="20">
-              mdi-account-circle
-            </v-icon>
-          </v-avatar>
-          <v-list-item-title style="font-size: 20px">{{ userName }}</v-list-item-title>
-        </v-list-item>
-      </span>
+  <div @mouseover="showNaviMenu" @mouseout="hideNaviMenu">
+    <div id="navibar" class="pb-3">
+      <div class="my-3" style="display: flex;">
+        <div @click="moveHome" class="mx-10" style="cursor: pointer;">
+          <v-img width="90px" src="@/assets/img/codackji_logo.png" />
+        </div>
 
-      <span v-else>
-        <v-list-item style="padding: 15px">
-          <v-badge v-if="notice.length" color="red darken-1" content="6" overlap bottom bordered>
-            <v-avatar color="yellow darken-2" size="40">
-              <v-icon dark size="20">
-                mdi-account-circle
-              </v-icon>
-            </v-avatar>
-          </v-badge>
-          <v-avatar v-else color="yellow darken-2" size="40">
-            <v-icon dark size="20">
-              mdi-account-circle
-            </v-icon>
-          </v-avatar>
+        <div id="baritem">
+          <span class="d-flex">
+            <div class="d-flex mx-10 align-self-center">
+              <!-- <v-icon color="yellow darken-2" size="25">mdi-folder-search</v-icon> -->
+              <div class="mx-1" style="font-size: 17px; cursor: pointer;" @click="moveAllRank">
+                학습 하기
+              </div>
+            </div>
 
-          <v-list-item-title style="font-size: 20px">
-            로그인 해주세요
-          </v-list-item-title>
-        </v-list-item>
-      </span>
+            <div class="d-flex align-self-center" style="border-left: 2px solid #e6e6e6;">
+              <!-- <v-icon color="yellow darken-2" size="25">mdi-video-account</v-icon> -->
+              <div class="mx-11" style="font-size: 17px; cursor: pointer; ">화상으로 함께하기</div>
+            </div>
 
-      <v-divider></v-divider>
+            <div class="d-flex align-self-center" style="border-left: 2px solid #e6e6e6;">
+              <!-- <v-icon color="yellow darken-2" size="25">mdi-bullhorn</v-icon> -->
+              <div class="mx-11" style="font-size: 17px; cursor: pointer;" @click="moveNotice">
+                공지사항
+              </div>
+            </div>
+          </span>
 
-      <v-list flat align="left">
-        <v-list-item>
-          <v-menu offset-x max-width="100px">
-            <template v-slot:activator="{ on, attrs }">
-              <v-list-item @click="toggleMenu" v-bind="attrs" v-on="on" style="padding-left: 0px">
-                <v-list-item-icon>
-                  <v-icon color="yellow darken-2" size="25">mdi-folder-search</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title style="font-size: 17px">문제풀기</v-list-item-title>
-                <v-list-item-icon>
-                  <v-icon v-if="isMenu" size="25">mdi-menu-right</v-icon>
-                  <v-icon v-else size="25">mdi-menu-down</v-icon>
-                </v-list-item-icon>
-              </v-list-item>
-            </template>
-            <v-list>
-              <v-list-item @click="moveAllRank" class="px-5">
-                <!-- 여기 수정해야 함 -->
-                <v-list-item-title> 모든 단계</v-list-item-title>
-              </v-list-item>
-              <v-list-item
-                v-for="(item, index) in items"
-                :key="index"
-                @click="moveRankList(item.rank)"
-              >
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </v-list-item>
+          <v-subheader>
+            <div app v-if="isLogin">
+              <v-chip outlined small @click="moveMyProfile" color="grey darken-1" class="mx-5">
+                <span>{{ userName }}</span>
+                <v-icon>mdi-account</v-icon>
+              </v-chip>
 
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon color="yellow darken-2" size="25">mdi-video-account</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title style="font-size: 17px">화상으로 함께 하기</v-list-item-title>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon color="yellow darken-2" size="25">mdi-microphone</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title style="font-size: 17px">음성으로 코딩하기</v-list-item-title>
-        </v-list-item>
-        <v-list-item link @click="moveNotice">
-          <v-list-item-icon>
-            <v-icon color="yellow darken-2" size="25">mdi-bullhorn</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title style="font-size: 17px">공지사항</v-list-item-title>
-        </v-list-item>
-        <v-list-item link @click="moveCoFAQ">
-          <v-list-item-icon>
-            <v-icon color="yellow darken-2" size="25">mdi-chat-question</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title style="font-size: 17px">FAQ</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-app-bar app color="white" elevate-on-scroll>
-      <v-app-bar-nav-icon color="grey darken-5" @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title @click="moveHome" style="cursor: pointer; margin-left:30px;"
-        ><v-img width="90px" src="@/assets/img/codackji_logo.png"
-      /></v-toolbar-title>
-
-      <v-spacer></v-spacer>
-
-      <div v-if="isLogin">
-        <v-chip outlined small @click="logOut" color="grey darken-1">
-          <span>로그아웃</span>
-          <v-icon>mdi-logout</v-icon>
-        </v-chip>
+              <v-chip outlined small @click="logOut" color="grey darken-1">
+                <span>로그아웃</span>
+                <v-icon>mdi-logout</v-icon>
+              </v-chip>
+            </div>
+            <div v-else>
+              <v-chip outlined small @click="moveSignup" color="grey darken-1" class="mx-5">
+                <span>회원가입</span>
+                <v-icon>mdi-account</v-icon>
+              </v-chip>
+              <v-chip outlined small @click="moveLogin" color="grey darken-1">
+                <span>로그인</span>
+                <v-icon>mdi-login</v-icon>
+              </v-chip>
+            </div>
+          </v-subheader>
+        </div>
       </div>
-      <div v-else>
-        <v-chip outlined small @click="moveSignup" color="grey darken-1" class="mx-5">
-          <span>회원가입</span>
-          <v-icon>mdi-account</v-icon>
-        </v-chip>
-        <v-chip outlined small @click="moveLogin" color="grey darken-1">
-          <span>로그인</span>
-          <v-icon>mdi-login</v-icon>
-        </v-chip>
+
+      <hr />
+
+      <div id="navimenu">
+        <v-toolbar-title class="mx-10" style="visibility: hidden;"
+          ><v-img width="90px" src="@/assets/img/codackji_logo.png"
+        /></v-toolbar-title>
+
+        <v-list @click="hideNaviMenu">
+          <v-list-item @click="moveAllRank" class="mx-6 px-6">
+            <v-list-item-title>학습 하기</v-list-item-title>
+          </v-list-item>
+          <v-list-item v-for="(item, index) in items" :key="index" @click="moveRankList(item.rank)">
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+
+        <div class="mx-15">
+          <div class="d-flex" >
+           <!-- <v-icon color="yellow darken-2" size="25">mdi-video-account</v-icon>-->
+            <div @click="moveMeeting" class="d-flex my-5" style="cursor: pointer;">
+             <div style="font-size: 17px">화상으로 함께하기</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mx-5" @click="hideNaviMenu" align="center">
+          <div @click="moveIntroduce" class="d-flex my-5" style="cursor: pointer;" align="center">
+            <!-- <v-icon color="yellow darken-2" size="25">mdi-bullhorn</v-icon> -->
+            <div class="mx-1" style="font-size: 17px" align="center">코딱지는?</div>
+          </div>
+          <div link @click="moveNotice" class="d-flex my-5" style="cursor: pointer;" align="center">
+            <!-- <v-icon color="yellow darken-2" size="25">mdi-chat-question</v-icon> -->
+            <div class="mx-1" style="font-size: 17px" align="center">공지사항</div>
+          </div>
+          <div link @click="moveCoFAQ" class="d-flex my-5" style="cursor: pointer;" align="center">
+            <!-- <v-icon color="yellow darken-2" size="25">mdi-chat-question</v-icon> -->
+            <div class="mx-1" style="font-size: 17px" align="center">FAQ</div>
+          </div>
+        </div>
+
+        <v-spacer></v-spacer>
+
+        <v-subheader>
+          <div app v-if="isLogin" @click="hideNaviMenu">
+            <v-chip outlined small color="grey darken-1" class="mx-5" style="visibility: hidden;">
+              <span>{{ userName }}</span>
+              <v-icon>mdi-account</v-icon>
+            </v-chip>
+
+            <v-chip
+              outlined
+              small
+              color="grey darken-1"
+              style="visibility: hidden;"
+              @click="hideNaviMenu"
+            >
+              <span>로그아웃</span>
+              <v-icon>mdi-logout</v-icon>
+            </v-chip>
+          </div>
+          <div v-else @click="hideNaviMenu">
+            <v-chip outlined small color="grey darken-1" class="mx-5" style="visibility: hidden;">
+              <span>회원가입</span>
+              <v-icon>mdi-account</v-icon>
+            </v-chip>
+            <v-chip outlined small color="grey darken-1" style="visibility: hidden;">
+              <span>로그인</span>
+              <v-icon>mdi-login</v-icon>
+            </v-chip>
+          </div>
+        </v-subheader>
       </div>
-    </v-app-bar>
-  </nav>
+    </div>
+
+    <v-btn id="navbtn" @click="isSide = !isSide" :class="{ sidebtn: isSide }">
+      <v-icon>mdi-menu</v-icon>
+    </v-btn>
+
+    <div id="smallnav">
+      <div id="sidebar" :class="{ sidenav: isSide }">
+        <div @click="isSide = !isSide">
+          <div
+            class="d-flex mx-5 mt-10 align-self-center"
+            @click="moveAllRank"
+            style="cursor:pointer;"
+          >
+            <v-icon color="yellow darken-2" size="20">mdi-folder-search</v-icon>
+            <div class="mx-1" style="font-size: 20px;">학습 하기</div>
+            <!-- <v-icon v-if="isMenu" size="15">mdi-menu-up</v-icon>
+            <v-icon v-else size="15">mdi-menu-down</v-icon> -->
+          </div>
+
+          <v-list>
+            <v-list-item @click="moveAllRank">
+              <v-list-item-title>학습 하기</v-list-item-title>
+            </v-list-item>
+            <v-list-item
+              v-for="(item, index) in items"
+              :key="index"
+              @click="moveRankList(item.rank)"
+            >
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+
+          <div @click="moveMeeting" class="d-flex mx-5 my-10 align-self-center" style="cursor: pointer;">
+            <v-icon color="yellow darken-2" size="20">mdi-video-account</v-icon>
+            <div class="mx-1" style="font-size: 20px">화상으로 함께하기</div>
+          </div>
+
+          <div @click="moveNotice" class="d-flex mx-5 my-10" style="cursor: pointer;">
+            <v-icon color="yellow darken-2" size="20">mdi-bullhorn</v-icon>
+            <div class="mx-1" style="font-size: 20px">공지사항</div>
+          </div>
+
+          <div link @click="moveCoFAQ" class="d-flex mx-5 my-10" style="cursor: pointer;">
+            <v-icon color="yellow darken-2" size="20">mdi-chat-question</v-icon>
+            <div class="mx-1" style="font-size: 20px">FAQ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -133,26 +184,23 @@ import axios from 'axios';
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
-
 export default {
   name: 'Header',
   data() {
     return {
+      attrs: null,
+      on: null,
       drawer: false,
-      isMenu: false,
+      // isMenu: true,
+      isSide: false,
       isLogin: false,
+      headerChecked: false,
       notice: '',
       userName: '',
       items: [
-        { rank: 1, title: 'level 1' },
-        { rank: 2, title: 'level 2' },
-        { rank: 3, title: 'level 3' },
-        { rank: 4, title: 'level 4' },
-        { rank: 5, title: 'level 5' },
-        { rank: 6, title: 'level 6' },
-        { rank: 7, title: 'level 7' },
-        { rank: 8, title: 'level 8' },
-        { rank: 9, title: 'level 9' },
+        { rank: 1, title: '3 ~ 4 학년' },
+        { rank: 2, title: '5 ~ 6 학년' },
+        { rank: 3, title: '중등 이상' },
       ],
     };
   },
@@ -217,6 +265,24 @@ export default {
         }
       });
     },
+    moveIntroduce() {
+      this.$router.push({ name: 'Introduce' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
+    },
+    moveMeeting(){
+      if (this.isLogin) {
+        this.$router.push({ name: 'MeetingRoomList' }).catch((error) => {
+          if (error.name === 'NavigationDuplicated') {
+            location.reload();
+          }
+        });
+      }else{
+        alert('로그인이 필요합니다');
+      }
+    },
     toggleMenu() {
       this.isMenu = !this.isMenu;
     },
@@ -224,8 +290,27 @@ export default {
       if (this.isLogin) {
         localStorage.removeItem('jwt');
         localStorage.removeItem('name');
+        localStorage.removeItem('user_number');
         this.isLogin = false;
         this.userName = '';
+        alert('로그아웃 되었습니다.');
+      }
+      this.$router.push({ name: 'Home' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
+    },
+    showNaviMenu() {
+      if (window.innerWidth >= 768) {
+        const naviMenu = document.querySelector('#navimenu');
+        naviMenu.style = 'display: flex;';
+      }
+    },
+    hideNaviMenu() {
+      if (window.innerWidth >= 768) {
+        const naviMenu = document.querySelector('#navimenu');
+        naviMenu.style = 'display: none;';
       }
     },
   },
@@ -241,12 +326,13 @@ export default {
       axios
         .post(`${SERVER_URL}/kakao/login/request`, this.code)
         .then((response) => {
-          history.pushState(null, "", `/`);
+          history.pushState(null, '', `/`);
           let userInfo = null;
           if (response.data['oauth-result'] === 'success') {
             userInfo = response.data['userInfo'];
             localStorage.setItem('jwt', response.data['access-token']);
             localStorage.setItem('name', response.data['userInfo'].name);
+            localStorage.setItem('user_number', response.data['userInfo'].user_number);
             alert(userInfo.email + '님 로그인!');
             location.reload();
           } else {
@@ -254,11 +340,12 @@ export default {
             if (result) {
               userInfo = response.data['userInfo'];
               axios.post(`${SERVER_URL}/kakao/login/merge`, userInfo).then((response) => {
-                history.pushState(null, "", `/`);
+                history.pushState(null, '', `/`);
                 if (response.data['oauth-result'] === 'success') {
                   userInfo = response.data['userInfo'];
                   localStorage.setItem('jwt', response.data['access-token']);
                   localStorage.setItem('name', response.data['userInfo'].name);
+                  localStorage.setItem('user_number', response.data['userInfo'].user_number);
                   alert(userInfo.name + '님! 통합 후 로그인 성공');
                   location.reload();
                 } else {
@@ -286,4 +373,116 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+#baritem {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+#navimenu {
+  width: 100%;
+  height: 200px;
+  background: #fff;
+  position: absolute;
+  z-index: 50;
+  display: none;
+}
+
+#navbtn {
+  display: none;
+  position: absolute;
+  right: 10px;
+  top: 15px;
+}
+
+#smallnav {
+  display: none;
+}
+
+div[id='sidebar'] {
+  width: 250px;
+  height: 100%;
+  background: #fff;
+  position: fixed;
+  top: 0;
+  right: -300px;
+  z-index: 100;
+  transition: all 0.35s;
+}
+
+.sidebtn {
+  right: 260px !important;
+}
+
+.sidenav {
+  right: 0px !important;
+}
+
+@media screen and (max-width: 768px) {
+  #baritem {
+    display: none;
+    flex-direction: column;
+  }
+
+  #navbtn {
+    display: flex;
+    transition: all 0.35s;
+  }
+
+  #smallnav {
+    display: flex;
+  }
+
+  #sidebar {
+    padding-top: 0;
+  }
+}
+
+/* div[id="menuicon"] {
+  display: inline-block;
+  width: 100%;
+  height: 100px;
+  position: relative;
+  cursor: pointer;
+}
+div[id="menuicon"] {z-index: 2;}
+div[id="menuicon"] + span {background: #fff;}
+div[class="topbar"] {
+  width: 100%;
+  height: 200px;
+  background: #fff;
+  position: fixed;
+  top: -300px;
+  z-index: 1;
+  transition: all .35s;
+} */
+
+/* div[id="menuicon"] {display: none;} */
+/* div[id="menuicon"] + span {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  border-radius: 30px;
+  background: #000;
+  transition: all .35s;
+} */
+/* input[id="menuicon"] + label span:nth-child(1) {top: 0;} */
+/* input[id="menuicon"] + label span:nth-child(2) {
+  top: 50%;
+  transform: translateY(-50%);
+} */
+/* input[id="menuicon"] + label span:nth-child(3) {bottom: 0;} */
+/* input[id="menuicon"]:checked + label span:nth-child(1) {
+  top:50%;
+  transform: translateY(-50%) rotate(45deg);
+} */
+/* input[id="menuicon"]:checked + label span:nth-child(2) {opacity: 0;} */
+/* input[id="menuicon"]:checked + label span:nth-child(3) {
+  bottom: 50%;
+  transform: translateY(50%) rotate(-45deg);
+} */
+
+/* div[id=menuicon] + div {top: 100px;} */
+</style>

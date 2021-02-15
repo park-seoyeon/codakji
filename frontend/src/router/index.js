@@ -14,9 +14,13 @@ import SolveProblemPage from '@/views/Problems/SolveProblemPage'
 import SolveResult from '@/views/Problems/SolveResult'
 
 import Notice from '@/views/Notices/Notice.vue'
+import NoticeDetail from '@/views/Notices/NoticeDetail'
 import CoFAQ from '@/views/Notices/CoFAQ.vue'
 
 import Introduce from '@/views/About/Introduce.vue'
+
+import WebMeeting from '@/views/Meetings/WebMeeting.vue'
+import MeetingRoomList from '@/views/Meetings/MeetingRoomList.vue'
 
 Vue.use(VueRouter);
 
@@ -69,7 +73,7 @@ const routes = [
     component: SolveProblemPage,
   },
   {
-    path: '/problem/problem_:problemnumber/result',
+    path: '/problem/problem_:problemnumber/result_:resultnumber',
     name: 'SolveResult',
     component: SolveResult,
   },
@@ -77,6 +81,11 @@ const routes = [
     path: '/codackji/notices',
     name: 'Notice',
     component: Notice,
+  },
+  {
+    path: '/codackji/notices/notice:noticenumber',
+    name: 'NoticeDetail',
+    component: NoticeDetail,
   },
   {
     path: '/codackji/CoFAQ',
@@ -87,6 +96,16 @@ const routes = [
     path: '/about/introduce',
     name: 'Introduce',
     component: Introduce,
+  },
+  {
+    path: '/meeting/room/:room_number',
+    name: 'WebMeeting',
+    component: WebMeeting,
+  },
+  {
+    path: '/meeting/list',
+    name: 'MeetingRoomList',
+    component: MeetingRoomList,
   },
 ];
 

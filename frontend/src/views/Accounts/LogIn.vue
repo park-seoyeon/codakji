@@ -82,19 +82,20 @@ export default {
         axios
           .post(`${SERVER_URL}/user/confirm/login`, form)
           .then((response) => {
-            if (response.data['message'] === "uncertificated") {
+            if (response.data['message'] === 'uncertificated') {
               return alert('보내진 메일을 통해 인증을 해주세요.');
             } else {
               localStorage.setItem('jwt', response.data['access-token']);
               localStorage.setItem('name', response.data['userInfo'].name);
+              localStorage.setItem('user_number', response.data['userInfo'].user_number);
             }
             this.$emit('closeModal');
-            location.reload();
             this.$router.push({ name: 'Home' }).catch((error) => {
               if (error.name === 'NavigationDuplicated') {
                 location.reload();
               }
             });
+            location.reload();
           })
           .catch(() => {
             alert('아이디 혹은 비밀번호가 맞지 않습니다.');
