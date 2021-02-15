@@ -1,7 +1,9 @@
 package com.ssafy.codackji.model.service;
 
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -109,7 +111,10 @@ public class CodeAPIServiceImpl implements CodeAPIService {
 		System.out.println("들어옴");
 		// 요청 url
 		String url = "https://api.jdoodle.com/v1/execute";
-
+		String input = codeAPIDto.getUser_input();
+		if(input.equals("")||input==null) input = getInput1(codeAPIDto.getProblem_number());
+		System.out.println("input : "+input);
+		
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -120,7 +125,7 @@ public class CodeAPIServiceImpl implements CodeAPIService {
 		map.put("clientId", "43a27528b836136335df7e0d4472a5f1");
 		map.put("clientSecret", "6fab09897bfb0a8cfc6f1e9daf1d2af2cafb434a774690a5692c6c9a5d6a6ccc");
 		map.put("script", codeAPIDto.getScript()); // 실행할 코드
-		map.put("stdin", codeAPIDto.getUser_input()); // input 데이터
+		map.put("stdin", input); // input 데이터
 		map.put("language", codeAPIDto.getLanguage()); // 사용 언어
 
 		// 사용 언어 버전 가져오기
@@ -158,6 +163,46 @@ public class CodeAPIServiceImpl implements CodeAPIService {
 		}
 
 		return codeAPIResponseDto;
+	}
+
+	// Java 정답코드 가져오기
+	@Override
+	public String getCorrectJavaCode(int problem_number) throws Exception {
+		return sqlSession.getMapper(CodeAPIMapper.class).getCorrectJavaCode(problem_number);
+	}
+
+	// Python 정답코드 가져오기
+	@Override
+	public String getCorrectPythonCode(int problem_number) throws Exception {
+		return sqlSession.getMapper(CodeAPIMapper.class).getCorrectPythonCode(problem_number);
+	}
+
+	// 해설 이미지 개수 가져오기
+	@Override
+	public int getImgNumber(int problem_number) throws Exception {
+		return sqlSession.getMapper(CodeAPIMapper.class).getImgNumber(problem_number);
+	}
+
+	// solvedProblemNumber를 가져오기
+	@Override
+	public int getSolvedProblemNumber(CodeAPIDto codeAPIDto) throws SQLException {
+		return sqlSession.getMapper(CodeAPIMapper.class).getSolvedProblemNumber(codeAPIDto);
+	}
+
+	// SolvedProblem 테이블 업데이트하기
+	@Override
+	public boolean updateSolvedProblem(SolvedProblemDto solvedProblemDto) throws SQLException {
+		return sqlSession.getMapper(CodeAPIMapper.class).updateSolvedProblem(solvedProblemDto) == 1;
+	}
+
+	@Override
+	public SolvedProblemDto getSolvedProblemInfo(int solved_problem_number) throws Exception {
+		return sqlSession.getMapper(CodeAPIMapper.class).getSolvedProblemInfo(solved_problem_number);
+	}
+
+	@Override
+	public List<String> getAnalysisImage(int problem_number) throws Exception {
+		return sqlSession.getMapper(CodeAPIMapper.class).getAnalysisImage(problem_number);
 	}
 
 	// API 컴파일 에러 분석하기 - 머신러닝

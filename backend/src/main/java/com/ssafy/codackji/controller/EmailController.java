@@ -59,7 +59,7 @@ public class EmailController {
 		try {
 			if (emailService.updateCertification(userEmail)) {
 				String htmlStr = "<div style='text-align: center; margin-top:10%;'><h2>성공적으로 인증되었습니다.</h2>"
-						+"<img src = 'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F7AVpo%2FbtqUM75u9KM%2F6a6GmXy384zwyq8sdZgLQK%2Fimg.png'/>"
+						+"<img width='200px' src = 'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdkBwlS%2FbtqW1tdhqQD%2FYdTCFMFUJlhQgBfYaUKW30%2Fimg.png'/>"
 						+"<br>"
 						+"<a href='http://localhost:8080/' style='text-decoration:none'><h2 style='color:blue'>코딱지로 이동하기</h2></a></div>";
 				return new ResponseEntity<String>(htmlStr, HttpStatus.OK);

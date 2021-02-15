@@ -122,4 +122,61 @@
 		where name = #{name}
 	</select>
 
+
+	<select id="getCorrectJavaCode" parameterType="int" resultType="String">
+		select
+		answer_content_java
+		from Answer
+		where problem_number =
+		#{problem_number}
+	</select>
+	
+	<select id="getCorrectPythonCode" parameterType="int" resultType="String">
+		select
+		answer_content_python
+		from Answer
+		where problem_number =
+		#{problem_number}
+	</select>
+	
+	<select id="getImgNumber" parameterType="int" resultType="int">
+		select
+		answer_image_number
+		from Answer
+		where problem_number = 
+		#{problem_number}
+	</select>
+	
+	<select id="getSolvedProblemNumber" parameterType="codeAPIDto" resultType="int">
+		select
+		solved_problem_number
+		from Solved_Problem
+		where user_number = #{user_number}
+		and problem_number = #{problem_number}
+		order by submit_at desc
+		limit 1
+	</select>
+	
+	<update id="updateSolvedProblem" parameterType="solvedProblemDto">
+		update Solved_Problem
+		set solved_problem_correct = #{solved_problem_correct},
+			api_done = #{api_done},
+			my_output = #{my_output},
+			correct_output = #{correct_output}
+		where solved_problem_number = #{solved_problem_number}
+	</update>
+	
+	
+	<select id ="getSolvedProblemInfo" parameterType = "int" resultType = "SolvedProblemDto">
+		select *
+		from Solved_Problem
+		where solved_problem_number = #{solved_problem_number}
+	</select>
+	
+	<select id ="getAnalysisImage" parameterType = "int" resultType = "String">
+		select image_content
+		from Analysis
+		where problem_number = #{problem_number}
+	</select>
+	
 </mapper>

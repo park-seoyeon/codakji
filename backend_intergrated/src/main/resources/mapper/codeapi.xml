@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.openvidu.js.java.model.mapper.CodeAPIMapper">
+
+
+	<select id="getInput1" parameterType="int" resultType="String">
+		select
+		problem_testcase_input1
+		from Problem
+		where problem_number =
+		#{problem_number}
+	</select>
+
+	<select id="getInput2" parameterType="int" resultType="String">
+		select
+		problem_testcase_input2
+		from Problem
+		where problem_number =
+		#{problem_number}
+	</select>
+
+	<select id="getInput3" parameterType="int" resultType="String">
+		select
+		problem_testcase_input3
+		from Problem
+		where problem_number =
+		#{problem_number}
+	</select>
+
+	<select id="getInput4" parameterType="int" resultType="String">
+		select
+		problem_testcase_input4
+		from Problem
+		where problem_number =
+		#{problem_number}
+	</select>
+
+	<select id="getInput5" parameterType="int" resultType="String">
+		select
+		problem_testcase_input5
+		from Problem
+		where problem_number =
+		#{problem_number}
+	</select>
+
+
+	<select id="getOutput1" parameterType="int" resultType="String">
+		select
+		problem_testcase_output1
+		from Problem
+		where problem_number =
+		#{problem_number}
+	</select>
+
+	<select id="getOutput2" parameterType="int" resultType="String">
+		select
+		problem_testcase_output2
+		from Problem
+		where problem_number =
+		#{problem_number}
+	</select>
+
+
+	<select id="getOutput3" parameterType="int" resultType="String">
+		select
+		problem_testcase_output3
+		from Problem
+		where problem_number =
+		#{problem_number}
+	</select>
+
+
+	<select id="getOutput4" parameterType="int" resultType="String">
+		select
+		problem_testcase_output4
+		from Problem
+		where problem_number =
+		#{problem_number}
+	</select>
+
+
+	<select id="getOutput5" parameterType="int" resultType="String">
+		select
+		problem_testcase_output5
+		from Problem
+		where problem_number =
+		#{problem_number}
+	</select>
+
+	<update id="updateSubmit" parameterType="int">
+		update Problem
+		set
+		problem_submit = problem_submit + 1
+		where problem_number =
+		#{problem_number}
+	</update>
+
+	<update id="updateCorrect" parameterType="int">
+		update Problem
+		set
+		problem_correct = problem_correct + 1
+		where problem_number =
+		#{problem_number}
+	</update>
+
+
+	<insert id="addSolvedProblem" parameterType="solvedProblemDto">
+		insert into Solved_Problem
+		(user_number, problem_number, solved_problem_content,
+		solved_problem_correct, submit_at, language)
+		values(#{user_number},
+		#{problem_number}, #{solved_problem_content},
+		#{solved_problem_correct}, CURRENT_TIMESTAMP, #{language})
+	</insert>
+
+	<select id="getLanguageVersion" parameterType="memberDto"
+		resultType="memberDto">
+		select version
+		from Language
+		where name = #{name}
+	</select>
+
+
+	<select id="getCorrectJavaCode" parameterType="int" resultType="String">
+		select
+		answer_content_java
+		from Answer
+		where problem_number =
+		#{problem_number}
+	</select>
+	
+	<select id="getCorrectPythonCode" parameterType="int" resultType="String">
+		select
+		answer_content_python
+		from Answer
+		where problem_number =
+		#{problem_number}
+	</select>
+	
+	<select id="getImgNumber" parameterType="int" resultType="int">
+		select
+		answer_image_number
+		from Answer
+		where problem_number = 
+		#{problem_number}
+	</select>
+	
+	<select id="getSolvedProblemNumber" parameterType="codeAPIDto" resultType="int">
+		select
+		solved_problem_number
+		from Solved_Problem
+		where user_number = #{user_number}
+		and problem_number = #{problem_number}
+		order by submit_at desc
+		limit 1
+	</select>
+	
+	<update id="updateSolvedProblem" parameterType="solvedProblemDto">
+		update Solved_Problem
+		set solved_problem_correct = #{solved_problem_correct},
+			api_done = #{api_done},
+			my_output = #{my_output},
+			correct_output = #{correct_output}
+		where solved_problem_number = #{solved_problem_number}
+	</update>
+	
+	
+	<select id ="getSolvedProblemInfo" parameterType = "int" resultType = "SolvedProblemDto">
+		select *
+		from Solved_Problem
+		where solved_problem_number = #{solved_problem_number}
+	</select>
+
+</mapper>

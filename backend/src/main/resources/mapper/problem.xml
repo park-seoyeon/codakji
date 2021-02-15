@@ -2,17 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace = "com.ssafy.codackji.model.mapper.ProblemMapper">
+
+	<select id="allProblem" resultType="ProblemDto">
+		select *
+		from Problem
+	</select>
+	
 	<select id="listProblem" parameterType="int" resultType="ProblemDto">
-		select problem_number, problem_rank, problem_title, problem_group
+		select *
 		from Problem
 		where problem_rank = #{problem_rank}
 	</select>
 	
+	<select id="userSolvedProblem" parameterType="int" resultType="SolvedProblemDto">
+		select problem_title, Problem.problem_rank, Problem.problem_number, problem_content, problem_group, language, solved_problem_number, solved_problem_content, solved_problem_correct, Solved_Problem.submit_at
+		from Solved_Problem
+		inner join Problem
+		on Solved_Problem.problem_number = Problem.problem_number
+		where user_number = #{user_number}
+		order by Solved_Problem.submit_at desc
+	</select>
+	
 	<select id="getProblem" parameterType="int" resultType="ProblemDto">
-		select problem_rank, admin_user_number,problem_title, problem_content, problem_group, problem_rank,
-		problem_date, created_at, updated_at, problem_input, problem_output
+		select *
 		from Problem
 		where problem_number = #{problem_number}
 	</select> 
+	
+	<select id="getTotal" parameterType="int" resultType="int">
+		select count(*)
+		from Problem
+		where problem_rank = #{rank}
+	</select> 
+
 	
 </mapper>

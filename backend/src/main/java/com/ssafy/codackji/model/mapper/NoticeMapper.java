@@ -11,6 +11,8 @@ public interface NoticeMapper {
 	public int writeNotice(NoticeDto noticeDto) throws SQLException;
 
 	public List<NoticeDto> listNotice() throws SQLException;
+	
+	public int updateViews(int notice_number) throws SQLException;
 
 	public int updateNotice(NoticeDto noticeDto) throws SQLException;
 

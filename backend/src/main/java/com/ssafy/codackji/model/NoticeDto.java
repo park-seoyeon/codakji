@@ -8,6 +8,7 @@ public class NoticeDto {
 	private String notice_content;
 	private String created_at;
 	private String updated_at;
+	private int views;
 	
 	public NoticeDto() {
 		super();
@@ -57,12 +58,25 @@ public class NoticeDto {
 		this.updated_at = updated_at;
 	}
 
+	public int getViews() {
+		return views;
+	}
+
+	public void setViews(int views) {
+		this.views = views;
+	}
+
 	@Override
 	public String toString() {
-		return "NoticeDto [notice_number=" + notice_number + ", admin_user_number=" + admin_user_number
-				+ ", notice_title=" + notice_title + ", notice_content=" + notice_content + ", created_at=" + created_at
-				+ ", updated_at=" + updated_at + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("NoticeDto [notice_number=").append(notice_number).append(", admin_user_number=")
+				.append(admin_user_number).append(", notice_title=").append(notice_title).append(", notice_content=")
+				.append(notice_content).append(", created_at=").append(created_at).append(", updated_at=")
+				.append(updated_at).append(", views=").append(views).append("]");
+		return builder.toString();
 	}
+
+	
 	
 	
 }
