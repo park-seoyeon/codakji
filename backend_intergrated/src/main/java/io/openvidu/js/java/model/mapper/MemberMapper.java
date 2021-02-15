@@ -1,8 +1,8 @@
 package io.openvidu.js.java.model.mapper;
 
-import java.sql.SQLException;
 import org.apache.ibatis.annotations.Mapper;
 import io.openvidu.js.java.model.MemberDto;
+import java.sql.SQLException;
 
 @Mapper
 public interface MemberMapper {
@@ -23,4 +23,8 @@ public interface MemberMapper {
 
 	public MemberDto socialLogin(MemberDto memberDto) throws SQLException;
 
+	public int updateProfile(MemberDto memberDto) throws SQLException;
+	
+	public int updateIsProfile(MemberDto memberDto) throws SQLException;
+	
 }

@@ -3,6 +3,7 @@ package io.openvidu.js.java.model.service;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -197,6 +198,11 @@ public class CodeAPIServiceImpl implements CodeAPIService {
 	@Override
 	public SolvedProblemDto getSolvedProblemInfo(int solved_problem_number) throws Exception {
 		return sqlSession.getMapper(CodeAPIMapper.class).getSolvedProblemInfo(solved_problem_number);
+	}
+
+	@Override
+	public List<String> getAnalysisImage(int problem_number) throws Exception {
+		return sqlSession.getMapper(CodeAPIMapper.class).getAnalysisImage(problem_number);
 	}
 
 	// API 컴파일 에러 분석하기 - 머신러닝
