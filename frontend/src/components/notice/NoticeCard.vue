@@ -44,5 +44,7 @@ export default {
 </script>
 
 <style>
-
+tr > td {
+  font-size: 16px !important;
+}
 </style>

@@ -392,8 +392,9 @@ export default {
 
 <style>
 /* .v-data-table > .v-data-table__wrapper > table > tbody > tr > th,
-.v-data-table > .v-data-table__wrapper > table > thead > tr > th,
-.v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
+.v-data-table > .v-data-table__wrapper > table > thead > tr > th, */
+/* .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th { */
+tr > th {
   font-size: 20px !important;
-} */
+}
 </style>
