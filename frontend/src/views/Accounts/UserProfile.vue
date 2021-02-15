@@ -36,7 +36,7 @@
       <!-- 내 정보 보기 -->
       <v-tab-item>
         <template style="text_align: center">
-          <v-card class="mx-auto" max-width="80%" min-height="400px">
+          <v-card class="mx-auto my-10" max-width="80%" min-height="400px">
             <img
               :src="userInfo.profileImg"
               width="10%"
@@ -194,7 +194,7 @@
                   <v-icon dark> mdi-wrench </v-icon>수정하기
                 </v-btn>
 
-                <v-card-text style="cursor: pointer" @click="deleteUser"
+                <v-card-text class="mt-10" style="cursor: pointer" @click="deleteUser"
                   >| 회원탈퇴 |</v-card-text
                 >
               </v-card>
