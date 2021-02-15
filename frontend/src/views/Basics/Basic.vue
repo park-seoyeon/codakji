@@ -58,13 +58,12 @@ export default {
   },
   methods: {
     back() {
-      alert('뒤로가기 어떻게 하나요');
-     
+      this.$router.push({ name: 'LearnBasic' });    // 작동 체크 필요
     },
   },
   created() {
     this.title = this.$route.params.name;
-    this.topic = this.$route.params.name;
+    this.topic = this.$route.params.topic;  // 확인 필요
   },
 };
 </script>
