@@ -4,19 +4,31 @@
 <mapper namespace = "io.openvidu.js.java.model.mapper.QuestionMapper">
 
 	<select id="allQuestion" parameterType="int" resultType="QuestionDto">
-		select q.question_number, q.user_number, q.teach_user_number, q.problem_number, q.question_title, q.question_content, q.question_answered, q.question_check, q.created_at, q.question_reply, p.problem_title
+		
+		select s.name as student_name, s.profile_content as student_profile
+		from User s
+		right outer join
+		(select q.question_number, q.user_number, q.teach_user_number, q.problem_number, 
+		q.question_title, q.question_content, q.question_answered, q.question_check, q.created_at, q.question_reply, 
+		p.problem_title, u.name, u.profile_content
 		from Question q
 		left outer join Problem p
-		on q.problem_number = p.problem_number
+		on q.problem_number = p.problem_number		
+		left outer join User u)
+		on u.user_number = q.teach_user_number		
 		order by question_answered asc, created_at desc
 	</select>
 	
 	<select id="listQuestion" parameterType="int" resultType="QuestionDto">
-		select q.question_number, q.user_number, q.teach_user_number, q.problem_number, q.question_title, q.question_content, q.question_answered, q.question_check, q.created_at, q.question_reply, p.problem_title
+		select q.question_number, q.user_number, q.teach_user_number, q.problem_number, 
+		q.question_title, q.question_content, q.question_answered, q.question_check, q.created_at, 
+		q.question_reply, p.problem_title, u.name, u.profile_content, u.name as student_name, u.profile_content as student_profile
 		from Question q
-		left join Problem p
+		left outer join Problem p
 		on q.problem_number = p.problem_number
-		where user_number = #{user_number}
+		left outer join User u
+		on u.user_number = q.teach_user_number		
+		where q.user_number = #{user_number}
 		order by created_at desc
 	</select>
 	

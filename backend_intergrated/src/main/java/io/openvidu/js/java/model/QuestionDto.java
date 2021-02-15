@@ -4,7 +4,11 @@ public class QuestionDto {
 	
 	private int question_number;
 	private int user_number;
+	private String student_profile; //학생프사
+	private String student_name; //학생이름
 	private int teach_user_number;
+	private String name; //선생님 이름
+	private String profile_content; //선생님프사
 	private int problem_number;
 	private String problem_title;
 	private String question_title;
@@ -97,16 +101,45 @@ public class QuestionDto {
 	public void setProblem_title(String problem_title) {
 		this.problem_title = problem_title;
 	}
-	@Override
-	public String toString() {
-		return "QuestionDto [question_number=" + question_number + ", user_number=" + user_number
-				+ ", teach_user_number=" + teach_user_number + ", problem_number=" + problem_number + ", problem_title="
-				+ problem_title + ", question_title=" + question_title + ", question_content=" + question_content
-				+ ", question_answered=" + question_answered + ", question_check=" + question_check + ", created_at="
-				+ created_at + ", updated_at=" + updated_at + ", question_reply=" + question_reply + ", token=" + token
-				+ "]";
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getProfile_content() {
+		return profile_content;
+	}
+	public void setProfile_content(String profile_content) {
+		this.profile_content = profile_content;
 	}
 	
+	
+	
+	public String getStudent_profile() {
+		return student_profile;
+	}
+	public void setStudent_profile(String student_profile) {
+		this.student_profile = student_profile;
+	}
+	public String getStudent_name() {
+		return student_name;
+	}
+	public void setStudent_name(String student_name) {
+		this.student_name = student_name;
+	}
+	
+	@Override
+	public String toString() {
+		return "QuestionDto [question_number=" + question_number + ", user_number=" + user_number + ", student_profile="
+				+ student_profile + ", student_name=" + student_name + ", teach_user_number=" + teach_user_number
+				+ ", name=" + name + ", profile_content=" + profile_content + ", problem_number=" + problem_number
+				+ ", problem_title=" + problem_title + ", question_title=" + question_title + ", question_content="
+				+ question_content + ", question_answered=" + question_answered + ", question_check=" + question_check
+				+ ", created_at=" + created_at + ", updated_at=" + updated_at + ", question_reply=" + question_reply
+				+ ", token=" + token + "]";
+	}
 	
 	
 }
