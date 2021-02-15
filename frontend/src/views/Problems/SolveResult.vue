@@ -181,7 +181,7 @@ export default {
       yourAnswer: '사용자의 정답이 나오는 부분\n개행문자로 줄을 바꾼다',
       correctAnswer: '원래 정답이 나오는 부분',
       yourCode: '사용자의 코드가 적히는 부분\n마찬가지로 개행문자로 줄이 바뀐다',
-      correctCode: '올바른 코드들이 적히는 부분',
+      correctCode: '',
       imageNumber: 0,
       imageContent: '',
       cmodel: 0,
@@ -235,6 +235,9 @@ export default {
         this.correctAnswer = response.data.correct_output;
         this.yourCode = response.data.my_code;
         this.correctCode = response.data.correct_code;
+        if (!this.correctCode) {
+          this.correctCode = '방금 제출한 언어의 답은 아직 준비되지 않았어\n금방 준비할 테니 조금만 기다려줘!'
+        }
         this.imageNumber = response.data.img_number;
         this.imageContent = response.data.img_content;
       })
