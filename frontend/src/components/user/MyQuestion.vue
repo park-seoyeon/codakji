@@ -154,12 +154,15 @@
                 </v-btn>
               </template>
               <template v-else>
-                <br /><br />
-                <v-card width="30%" min-height="100px" style="margin-left:35%">
-                  "선생님 프로필, 이름" 선생님이 답변을 달아주셨어요 :)
+                <v-card
+                  width="30%"
+                  min-height="100px"
+                  style="margin-left:35%">
+                  <v-card-text>
+                    "선생님 프로필, 이름" 선생님이 답변을 달아주셨어요 :)
+                  </v-card-text>
                 </v-card>
               </template>
-              <br /><br />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
