@@ -216,6 +216,7 @@ public class CodeAPIController {
 			codeAPIResultDto.setImg_number(image_number);
 			codeAPIResultDto.setMy_code(solvedProblemDto.getSolved_problem_content());
 			codeAPIResultDto.setMy_output(solvedProblemDto.getMy_output());
+			codeAPIResultDto.setImg_content(codeAPIService.getAnalysisImage(solvedProblemDto.getProblem_number()));
 			
 			status = HttpStatus.OK;
 			return new ResponseEntity<CodeAPIResultDto>(codeAPIResultDto, status);
@@ -500,6 +501,10 @@ public class CodeAPIController {
 			codeAPIResultDto.setMy_output(user_output);
 //		codeAPIResultDto.setMy_output(user_output);
 		codeAPIResultDto.setStatusCode(codeAPIResponseDto.getStatusCode());
+		System.out.println(codeAPIService.getAnalysisImage(solvedProblemDto.getProblem_number()));
+		System.out.println(codeAPIService.getAnalysisImage(solvedProblemDto.getProblem_number()).getClass().getName());
+		codeAPIResultDto.setImg_content(codeAPIService.getAnalysisImage(solvedProblemDto.getProblem_number()));
+		System.out.println(codeAPIResultDto);
 
 		try {
 			codeAPIService.updateSolvedProblem(solvedProblemDto);
