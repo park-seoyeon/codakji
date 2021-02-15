@@ -4,7 +4,7 @@
     <v-sheet color="#FFFFFF" height="300" dark align="center">
       <v-row class="fill-height" align="center" justify="center">
         <div class="display-3">
-          <v-img src="@/assets/img/mypage_banner.png" max-width="1000px">
+          <v-img src="@/assets/img/banner/mypage_banner.png" max-width="1000px">
             <v-container fill-height fluid>
               <div style="margin-left: 43%">
                 <div class="banner text-center" style="font-size: 40px">
@@ -37,33 +37,20 @@
       <v-tab-item>
         <template style="text_align: center">
           <v-card class="mx-auto my-10" max-width="80%" min-height="400px">
-            <img
-              :src="userInfo.profileImg"
-              width="10%"
-              style="margin-top: 50px"
-            />
+            <img :src="userInfo.profileImg" width="10%" style="margin-top: 50px" />
             <v-card-text style="font-size:1.5em">
               <div class="text--primary">
-                <div class="mb-10">
-                  {{ userInfo.name }} 님 ({{ userInfo.stat }})
-                </div>
+                <div class="mb-10">{{ userInfo.name }} 님 ({{ userInfo.stat }})</div>
 
-                <v-simple-table
-                  style="width:50%; margin-left:30%; text-align:left"
-                >
+                <v-simple-table style="width:50%; margin-left:30%; text-align:left">
                   <tr>
                     <td><v-icon color="#FFB911">mdi-paw</v-icon>이메일</td>
-                    <td>
-                      <v-icon color="#FFB911">mdi-paw</v-icon
-                      >{{ userInfo.email }}
-                    </td>
+                    <td><v-icon color="#FFB911">mdi-paw</v-icon>{{ userInfo.email }}</td>
                   </tr>
 
                   <tr>
                     <td><v-icon color="#6F85FF">mdi-paw</v-icon>SNS</td>
-                    <td>
-                      <v-icon color="#6F85FF">mdi-paw</v-icon>{{ userInfo.sns }}
-                    </td>
+                    <td><v-icon color="#6F85FF">mdi-paw</v-icon>{{ userInfo.sns }}</td>
                   </tr>
 
                   <tr>
@@ -106,11 +93,7 @@
                       <v-btn color="green darken-1" text @click="checkPassword">
                         확인
                       </v-btn>
-                      <v-btn
-                        color="green darken-1"
-                        text
-                        @click="dialog = false"
-                      >
+                      <v-btn color="green darken-1" text @click="dialog = false">
                         취소
                       </v-btn>
                     </v-card-actions>
@@ -181,12 +164,7 @@
                 </v-row>
                 <br />
 
-                <v-btn
-                  class="ma-2"
-                  color="orange darken-2"
-                  dark
-                  @click="editCancel"
-                >
+                <v-btn class="ma-2" color="orange darken-2" dark @click="editCancel">
                   <v-icon dark left> mdi-arrow-left </v-icon>돌아가기
                 </v-btn>
 
@@ -200,13 +178,13 @@
               </v-card>
             </v-expand-transition>
           </v-card>
-          <br>
+          <br />
         </template>
       </v-tab-item>
 
       <!-- 내가 푼 문제 목록 -->
       <v-tab-item style="text_align: center">
-        <MySolvedProblem :userInfo="userInfo"/>
+        <MySolvedProblem :userInfo="userInfo" />
       </v-tab-item>
 
       <!-- 나의 질문 목록 -->
@@ -267,7 +245,7 @@ export default {
         number: '',
         profileImg: '',
       },
-      image:'',
+      image: '',
       tabs: null,
       reveal: false,
       dialog: false,
@@ -306,8 +284,7 @@ export default {
           this.userInfo.joindate = response.data.created_at;
           this.userInfo.number = response.data.user_number;
           this.userInfo.profileImg = response.data.profile_content;
-          if (response.data.oauth == 'kakao')
-            this.userInfo.sns = '카카오와 연동되어 있습니다';
+          if (response.data.oauth == 'kakao') this.userInfo.sns = '카카오와 연동되어 있습니다';
           else this.userInfo.sns = '연동된 정보가 없습니다';
 
           if (response.data.admin == true) {
@@ -344,7 +321,7 @@ export default {
     },
 
     Preview_image() {
-      this.userInfo.profileImg= URL.createObjectURL(this.image)
+      this.userInfo.profileImg = URL.createObjectURL(this.image);
     },
 
     updateUser() {
@@ -361,17 +338,16 @@ export default {
           .digest('base64'),
       };
 
-      const fd = new FormData()
-      fd.append('name',this.newName)
-      fd.append('password',form.password)
-      fd.append('token', localStorage.getItem('jwt'))
-      fd.append('email', this.userInfo.email)
-      if(document.getElementById('photo').files[0]) {
-        fd.append('photo', document.getElementById('photo').files[0])
+      const fd = new FormData();
+      fd.append('name', this.newName);
+      fd.append('password', form.password);
+      fd.append('token', localStorage.getItem('jwt'));
+      fd.append('email', this.userInfo.email);
+      if (document.getElementById('photo').files[0]) {
+        fd.append('photo', document.getElementById('photo').files[0]);
 
-        console.log(this.fileName)
-        console.log(fd.get('photo'))
-
+        console.log(this.fileName);
+        console.log(fd.get('photo'));
 
         if (confirm('정말 수정하시겠습니까?')) {
           axios
@@ -392,8 +368,7 @@ export default {
               console.log(error);
             });
         }
-      }
-      else {
+      } else {
         if (confirm('정말 수정하시겠습니까?')) {
           axios
             .put(`${SERVER_URL}/user/noimage`, fd)
@@ -425,16 +400,12 @@ export default {
           .then((response) => {
             console.log(response);
 
-            alert(
-              '\n정상적으로 회원 탈퇴 되셨습니다.\n\n\n -코기는 항상 기다리고 있을게-'
-            );
+            alert('\n정상적으로 회원 탈퇴 되셨습니다.\n\n\n -코기는 항상 기다리고 있을게-');
 
             //자동 로그아웃해서 홈페이지로 가기
           })
           .catch((error) => {
-            alert(
-              '\n회원 탈퇴에 실패하셨습니다. \n\n\n 탈퇴 못하지롱\n가지마...'
-            );
+            alert('\n회원 탈퇴에 실패하셨습니다. \n\n\n 탈퇴 못하지롱\n가지마...');
             console.log(error);
           });
       }
