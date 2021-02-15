@@ -32,6 +32,7 @@
                 :value="yourAnswer"
                 readonly
                 outlined
+                class="wronganswer"
                 ></v-textarea>
               </v-col>
 
@@ -47,6 +48,22 @@
                   outlined
                 ></v-textarea>
               </v-col>
+
+              <v-col cols="0" md="5"></v-col>
+
+              <v-col cols="12" md="4"
+                v-if="error"
+              >
+                <v-textarea
+                  label="Error Infomation"
+                  no-resize
+                  rows="5"
+                  :value="error"
+                  readonly
+                  outlined
+                ></v-textarea>
+              </v-col>
+
             </v-row>
           </v-container>
         </v-tab-item>
@@ -63,7 +80,6 @@
             <v-img
               width="60px"
               src="@/assets/img/watting_cogi.png"
-              style="po"
               @click="isAnswer = !isAnswer"
             />
           </v-btn>
@@ -81,7 +97,7 @@
               </v-col>
               <v-col cols="0" sm="1"></v-col>
 
-              <v-col cols="12" sm="8" md="4"
+              <!-- <v-col cols="12" sm="8" md="4"
                 v-if="error"
               >
                 <v-textarea
@@ -92,7 +108,7 @@
                   readonly
                   outlined
                 ></v-textarea>
-              </v-col>
+              </v-col> -->
 
               <v-col cols="12" sm="8" md="4"
                 v-show="isAnswer"
@@ -119,7 +135,7 @@
           <v-container>
             <v-row>
               <!-- 카로셀로 이미지 보여줄까 -->
-              <v-carousel v-model="model">
+              <v-carousel v-model="cmodel">
                 <v-carousel-item
                   v-for="i in imageNumber"
                   :key="i"
@@ -133,8 +149,8 @@
                       align="center"
                       justify="center"
                     >
-                      <div class="display-3">
-                        <v-img :src="`/img/analysis/codackji_problem_${$route.params.problemnumber}_${i}.png`" />
+                      <div class="display-3" v-if="imageContent">
+                        <v-img :src="imageContent[i-1]" />
                       </div>
                     </v-row>
                   </v-sheet>
@@ -159,15 +175,16 @@ export default {
     return {
       tabs: null,
       description: false,
-      isCorrect: false,
+      isCorrect: false, // 정답 여부
       error: '',
-      isAnswer: false,
+      isAnswer: false,  // 예시코드 보여주기 여부
       yourAnswer: '사용자의 정답이 나오는 부분\n개행문자로 줄을 바꾼다',
       correctAnswer: '원래 정답이 나오는 부분',
       yourCode: '사용자의 코드가 적히는 부분\n마찬가지로 개행문자로 줄이 바뀐다',
-      correctCode: '올바른 코드들이 적히는 부분',
+      correctCode: '',
       imageNumber: 0,
-      model: 0,
+      imageContent: '',
+      cmodel: 0,
       colors: [
         'primary',
         'secondary',
@@ -203,16 +220,26 @@ export default {
         // memory: "5308"
         // statusCode: "200"
         this.isCorrect = response.data.answer;
-        this.error = response.data.error;
-        if (!this.error) {  // 에러가 null이면 무조건 Answer를 보여준다
-          this.isAnswer = true;
-
+        if (this.isCorrect) {
+          const answer = document.querySelector('.wronganswer');
+          answer.classList.add('goodanswer')
         }
+        this.error = response.data.error;
+        // if (!this.error) {  // 에러가 null이면 무조건 Answer를 보여준다
+        //   this.isAnswer = true;
+
+        // }
+        if (this.isCorrect) this.isAnswer = true;
+
         this.yourAnswer = response.data.my_output;
         this.correctAnswer = response.data.correct_output;
         this.yourCode = response.data.my_code;
         this.correctCode = response.data.correct_code;
+        if (!this.correctCode) {
+          this.correctCode = '방금 제출한 언어의 답은 아직 준비되지 않았어\n금방 준비할 테니 조금만 기다려줘!'
+        }
         this.imageNumber = response.data.img_number;
+        this.imageContent = response.data.img_content;
       })
       .catch(error => {
         if (error.response.status === 401) {
@@ -230,5 +257,10 @@ export default {
 </script>
 
 <style>
-
+div[class*='wronganswer'] > div[class='v-input__control'] > div[class="v-input__slot"] {
+  background: lightsalmon;
+}
+div[class*='goodanswer'] > div[class='v-input__control'] > div[class="v-input__slot"] {
+  background: lightseagreen;
+}
 </style>

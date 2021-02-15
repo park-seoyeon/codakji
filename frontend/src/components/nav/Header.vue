@@ -17,7 +17,9 @@
 
             <div class="d-flex align-self-center" style="border-left: 2px solid #e6e6e6;">
               <!-- <v-icon color="yellow darken-2" size="25">mdi-video-account</v-icon> -->
-              <div class="mx-11" style="font-size: 17px; cursor: pointer; ">화상으로 함께 하기</div>
+              <div class="mx-11" @click="moveMeeting" style="font-size: 17px; cursor: pointer; ">
+                화상으로 함께하기
+              </div>
             </div>
 
             <div class="d-flex align-self-center" style="border-left: 2px solid #e6e6e6;">
@@ -62,7 +64,7 @@
         /></v-toolbar-title>
 
         <v-list @click="hideNaviMenu">
-          <v-list-item @click="moveAllRank" class="mx-6 px-6">
+          <v-list-item @click="moveAllRank" class="mx-5 px-6">
             <v-list-item-title>학습 하기</v-list-item-title>
           </v-list-item>
           <v-list-item v-for="(item, index) in items" :key="index" @click="moveRankList(item.rank)">
@@ -70,14 +72,16 @@
           </v-list-item>
         </v-list>
 
-        <div class="mx-13">
-          <div class="d-flex" style="visibility: hidden;">
-            <!-- <v-icon color="yellow darken-2" size="25">mdi-video-account</v-icon> -->
-            <div style="font-size: 17px">화상으로 함께 하기</div>
+        <div class="ml-12 mr-15">
+          <div class="d-flex">
+            <!-- <v-icon color="yellow darken-2" size="25">mdi-video-account</v-icon>-->
+            <div @click="moveMeeting" class="d-flex my-5" style="cursor: pointer;">
+              <div style="font-size: 17px">화상으로 함께하기</div>
+            </div>
           </div>
         </div>
 
-        <div class="mx-5" @click="hideNaviMenu" align="center">
+        <div class="mx-6 " @click="hideNaviMenu" align="center">
           <div @click="moveIntroduce" class="d-flex my-5" style="cursor: pointer;" align="center">
             <!-- <v-icon color="yellow darken-2" size="25">mdi-bullhorn</v-icon> -->
             <div class="mx-1" style="font-size: 17px" align="center">코딱지는?</div>
@@ -157,7 +161,11 @@
             </v-list-item>
           </v-list>
 
-          <div class="d-flex mx-5 my-10 align-self-center" style="cursor: pointer;">
+          <div
+            @click="moveMeeting"
+            class="d-flex mx-5 my-10 align-self-center"
+            style="cursor: pointer;"
+          >
             <v-icon color="yellow darken-2" size="20">mdi-video-account</v-icon>
             <div class="mx-1" style="font-size: 20px">화상으로 함께하기</div>
           </div>
@@ -269,6 +277,17 @@ export default {
           location.reload();
         }
       });
+    },
+    moveMeeting() {
+      if (this.isLogin) {
+        this.$router.push({ name: 'MeetingRoomList' }).catch((error) => {
+          if (error.name === 'NavigationDuplicated') {
+            location.reload();
+          }
+        });
+      } else {
+        alert('로그인이 필요합니다');
+      }
     },
     toggleMenu() {
       this.isMenu = !this.isMenu;

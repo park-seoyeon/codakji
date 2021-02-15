@@ -61,6 +61,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
 @import './assets/css/rankcard.css';
 @import './assets/css/problemcard.css';
+@import './assets/css/meetingroom.css';
 
 #app {
   font-family: 'Do Hyeon', sans-serif;

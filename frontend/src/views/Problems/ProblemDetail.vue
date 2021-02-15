@@ -20,18 +20,8 @@
             <p>{{ problemDetails.problem_output }}</p>
           </div>
         </div>
-        <!--<div align="right">
-          <div v-if="description" align="right">
-            해설보러가기!
-          </div>
-           <v-img
-            width="60px"
-            src="@/assets/img/watting_cogi.png"
-            @mouseover="mouseOver"
-            @mouseleave="mouseLeave"
-          />
-        </div> -->
       </v-col>
+
       <!-- <v-col cols="6">
         <iframe
           width="100%"
@@ -42,33 +32,77 @@
         ></iframe>
       </v-col> -->
       <v-col cols="6">
-      <v-col cols="3">
-        <v-select
-          v-model="select"
-          :items="items"
-          item-text="lang"
-          item-value="mode"
-          label="Select"
-          persistent-hint
-          return-object
-          single-line
-        ></v-select>
+        <v-col cols="3">
+          <v-select
+            v-model="select"
+            :items="items"
+            item-text="lang"
+            item-value="mode"
+            label="Select"
+            persistent-hint
+            return-object
+            single-line
+          ></v-select>
         </v-col>
-        <Ide @getCode="getChildMessage"/>
+        <Ide @getCode="getChildMessage" />
       </v-col>
     </v-row>
-    <v-row>
-      <v-col cols="6">
-        <h3>Input</h3> 
-        <v-textarea v-model="test_input" placeholder="Input 값을 입력하시오"></v-textarea>
+    <v-row class="mt-10" align="center">
+      <v-col class="mr-5" style="background-color: #F0F0F0;">
+        <div align="left">
+          <h3>예제 입력</h3>
+        </div>
+        <v-textarea v-model="problemDetails.problem_testcase_input1" readonly> </v-textarea>
       </v-col>
-      <v-col cols="6">
-        <h3>Output</h3>
-        <v-textarea v-model="test_output" placeholder="Output 값이 출력됩니다"></v-textarea>
+      <v-col class="ml-5" style="background-color: #F0F0F0;">
+        <div align="left">
+          <h3>예제 출력</h3>
+        </div>
+        <v-textarea v-model="problemDetails.problem_testcase_output1" readonly> </v-textarea>
       </v-col>
-      <v-col align="right">
-        <v-btn @click="test()">test</v-btn>
-        <v-btn @click="submit()">submit</v-btn>
+    </v-row>
+    <v-row class="mt-7">
+      <v-col cols="12" align="left">
+        <h3>Test</h3>
+      </v-col>
+      <v-container class="pd-2" style="background-color: #F9F9F9; border-top: solid 1px;">
+        <div class="ma-5 pb-3 guide" style="border-bottom: solid 1px #EAEAEA;" align="left">
+          Input 을 입력하고 테스트하기를 선택하면 Output 결과를 확인할 수 있습니다. Input 값을 넣지
+          않으면 기본 Input값이 적용되어 실행됩니다. Test는 채점을 하는 것이 아니며 정답 여부를
+          알려주지 않습니다.
+        </div>
+        <v-row class="mt-4" align="center">
+          <v-col cols="6" align="left">
+            <div class="mb-3">
+              <h3>Input</h3>
+            </div>
+            <v-textarea solo v-model="test_input" placeholder="Input 값을 입력하시오"></v-textarea>
+          </v-col>
+          <v-col cols="6" align="left">
+            <div class="mb-3">
+              <h3>Output</h3>
+            </div>
+            <v-textarea
+              solo
+              v-model="test_output"
+              placeholder="Output 값이 출력됩니다"
+            ></v-textarea>
+          </v-col>
+        </v-row>
+      </v-container>
+      <v-col align="center">
+        <v-chip class="mr-5" color="indigo darken-1" label large outlined @click="test()">
+          테스트하기
+          <v-icon right>
+            mdi-replay
+          </v-icon>
+        </v-chip>
+        <v-chip class="ml-5" dark color="indigo darken-1" label large @click="submit()">
+          제출하기
+          <v-icon right>
+            mdi-arrow-right-bold
+          </v-icon>
+        </v-chip>
       </v-col>
     </v-row>
     <v-col cols="12" class="mt-10 guide" align="left">
@@ -122,19 +156,19 @@ export default {
       comment: '',
       childMessage: '',
       problem_number: '',
-      user_number:'',
-      user_input:'',
-      language:'',
-      script:'',
+      user_number: '',
+      user_input: '',
+      language: '',
+      script: '',
 
-      test_input:'',
-      test_output:'',
-      
+      test_input: '',
+      test_output: '',
+
       select: { lang: 'python3', mode: 'text/x-python' },
-        items: [
-          { lang: 'python3', mode: 'text/x-python' },
-          { lang: 'java', mode: 'java' },
-        ],
+      items: [
+        { lang: 'python3', mode: 'text/x-python' },
+        { lang: 'java', mode: 'java' },
+      ],
     };
   },
   components: {
@@ -180,43 +214,43 @@ export default {
       axios
         .post(`${SERVER_URL}/codeAPI/test`, {
           problem_number: this.$route.params.problemnumber,
-          user_number: localStorage.getItem("user_number"),
+          user_number: localStorage.getItem('user_number'),
           user_input: this.test_input,
           language: this.select.lang,
-          token: localStorage.getItem("jwt"),
+          token: localStorage.getItem('jwt'),
           script: this.childMessage,
         })
-        .then(res => {
+        .then((res) => {
           //console.log(res.data)
-          this.test_output = res.data.output
+          this.test_output = res.data.output;
         });
     },
     submit() {
       const solvedInfo = {
         problem_number: this.$route.params.problemnumber,
-        user_number: localStorage.getItem("user_number"),
-        user_input: "",
+        user_number: localStorage.getItem('user_number'),
+        user_input: '',
         language: this.select.lang,
-        token: localStorage.getItem("jwt"),
+        token: localStorage.getItem('jwt'),
         script: this.childMessage,
-      }
+      };
 
       axios
         .post(`${SERVER_URL}/codeAPI/submit`, solvedInfo)
-        .then(res => {
+        .then((res) => {
           // console.log(res.data)
           this.$router.push({
             name: 'SolveResult',
             params: {
               problemnumber: solvedInfo.problem_number,
-              resultnumber: res.data
-            }
-          })
+              resultnumber: res.data,
+            },
+          });
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response.status === 401) {
-            alert("세션이 만료되었습니다.");
-            this.$emit("expireLogin");
+            alert('세션이 만료되었습니다.');
+            this.$emit('expireLogin');
           } else {
             console.log(error);
           }
@@ -238,10 +272,10 @@ export default {
             alert(msg);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response.status === 401) {
-            alert("세션이 만료되었습니다.");
-            this.$emit("expireLogin");
+            alert('세션이 만료되었습니다.');
+            this.$emit('expireLogin');
           } else {
             console.log(error);
           }

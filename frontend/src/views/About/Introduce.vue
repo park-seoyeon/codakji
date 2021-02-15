@@ -197,7 +197,7 @@
               SeoYeon
             </div>
             <div style="display: inline-block; font-size: 20px;" width="50" class="mr-15 ml-14">
-              RakYeong
+              RakYoung
             </div>
             <div style="display: inline-block; font-size: 20px;" width="50" class="mr-15 ml-12">
               JooHee
