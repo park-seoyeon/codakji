@@ -2,6 +2,7 @@ package com.ssafy.codackji.model;
 
 public class CodeAPIDto {
 	
+	private int solved_problem_number;
 	private int problem_number; //문제번호
 	private int user_number; //사용자 번호
 	private String user_input; //사용자 입력
@@ -11,6 +12,19 @@ public class CodeAPIDto {
 	
 	
 	public CodeAPIDto() {}
+
+	
+
+	public int getSolved_problem_number() {
+		return solved_problem_number;
+	}
+
+
+
+	public void setSolved_problem_number(int solved_problem_number) {
+		this.solved_problem_number = solved_problem_number;
+	}
+
 
 
 	public int getProblem_number() {
@@ -72,15 +86,13 @@ public class CodeAPIDto {
 	}
 
 
+
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("CodeAPIDto [problem_number=").append(problem_number).append(", user_number=")
-				.append(user_number).append(", language=").append(language).append(", script=").append(script)
-				.append("]");
-		return builder.toString();
+		return "CodeAPIDto [solved_problem_number=" + solved_problem_number + ", problem_number=" + problem_number
+				+ ", user_number=" + user_number + ", user_input=" + user_input + ", language=" + language + ", script="
+				+ script + ", token=" + token + "]";
 	}
-	
-	
-	
+
+
 }

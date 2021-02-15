@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.ssafy.codackji.model.mapper.AnswerMapper">
+
+	<update id="writeAnswer" parameterType="QuestionDto">
+		update Question
+		set teach_user_number = #{teach_user_number}, question_answered = true, question_check = false, question_reply = #{question_reply}
+		where question_number = #{question_number}
+	</update>
+	<update id="editAnswer" parameterType="QuestionDto">
+		update Question
+		set question_reply = #{question_reply}
+		where question_number = #{question_number}
+	</update>
+	<update id="deleteAnswer" parameterType="QuestionDto">
+		update Question
+		set question_reply = null, question_answered = false, question_check = true
+		where question_number = #{question_number}
+	</update>
+	
+</mapper>

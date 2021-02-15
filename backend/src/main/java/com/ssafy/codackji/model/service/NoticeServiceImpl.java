@@ -23,6 +23,11 @@ public class NoticeServiceImpl implements NoticeService {
 	public List<NoticeDto> listNotice() throws Exception {
 		return sqlSession.getMapper(NoticeMapper.class).listNotice();
 	}
+	
+	@Override
+	public boolean updateViews(int notice_number) throws Exception {
+		return sqlSession.getMapper(NoticeMapper.class).updateViews(notice_number) == 1;
+	}
 
 	@Override
 	public boolean updateNotice(NoticeDto noticeDto) throws Exception {

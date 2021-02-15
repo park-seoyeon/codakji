@@ -56,6 +56,7 @@ public class ProblemCommentController {
 				memberDto.setToken(token);
 				jwtService.setToken(memberDto);
 				if (problemCommentService.writeProblemComment(problemCommentDto)) {
+					System.out.println(problemCommentDto);
 					return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 				}
 			}
@@ -69,7 +70,6 @@ public class ProblemCommentController {
 	public ResponseEntity<List<ProblemCommentDto>> listProblemComment(@PathVariable("problem_number") @ApiParam(value = "댓글 목록을 불러올 문제 번호", required = true) int problem_number)
 			throws Exception {
 			return new ResponseEntity<List<ProblemCommentDto>>(problemCommentService.listProblemComment(problem_number), HttpStatus.OK);
-
 	}
 
 

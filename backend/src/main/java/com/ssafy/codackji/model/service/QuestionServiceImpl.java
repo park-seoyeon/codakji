@@ -15,6 +15,11 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Autowired
 	private SqlSession sqlSession;
+	
+	@Override
+	public List<QuestionDto> allQuestion() throws Exception{
+		return sqlSession.getMapper(QuestionMapper.class).allQuestion();
+	}
 	@Override
 	public List<QuestionDto> listQuestion(int user_number) throws Exception {
 		return sqlSession.getMapper(QuestionMapper.class).listQuestion(user_number);

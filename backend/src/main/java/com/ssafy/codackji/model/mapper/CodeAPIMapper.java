@@ -1,9 +1,11 @@
 package com.ssafy.codackji.model.mapper;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ssafy.codackji.model.CodeAPIDto;
 import com.ssafy.codackji.model.SolvedProblemDto;
 
 @Mapper
@@ -36,4 +38,18 @@ public interface CodeAPIMapper {
 	public void addSolvedProblem(SolvedProblemDto solvedProblemDto) throws SQLException;
 
 	public String getLanguageVersion(String name) throws SQLException;
+	
+	public String getCorrectJavaCode(int problem_number) throws SQLException;
+	
+	public String getCorrectPythonCode(int problem_number) throws SQLException;
+	
+	public int getImgNumber(int problem_number) throws SQLException;
+	
+	public int getSolvedProblemNumber(CodeAPIDto codeAPIDto) throws SQLException;
+	
+	public int updateSolvedProblem(SolvedProblemDto solvedProblemDto) throws SQLException;
+	
+	public SolvedProblemDto getSolvedProblemInfo(int solved_problem_number) throws SQLException;
+	
+	public List<String> getAnalysisImage(int problem_number) throws SQLException;
 }

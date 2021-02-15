@@ -1,5 +1,8 @@
 package com.ssafy.codackji.model.service;
 
+import java.sql.SQLException;
+import java.util.List;
+
 import com.ssafy.codackji.model.CodeAPIDto;
 import com.ssafy.codackji.model.CodeAPIResponseDto;
 import com.ssafy.codackji.model.SolvedProblemDto;
@@ -46,4 +49,23 @@ public interface CodeAPIService {
 	// API 컴파일 에러 분석하기 - 머신러닝
 	// 구현 예정
 
+	// Java 정답 Code 가져오기
+	public String getCorrectJavaCode(int problem_number) throws Exception;
+	
+	// Python 정답 Code 가져오기
+	public String getCorrectPythonCode(int problem_number) throws Exception;
+	
+	// 해설 Image 개수 가져오기
+	public int getImgNumber(int problem_number) throws Exception;
+	
+	// solvedProblemNumber를 가져오기
+	public int getSolvedProblemNumber(CodeAPIDto codeAPIDto) throws Exception;
+	
+	// SolvedProblem을 업데이트하기
+	public boolean updateSolvedProblem(SolvedProblemDto solvedProblemDto) throws Exception;
+	
+	// solvedProblem 정보 가져오기
+	public SolvedProblemDto getSolvedProblemInfo(int solved_problem_number) throws Exception;
+	
+	public List<String> getAnalysisImage(int problem_number) throws Exception;
 }

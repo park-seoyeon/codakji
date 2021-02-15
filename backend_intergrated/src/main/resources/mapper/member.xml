@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "io.openvidu.js.java.model.mapper.MemberMapper">
+	
+	<insert id="addUser">
+		insert into User (email, name, password, oauth, certification)
+		values(#{email}, #{name}, #{password}, #{oauth}, #{certification})
+	</insert>
+	
+	<select id="emailCheck" resultType="int">
+		select count(*) from User
+		where email = #{email}
+	</select>
+	
+	<select id="login" parameterType="memberDto" resultType="memberDto">
+		select *
+		from User
+		where email = #{email} and password = #{password}
+	</select>
+	
+	<select id="socialLogin" parameterType="memberDto" resultType="memberDto">
+		select *
+		from User
+		where email = #{email} and oauth = #{oauth}
+	</select>
+	
+	<select id="userInfo" parameterType="String" resultType="memberDto">
+		select *
+		from User
+		where email = #{email}
+	</select>
+	
+	<update id="updateUser" parameterType="memberDto">
+		update User
+		set admin = #{admin}, teach = #{teach}, name = #{name}, password = #{password}, oauth = #{oauth}, certification = #{certification}
+		where email = #{email}
+	</update>
+	
+	<delete id="deleteUser" parameterType="String">
+		delete from User
+		where email = #{email}
+	</delete>
+	
+	<update id="updatePassword" parameterType="memberDto">
+		update User
+		set password = #{password}
+		where email = #{email}
+	</update>
+</mapper>
