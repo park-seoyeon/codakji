@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-chip style="position: absolute; top: 0; left: 10px; z-index: 50;">
+    <v-chip
+      @click="moveBack"
+      style="position: absolute; top: 0; left: 10px; z-index: 50;"
+    >
       뒤로 가는 버튼
     </v-chip>
     <!-- <v-btn
@@ -195,12 +198,9 @@ export default {
     }
   },
   methods: {
-    mouseOver: function() {
-      this.description = !this.description;
-    },
-    mouseLeave: function() {
-      this.description = !this.description;
-    },
+    moveBack() {
+      history.back();
+    }
   },
   created() {
     const resultInfo = {

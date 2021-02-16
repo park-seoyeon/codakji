@@ -1,6 +1,6 @@
 <template>
-  <v-flex>
-    <v-sheet class="mx-auto mt-5" align="left" width="1024">
+  <v-col>
+    <v-sheet class="mx-auto mt-5" align="left">
       <div style=" display: inline-block;">
         <img src="@/assets/img/wheel.png" width="50" height="50" />
       </div>
@@ -16,11 +16,13 @@
       </div>
     </v-sheet>
     <v-sheet class="mx-auto mt-5" width="1024">
-      <v-row>
-        <RankCard v-for="(rank, idx) in ranks" :key="idx" :rank="rank" />
-      </v-row>
+      <v-container>
+        <v-row>
+          <RankCard v-for="(rank, idx) in ranks" :key="idx" :rank="rank" />
+        </v-row>
+      </v-container>
     </v-sheet>
-  </v-flex>
+  </v-col>
 </template>
 
 <script>
