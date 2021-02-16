@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="3">
+  <v-col cols="6" md="3">
     <v-card>
       <div>
         <v-sheet color="grey darken-2" dark>

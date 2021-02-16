@@ -54,13 +54,16 @@ const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
   name: 'ProblemRankList',
+  components: {
+    ProblemCard,
+  },
   data: () => {
     return {
       rankProblems: '',
     };
   },
-  components: {
-    ProblemCard,
+  props: {
+    problemrank: [Number, String],
   },
   methods: {
     getListRankProblem() {
@@ -79,6 +82,9 @@ export default {
   created() {
     this.getListRankProblem();
   },
+  watch: {
+    problemrank: 'getListRankProblem'
+  }
 };
 </script>
 
