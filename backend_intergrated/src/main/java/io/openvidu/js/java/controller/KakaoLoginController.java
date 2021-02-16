@@ -55,6 +55,7 @@ public class KakaoLoginController {
 	private static final String FAIL = "fail";
 	public static final String CLIENT_ID = "b01a0730a95c33f09f4655b0107ea8cc";
 	public static final String REDIRECT_URI = "http://localhost:8080/";
+	//public static final String REDIRECT_URI = "https://i4a203.p.ssafy.io:8000";
 
 	@Autowired
 	private MemberService memberService;
