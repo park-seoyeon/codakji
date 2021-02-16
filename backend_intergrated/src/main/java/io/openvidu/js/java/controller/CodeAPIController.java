@@ -208,7 +208,7 @@ public class CodeAPIController {
 			
 			if(solvedProblemDto.getLanguage().equals("java"))
 				codeAPIResultDto.setCorrect_code(correct_Java_code); //
-			else if(solvedProblemDto.getLanguage().equals("python"))
+			else if(solvedProblemDto.getLanguage().equals("python3"))
 				codeAPIResultDto.setCorrect_code(correct_Python_code);
 			else
 				codeAPIResultDto.setCorrect_code(null);
@@ -486,7 +486,7 @@ public class CodeAPIController {
 		
 		if(solvedProblemDto.getLanguage().equals("java"))
 			codeAPIResultDto.setCorrect_code(correct_Java_code); //
-		else if(solvedProblemDto.getLanguage().equals("python"))
+		else if(solvedProblemDto.getLanguage().equals("python3"))
 			codeAPIResultDto.setCorrect_code(correct_Python_code);
 		else
 			codeAPIResultDto.setCorrect_code(null);

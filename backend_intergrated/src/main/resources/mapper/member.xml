@@ -4,8 +4,8 @@
 <mapper namespace = "io.openvidu.js.java.model.mapper.MemberMapper">
 	
 	<insert id="addUser">
-		insert into User (email, name, password, oauth, certification)
-		values(#{email}, #{name}, #{password}, #{oauth}, #{certification})
+		insert into User (email, name, password, oauth, certification, profile_content)
+		values(#{email}, #{name}, #{password}, #{oauth}, #{certification}, #{profile_content})
 	</insert>
 	
 	<select id="emailCheck" resultType="int">
