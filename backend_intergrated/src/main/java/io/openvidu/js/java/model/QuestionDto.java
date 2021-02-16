@@ -4,11 +4,11 @@ public class QuestionDto {
 	
 	private int question_number;
 	private int user_number;
-	private String student_profile; //학생프사
-	private String student_name; //학생이름
+	private String teach_profile; //선생님 프사
+	private String teach_name; //선생님 이름
 	private int teach_user_number;
-	private String name; //선생님 이름
-	private String profile_content; //선생님프사
+	private String name; //학생 이름
+	private String profile_content; //학생 프사
 	private int problem_number;
 	private String problem_title;
 	private String question_title;
@@ -33,18 +33,47 @@ public class QuestionDto {
 	public void setUser_number(int user_number) {
 		this.user_number = user_number;
 	}
+	public String getTeach_profile() {
+		return teach_profile;
+	}
+	public void setTeach_profile(String teach_profile) {
+		this.teach_profile = teach_profile;
+	}
+	public String getTeach_name() {
+		return teach_name;
+	}
+	public void setTeach_name(String teach_name) {
+		this.teach_name = teach_name;
+	}
 	public int getTeach_user_number() {
 		return teach_user_number;
 	}
 	public void setTeach_user_number(int teach_user_number) {
 		this.teach_user_number = teach_user_number;
 	}
-	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getProfile_content() {
+		return profile_content;
+	}
+	public void setProfile_content(String profile_content) {
+		this.profile_content = profile_content;
+	}
 	public int getProblem_number() {
 		return problem_number;
 	}
 	public void setProblem_number(int problem_number) {
 		this.problem_number = problem_number;
+	}
+	public String getProblem_title() {
+		return problem_title;
+	}
+	public void setProblem_title(String problem_title) {
+		this.problem_title = problem_title;
 	}
 	public String getQuestion_title() {
 		return question_title;
@@ -82,7 +111,6 @@ public class QuestionDto {
 	public void setUpdated_at(String updated_at) {
 		this.updated_at = updated_at;
 	}
-	
 	public String getQuestion_reply() {
 		return question_reply;
 	}
@@ -95,46 +123,11 @@ public class QuestionDto {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	public String getProblem_title() {
-		return problem_title;
-	}
-	public void setProblem_title(String problem_title) {
-		this.problem_title = problem_title;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getProfile_content() {
-		return profile_content;
-	}
-	public void setProfile_content(String profile_content) {
-		this.profile_content = profile_content;
-	}
-	
-	
-	
-	public String getStudent_profile() {
-		return student_profile;
-	}
-	public void setStudent_profile(String student_profile) {
-		this.student_profile = student_profile;
-	}
-	public String getStudent_name() {
-		return student_name;
-	}
-	public void setStudent_name(String student_name) {
-		this.student_name = student_name;
-	}
-	
 	@Override
 	public String toString() {
-		return "QuestionDto [question_number=" + question_number + ", user_number=" + user_number + ", student_profile="
-				+ student_profile + ", student_name=" + student_name + ", teach_user_number=" + teach_user_number
-				+ ", name=" + name + ", profile_content=" + profile_content + ", problem_number=" + problem_number
+		return "QuestionDto [question_number=" + question_number + ", user_number=" + user_number + ", teach_profile="
+				+ teach_profile + ", teach_name=" + teach_name + ", teach_user_number=" + teach_user_number + ", name="
+				+ name + ", profile_content=" + profile_content + ", problem_number=" + problem_number
 				+ ", problem_title=" + problem_title + ", question_title=" + question_title + ", question_content="
 				+ question_content + ", question_answered=" + question_answered + ", question_check=" + question_check
 				+ ", created_at=" + created_at + ", updated_at=" + updated_at + ", question_reply=" + question_reply

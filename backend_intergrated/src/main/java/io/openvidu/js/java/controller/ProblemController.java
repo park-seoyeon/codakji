@@ -1,6 +1,8 @@
 package io.openvidu.js.java.controller;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -73,18 +75,38 @@ public class ProblemController {
 				memberDto.setToken(token);
 				jwtService.setToken(memberDto);// db에 토큰 renewal_time 갱신		
 				
+				//문제풀이 통계
 				List<SolvedProblemDto> userSolvedProblemList = problemService.userSolvedProblem(user_number);
+				
+				Set<Integer> set1 = new HashSet<>();
+				Set<Integer> set2 = new HashSet<>();
+				Set<Integer> set3 = new HashSet<>();
+				
+				int total = 0;
+				
 				double rank1=0, rank2=0, rank3=0;
 				for(SolvedProblemDto sp : userSolvedProblemList) {
 					switch(sp.getProblem_rank()) {
 					case 1:
-						if(sp.isSolved_problem_correct())rank1++;
+						if(sp.isSolved_problem_correct())total++;
+						if(sp.isSolved_problem_correct() && set1.contains(sp.getProblem_number()) == false) {
+							rank1++;
+							set1.add(sp.getProblem_number());
+						}
 						break;
 					case 2:
-						if(sp.isSolved_problem_correct())rank2++;
+						if(sp.isSolved_problem_correct())total++;
+						if(sp.isSolved_problem_correct() && set2.contains(sp.getProblem_number()) == false) {
+							rank2++;
+							set2.add(sp.getProblem_number());
+						}
 						break;
 					case 3:
-						if(sp.isSolved_problem_correct())rank3++;
+						if(sp.isSolved_problem_correct())total++;
+						if(sp.isSolved_problem_correct() && set3.contains(sp.getProblem_number()) == false) {
+							rank3++;
+							set3.add(sp.getProblem_number());
+						}
 						break;
 					}
 				}
@@ -97,7 +119,9 @@ public class ProblemController {
 				double d1 = (double)(rank1/total1) * 100;
 				double d2 = (double)(rank2/total2) * 100;
 				double d3 = (double)(rank3/total3) * 100;
-				double ac = (double)((rank1 + rank2 + rank3)/totalSolved) * 100;
+				double ac = 0;
+				
+				if(totalSolved != 0) ac = (double)(total/totalSolved) * 100;
 				
 				System.out.println(rank1 + " " + rank2 + " " + rank3);
 				System.out.println(total1 + " " + total2 + " " + total3 + " " + totalSolved);

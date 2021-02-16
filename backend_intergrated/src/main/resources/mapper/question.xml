@@ -5,31 +5,32 @@
 
 	<select id="allQuestion" parameterType="int" resultType="QuestionDto">
 		
-		select s.name as student_name, s.profile_content as student_profile
-		from User s
+		select student.name, student.profile_content, joined.*
+		from User student
 		right outer join
-		(select q.question_number, q.user_number, q.teach_user_number, q.problem_number, 
-		q.question_title, q.question_content, q.question_answered, q.question_check, q.created_at, q.question_reply, 
-		p.problem_title, u.name, u.profile_content
+		(select q.*, p.problem_title, u.name as teach_name, u.profile_content as teach_profile
 		from Question q
 		left outer join Problem p
 		on q.problem_number = p.problem_number		
-		left outer join User u)
-		on u.user_number = q.teach_user_number		
+		left outer join User u
+		on u.user_number = q.teach_user_number) joined		
+		on student.user_number = joined.user_number
 		order by question_answered asc, created_at desc
 	</select>
 	
 	<select id="listQuestion" parameterType="int" resultType="QuestionDto">
-		select q.question_number, q.user_number, q.teach_user_number, q.problem_number, 
-		q.question_title, q.question_content, q.question_answered, q.question_check, q.created_at, 
-		q.question_reply, p.problem_title, u.name, u.profile_content, u.name as student_name, u.profile_content as student_profile
+		select student.name, student.profile_content, joined.*
+		from User student
+		right outer join
+		(select q.*, p.problem_title, u.name as teach_name, u.profile_content as teach_profile
 		from Question q
 		left outer join Problem p
-		on q.problem_number = p.problem_number
+		on q.problem_number = p.problem_number		
 		left outer join User u
-		on u.user_number = q.teach_user_number		
-		where q.user_number = #{user_number}
-		order by created_at desc
+		on u.user_number = q.teach_user_number
+		where q.user_number = #{user_number}) joined		
+		on student.user_number = joined.user_number
+		order by question_answered asc, created_at desc
 	</select>
 	
 	<insert id="writeQuestion" parameterType="QuestionDto">
