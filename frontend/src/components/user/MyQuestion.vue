@@ -160,7 +160,7 @@
                   style="margin-left:35%">
                   <v-card-text>
                     <!-- "선생님 프로필, 이름" 선생님이 답변을 달아주셨어요 :) -->
-                    <img :src="question.profile_content" width="20%"/> <h2>{{question.name}}</h2> 
+                    <img :src="question.teach_profile" width="20%"/> <h2>{{question.teach_name}}</h2> 
                     선생님이 답변을 달아주셨어요:)                    
                   </v-card-text>
                 </v-card>
@@ -201,7 +201,7 @@
               <v-row align="center" class="spacer" no-gutters>
                 <v-col cols="3">
                   <!-- 학생 프로필사진, 이름 -->
-                  <img :src="question.student_profile" width="10%"/><h3>{{question.student_name}}</h3>
+                  <img :src="question.profile_content" width="10%"/><h3>{{question.name}}</h3>
                 </v-col>
 
                 <!--질문 제목 -->
@@ -311,7 +311,7 @@
                 <br /><br />
                 <v-card width="30%" min-height="100px" style="margin-left:35%">
                   <!-- "선생님 프로필, 이름" 선생님이 답변을 달아주셨어요 :) -->
-                    <img :src="question.profile_content" width="20%"/> <h2>{{question.name}}</h2> 
+                    <img :src="question.teach_profile" width="20%"/> <h2>{{question.teach_name}}</h2> 
                     선생님이 답변을 달아주셨어요:) 
                 </v-card>
                 <br /><br />
