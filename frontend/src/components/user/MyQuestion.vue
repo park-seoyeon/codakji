@@ -418,10 +418,8 @@ export default {
             question_title: this.title,
             question_content: this.content,
           })
-          .then((response) => {
-            console.log('response');
+          .then(() => {
             alert('질문이 등록되었습니다!');
-            console.log(response);
             this.setQuestionList();            
             this.cancelQuestion();
           })
@@ -439,10 +437,8 @@ export default {
             question_number: this.selected.question_number,
             question_reply: this.content
           })
-          .then((response) => {
-            console.log('response');
+          .then(() => {
             alert('답변이 등록되었습니다!');
-            console.log(response);
             location.reload();
           })
           .catch((error) => {
@@ -467,10 +463,8 @@ export default {
             question_number : this.selected.question_number
             }
           })
-          .then((response) => {
-            console.log('response');
+          .then(() => {
             alert('질문이 삭제되었습니다!');
-            console.log(response);
             location.reload();
           })
           .catch((error) => {
@@ -487,8 +481,6 @@ export default {
             token: localStorage.getItem('jwt'),
           })
           .then((response) => {
-            console.log('나의질문리스트');
-            console.log(response.data);
             this.questionList = response.data;
           })
           .catch((error) => {
@@ -501,8 +493,6 @@ export default {
             token: localStorage.getItem('jwt'),
           })
           .then((response) => {
-            console.log('전체질문리스트');
-            console.log(response.data);
             this.questionList = response.data;
           })
           .catch((error) => {

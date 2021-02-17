@@ -46,62 +46,6 @@
         </v-btn>
       </v-card>
     </v-container>
-
-    <!-- <div v-if="!noticeList" style="width:60%; margin-left:20%">
-      <div style="font-size:1.4em">
-        <br />
-        <v-card>
-          <v-card-text style="font-size:1em; background-color:#CBE5FD">
-            <v-row>
-              <v-col cols="2">#{{ this.selected.notice_number }}</v-col>
-              <v-col cols="4">제목: {{ this.selected.notice_title }}</v-col>
-              <v-col cols="1"></v-col>
-              <v-col cols="3"
-                >등록일: {{ this.selected.created_at.substring(0, 10) }}</v-col
-              >
-              <v-col cols="2">조회수: {{ this.selected.views + 1 }}</v-col>
-            </v-row>
-          </v-card-text>
-
-          <v-divider></v-divider>
-          <v-card-text
-            ><br /><br />
-            <div>
-              <span v-html="selected.notice_content"></span>
-            </div>
-
-            <br /><br /><br /><br />
-          </v-card-text>
-        </v-card>
-      </div>
-      <br />
-      <div v-if="userStat == '관리자'">
-        <v-btn text @click="deleteNotice" style="font-size:1.4em">
-          <v-icon color="#555555" size="40">mdi-delete-outline</v-icon>
-          삭제하기
-        </v-btn>
-        <v-btn
-          text
-          @click="
-            isUpdate = true;
-            newNotice = true;
-            newNoticeTitle = selected.notice_title;
-            newNoticeContent = selected.notice_content;
-          "
-          style="font-size:1.4em"
-        >
-          <v-icon color="#FF4D55" size="40">mdi-lead-pencil</v-icon>
-          수정하기
-        </v-btn>
-      </div>
-
-      <br />
-      <v-btn text @click="noticeList = true" style="font-size:1.4em">
-        <v-icon color="#FFB911" size="40">mdi-arrow-left-box</v-icon>
-        목록으로
-      </v-btn>
-      <br /><br /><br />
-    </div> -->
   </div>
 </template>
 
