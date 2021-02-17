@@ -136,8 +136,8 @@ public class MemberController {
 				String destinationFileName;
 				
 				destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + sourceFileNameExtension;
-		        destinationFile = new File("C:/ssafy/Project1/subpjt2/s04p13a203/frontend/public/img/profile/" + destinationFileName);
-		        //destinationFile = new File("/home/ubuntu/codackji/profileImage/" + destinationFileName);
+		        //destinationFile = new File("C:/ssafy/Project1/subpjt2/s04p13a203/frontend/public/img/profile/" + destinationFileName);
+		        destinationFile = new File("/home/ubuntu/codackji/profileImage/" + destinationFileName);
 		        if(!destinationFile.exists())
 		        	destinationFile.getParentFile().mkdirs();
 		        sourceFile.transferTo(destinationFile);

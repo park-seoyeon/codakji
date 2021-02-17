@@ -53,7 +53,7 @@ public class ProblemController {
 	}
 	
 	@ApiOperation(value="문제 보기", notes = "선택한 문제 보기", response = ProblemDto.class)
-	@GetMapping("/{problem_number}")
+	@GetMapping("/detail/{problem_number}")
 	public ResponseEntity<ProblemDto> getProblem(@PathVariable("problem_number") @ApiParam(value="얻어올 문제 번호", required=true) int problem_number) throws Exception{
 		System.out.println("[문제 보기]:"+problem_number);
 		return new ResponseEntity<ProblemDto>(problemService.getProblem(problem_number), HttpStatus.OK);
