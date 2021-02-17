@@ -360,7 +360,7 @@ export default {
             localStorage.setItem('jwt', response.data['access-token']);
             localStorage.setItem('name', response.data['userInfo'].name);
             localStorage.setItem('user_number', response.data['userInfo'].user_number);
-            alert(userInfo.email + '님 로그인!');
+            //alert(userInfo.email + '님 로그인!');
             location.reload();
           } else {
             const result = confirm('이미 존재하는 이메일입니다. 카카오 계정으로 통합하시겠습니까?');
@@ -373,7 +373,7 @@ export default {
                   localStorage.setItem('jwt', response.data['access-token']);
                   localStorage.setItem('name', response.data['userInfo'].name);
                   localStorage.setItem('user_number', response.data['userInfo'].user_number);
-                  alert(userInfo.name + '님! 통합 후 로그인 성공');
+                 // alert(userInfo.name + '님! 통합 후 로그인 성공');
                   location.reload();
                 } else {
                   alert('카카오 로그인에 실패하셨습니다');

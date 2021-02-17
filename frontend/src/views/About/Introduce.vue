@@ -87,7 +87,7 @@
                   어려움이 생기면 선생님이 여러분을 도와줄거에요!
                 </p>
                 <div>
-                  <v-chip outlined color="indigo accent-2"
+                  <v-chip outlined color="indigo accent-2" @click="moveMeeting()"
                     >화상으로 함께 하기<v-icon right>
                       mdi-arrow-right-bold
                     </v-icon></v-chip
@@ -272,6 +272,17 @@ export default {
           location.reload();
         }
       });
+    },
+    moveMeeting() {
+      if (localStorage.getItem('jwt')) {
+        this.$router.push({ name: 'MeetingRoomList' }).catch((error) => {
+          if (error.name === 'NavigationDuplicated') {
+            location.reload();
+          }
+        });
+      } else {
+        alert('로그인이 필요합니다');
+      }
     },
 
     moveNotice() {

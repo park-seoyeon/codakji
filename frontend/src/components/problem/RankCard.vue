@@ -28,24 +28,59 @@ export default {
   },
   methods: {
     moveRankList(rank) {
-      if (rank == 0) {
-        this.$router.push({ name: 'AllProblemRank' }).catch((error) => {
+      if (rank == 1) {
+        this.$router
+        .push({ name: 'ProblemRankFirst' })
+        .catch((error) => {
+          if (error.name === 'NavigationDuplicated') {
+            location.reload();
+          }
+        });
+      } else if (rank == 2) {
+        this.$router
+        .push({ name: 'ProblemRankSecond' })
+        .catch((error) => {
           if (error.name === 'NavigationDuplicated') {
             location.reload();
           }
         });
       } else {
         this.$router
-          .push({ name: 'ProblemRankList', params: { problemrank: rank } })
-          .catch((error) => {
-            if (error.name === 'NavigationDuplicated') {
-              location.reload();
-            }
-          });
+        .push({ name: 'ProblemRankThird' })
+        .catch((error) => {
+          if (error.name === 'NavigationDuplicated') {
+            location.reload();
+          }
+        });
       }
+      // this.$router
+      //   .push({ name: 'ProblemRankList', params: { problemrank: rank } })
+      //   .catch((error) => {
+      //     if (error.name === 'NavigationDuplicated') {
+      //       location.reload();
+      //     }
+      //   });
     },
-  },
+  //   moveRankList(rank) {
+  //     if (rank == 0) {
+  //       this.$router.push({ name: 'AllProblemRank' }).catch((error) => {
+  //         if (error.name === 'NavigationDuplicated') {
+  //           location.reload();
+  //         }
+  //       });
+  //     } else {
+  //       this.$router
+  //         .push({ name: 'ProblemRankList', params: { problemrank: rank } })
+  //         .catch((error) => {
+  //           if (error.name === 'NavigationDuplicated') {
+  //             location.reload();
+  //           }
+  //         });
+  //     }
+  //   },
+   },
 };
+
 </script>
 
 <style></style>
