@@ -93,7 +93,7 @@ public class SessionController {
    //String clientData,String sessionName
    @PostMapping("/maketoken")
    public ResponseEntity<Map<String, Object>> joinSession(@RequestBody MeetingDto meetingDto) throws Exception {
-	  System.out.println(meetingDto.toString());
+//	  System.out.println(meetingDto.toString());
 	  
 	  String user_token = meetingDto.getUser_token();
 	  MemberDto userinfo = memberService.userInfo(jwtService.getUserEmail(user_token));
@@ -109,7 +109,7 @@ public class SessionController {
     	 return new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK);
       }
       
-      System.out.println("Getting sessionId and token | {sessionName}={" + sessionName + "}");
+//      System.out.println("Getting sessionId and token | {sessionName}={" + sessionName + "}");
 
       // Role associated to this user
       OpenViduRole role = OpenViduRole.PUBLISHER;
@@ -125,7 +125,7 @@ public class SessionController {
       
       if (this.mapSessions.get(sessionName) != null) {
          // Session already exists
-         System.out.println("Existing session " + sessionName);
+//         System.out.println("Existing session " + sessionName);
          try {
 
             // Generate a new token with the recently created connectionProperties
@@ -150,7 +150,7 @@ public class SessionController {
          }
       } else {
          // New session
-         System.out.println("New session " + sessionName);
+//         System.out.println("New session " + sessionName);
          try {
 
             // Create a new OpenVidu Session
@@ -216,13 +216,13 @@ public class SessionController {
             return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
          } else {
             // The TOKEN wasn't valid
-            System.out.println("Problems in the app server: the TOKEN wasn't valid");
+//            System.out.println("Problems in the app server: the TOKEN wasn't valid");
             return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
          }
 
       } else {
          // The SESSION does not exist
-         System.out.println("Problems in the app server: the SESSION does not exist");
+//         System.out.println("Problems in the app server: the SESSION does not exist");
          return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
       }
    }
@@ -238,10 +238,10 @@ public class SessionController {
 		   int room_number = meetingDto.getRoom_number();
 		   
 		   if(meetingService.checkRoom(room_number)>0) {
-			   System.out.println("존재하는 방");
+//			   System.out.println("존재하는 방");
 			   return new ResponseEntity<String> (SUCCESS, HttpStatus.OK);
 		   }else {
-			   System.out.println("존재하지 않는방");
+//			   System.out.println("존재하지 않는방");
 			   return new ResponseEntity<String> (FAIL, HttpStatus.OK);
 		   }
 	   }

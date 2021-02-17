@@ -1,5 +1,7 @@
 package io.openvidu.js.java.model;
 
+import java.util.List;
+
 public class CodeAPIResultDto {
 	private String my_output; //코드 실행 결과 (올바른 실행결과 or 에러메세지 출력) 
 	private String correct_output; //올바른 코드 실행결과 //추가
@@ -11,6 +13,7 @@ public class CodeAPIResultDto {
 	private String my_code; //나의 코드 //추가
 	private String correct_code; //올바른 코드 //추가
 	private int img_number; // 해설 이미지 개수 //추가
+	private List<String> img_content;
 	
 	public CodeAPIResultDto() {}
 
@@ -94,11 +97,20 @@ public class CodeAPIResultDto {
 		this.img_number = img_number;
 	}
 
+	public List<String> getImg_content() {
+		return img_content;
+	}
+
+	public void setImg_content(List<String> img_content) {
+		this.img_content = img_content;
+	}
+
 	@Override
 	public String toString() {
 		return "CodeAPIResultDto [my_output=" + my_output + ", correct_output=" + correct_output + ", statusCode="
 				+ statusCode + ", memory=" + memory + ", cpuTime=" + cpuTime + ", error=" + error + ", answer=" + answer
-				+ ", my_code=" + my_code + ", correct_code=" + correct_code + ", img_number=" + img_number + "]";
+				+ ", my_code=" + my_code + ", correct_code=" + correct_code + ", img_number=" + img_number
+				+ ", img_content=" + img_content + "]";
 	}
 
 	

@@ -3,13 +3,19 @@ package io.openvidu.js.java.controller;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+
+import javax.imageio.ImageIO;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import javax.imageio.ImageIO;
+
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,6 +41,7 @@ import io.openvidu.js.java.model.MemberDto;
 import io.openvidu.js.java.model.OAuthToken;
 import io.openvidu.js.java.model.service.JwtServiceImpl;
 import io.openvidu.js.java.model.service.MemberService;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 
@@ -47,6 +55,8 @@ public class KakaoLoginController {
 	private static final String FAIL = "fail";
 	public static final String CLIENT_ID = "b01a0730a95c33f09f4655b0107ea8cc";
 	public static final String REDIRECT_URI = "http://localhost:8080/";
+	//public static final String REDIRECT_URI = "https://localhost:8000";
+	//public static final String REDIRECT_URI = "https://i4a203.p.ssafy.io:8000";
 
 	@Autowired
 	private MemberService memberService;
@@ -60,8 +70,8 @@ public class KakaoLoginController {
 //	}
 
 	@PostMapping("/login/request")
-	public ResponseEntity<Map<String, Object>> kakaoLoginRequest(@RequestBody String code) throws IOException {
-		System.out.println("[카카오 로그인]");
+	public ResponseEntity<Map<String, Object>> kakaoLoginRequest(@RequestBody String code) {
+//		System.out.println("[카카오 로그인]");
 		// POST방식으로 Key=value 데이터를 요청(카카오쪽으로)
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -87,6 +97,8 @@ public class KakaoLoginController {
 			e.printStackTrace();
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		///////////////////////////// 카카오에서 회원정보 받기/////////////////////////////////
@@ -110,24 +122,16 @@ public class KakaoLoginController {
 			e.printStackTrace();
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		// User 오브젝트 : name, password, email
-		System.out.println("=======[카카오에서 받은 회원정보]======");
-		System.out.println("카카오 이메일:" + kakaoProfile.getKakao_account().getEmail());
-		System.out.println("카카오 닉네임(이름):" + kakaoProfile.getProperties().getNickname());
-		System.out.println("카카오 프로필(링크):" + kakaoProfile.getKakao_account().getProfile().getProfile_image_url());
-//		Image image = null;
-//        try {
-//            URL url = new URL(kakaoProfile.getKakao_account().getProfile().getProfile_image_url());
-//            BufferedImage img = ImageIO.read(url);
-//            File file=new File("C:/ssafy/Project1/subpjt2/s04p13a203/frontend/public/img/profile/test.png");
-//            ImageIO.write(img, "png", file);
-//        } catch (IOException e) {
-//         e.printStackTrace();
-//        }
-
-		System.out.println("===============================");
+//		System.out.println("=======[카카오에서 받은 회원정보]======");
+//		System.out.println("카카오 이메일:" + kakaoProfile.getKakao_account().getEmail());
+//		System.out.println("카카오 닉네임(이름):" + kakaoProfile.getProperties().getNickname());
+//		System.out.println("카카오 프로필(링크):" + kakaoProfile.getKakao_account().getProfile().getProfile_image_url());
+//		System.out.println("===============================");
 
 		String password = "1234";
 
@@ -139,26 +143,34 @@ public class KakaoLoginController {
 		HttpStatus status = HttpStatus.OK;
 		try {
 			originMemberDto = memberService.userInfo(kakaoUser.getEmail());
-			//profile 이미지 저장
+
 			
-/*			
-			if(!originMemberDto.isProfile()) { //첫 회원인 경우 여기에서  originMemberDto가 NULL이라 NullPointException error발생 => catch
-				
-				Image image = null;
+			// 카카오 로그인이 처음인 회원은 db에 유저정보가 없음 => memberService.userInfo(kakaoUser.getEmail()) 자체가 null
+			//profile 이미지 저장
+/*			if(!memberService.userInfo(kakaoUser.getEmail()).isProfile()) {
 				try {
 					URL url = new URL(kakaoProfile.getKakao_account().getProfile().getProfile_image_url());
 					BufferedImage img = ImageIO.read(url);
-					File file=new File("C:/ssafy/Project1/subpjt2/s04p13a203/frontend/public/img/profile/" + originMemberDto.getUser_number() + ".png");
+					File file=new File("/home/ubuntu/codackji/profileImage/" + originMemberDto.getUser_number() + ".png");
+					//File file=new File("C:/ssafy/Project1/subpjt2/s04p13a203/frontend/public/img/profile/" + originMemberDto.getUser_number() + ".png");
 					ImageIO.write(img, "png", file);
-					originMemberDto.setProfile(true);
+					
+					byte [] image = new byte[ (int) file.length() ];
+			        FileInputStream fis = new FileInputStream( file );
+			        fis.read(image);
+			        String base64EncodedImage = "data: image/png;base64," + new String (Base64.encodeBase64 (image), StandardCharsets.US_ASCII);
+			        kakaoUser.setProfile_content(base64EncodedImage);
+			        kakaoUser.setProfile(true);
+					System.out.println("updated");
+					memberService.updateProfile(kakaoUser);
+					memberService.updateIsProfile(kakaoUser);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-*/
-	        
+*/				       
 			if (originMemberDto == null) {
-				System.out.println("[카카오 새회원 가입처리]");
+//				System.out.println("[카카오 새회원 가입처리]");
 			    String newPassword = "";
 				byte[] oldBytes = "kakao1234".getBytes();
 				String secret = "codackjia203";			
@@ -169,23 +181,42 @@ public class KakaoLoginController {
 			            mac.init(secretKey);
 			            newPassword =  Base64.encodeBase64String(mac.doFinal(oldBytes));
 			    } catch (Exception ignored) {}
-				kakaoUser.setProfile(true);
+			    
 			    kakaoUser.setPassword(newPassword);
 			    kakaoUser.setCertification(true);
 				memberService.addUser(kakaoUser);
-				// user_number를 받아오려면 회원가입후 db에 저장되어 있어야 하기 때문에 addUser한 후 db에서 userInfo를 가져와서 그 안의 user_number를 가져온다
-				URL url = new URL(kakaoProfile.getKakao_account().getProfile().getProfile_image_url());
-				BufferedImage img = ImageIO.read(url);
-				File file=new File("C:/ssafy/Project1/subpjt2/s04p13a203/frontend/public/img/profile/" + memberService.userInfo(kakaoUser.getEmail()).getUser_number() + ".png");
-				ImageIO.write(img, "png", file);
-				//
-				System.out.println("[카카오 자동 로그인]");
+				kakaoUser = memberService.userInfo(kakaoUser.getEmail());
+				
+				//profile 이미지 저장
+				if(!memberService.userInfo(kakaoUser.getEmail()).isProfile()) {
+					try {
+						URL url = new URL(kakaoProfile.getKakao_account().getProfile().getProfile_image_url());
+						BufferedImage img = ImageIO.read(url);
+						File file=new File("/home/ubuntu/codackji/profileImage/" + kakaoUser.getUser_number() + ".png");
+						//File file=new File("C:/ssafy/Project1/subpjt2/s04p13a203/frontend/public/img/profile/" + originMemberDto.getUser_number() + ".png");
+						ImageIO.write(img, "png", file);
+						
+						byte [] image = new byte[ (int) file.length() ];
+				        FileInputStream fis = new FileInputStream( file );
+				        fis.read(image);
+				        String base64EncodedImage = "data: image/png;base64," + new String (Base64.encodeBase64 (image), StandardCharsets.US_ASCII);
+				        kakaoUser.setProfile_content(base64EncodedImage);
+				        kakaoUser.setProfile(true);
+//						System.out.println("updated");
+						memberService.updateProfile(kakaoUser);
+						//memberService.updateIsProfile(kakaoUser);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
+//				System.out.println("[카카오 자동 로그인]");
 				return kakaoLogin(kakaoUser);
 			} else if (originMemberDto.getOauth() != null && originMemberDto.getOauth().equals("kakao")) {
-				System.out.println("[기존 카카오 로그인 회원 - 로그인]");
+//				System.out.println("[기존 카카오 로그인 회원 - 로그인]");
 				return kakaoLogin(kakaoUser);
 			} else {
-				System.out.println("[중복 로그인 회원]");
+//				System.out.println("[중복 로그인 회원]");
 				resultMap.put("userInfo", kakaoUser);
 				resultMap.put("message", SUCCESS);
 				resultMap.put("oauth-result", FAIL);
@@ -208,11 +239,11 @@ public class KakaoLoginController {
 			MemberDto loginUser = memberService.socialLogin(memberDto);
 			if (loginUser != null) {
 
-				System.out.println("로그인 토큰 반환");
+//				System.out.println("로그인 토큰 반환");
 
 				String token = jwtService.create("userid", loginUser.getEmail(), "access-token");// key, data, subject
 
-				System.out.println("token:" + token);
+//				System.out.println("token:" + token);
 				memberDto.setToken(token);
 				jwtService.setToken(memberDto);
 
@@ -223,7 +254,7 @@ public class KakaoLoginController {
 				resultMap.put("oauth-result", SUCCESS);
 				status = HttpStatus.ACCEPTED;
 			} else {
-				System.out.println("토큰 반환 실패");
+//				System.out.println("토큰 반환 실패");
 				resultMap.put("message", FAIL);
 				status = HttpStatus.ACCEPTED;
 			}
@@ -237,7 +268,7 @@ public class KakaoLoginController {
 	
 	@PostMapping("/login/merge")
 	public ResponseEntity<Map<String, Object>> mergeUserAndkakaoLogin(@RequestBody MemberDto memberDto){
-		System.out.println("[중복로그인 통합 및 로그인]");
+//		System.out.println("[중복로그인 통합 및 로그인]");
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		MemberDto originMember = null;

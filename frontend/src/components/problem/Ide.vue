@@ -58,15 +58,7 @@ export default {
     };
   },
   methods: {
-    // onCmReady() {
-    //   // console.log('the editor is readied!', cm);
-    // },
-    // onCmFocus() {
-    //   // console.log('the editor is focused!', cm);
-    // },
     onCmCodeChange(newCode) {
-      //console.log('this is new code', newCode);
-
       this.childMessage = newCode;
       this.$emit('getCode', this.childMessage);
 
@@ -78,10 +70,6 @@ export default {
       return this.$refs.cmEditor.codemirror;
     },
   },
-  // mounted() {
-  //   console.log('the current CodeMirror instance object:', this.codemirror);
-  //   // you can use this.codemirror to do something...
-  // },
 };
 </script>
 

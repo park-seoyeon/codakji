@@ -1,11 +1,12 @@
 package io.openvidu.js.java.model.mapper;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+
 import io.openvidu.js.java.model.CodeAPIDto;
 import io.openvidu.js.java.model.SolvedProblemDto;
-
 
 @Mapper
 public interface CodeAPIMapper {
@@ -50,5 +51,5 @@ public interface CodeAPIMapper {
 	
 	public SolvedProblemDto getSolvedProblemInfo(int solved_problem_number) throws SQLException;
 	
-	
+	public List<String> getAnalysisImage(int problem_number) throws SQLException;
 }

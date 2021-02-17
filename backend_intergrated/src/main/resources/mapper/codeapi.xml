@@ -172,5 +172,11 @@
 		from Solved_Problem
 		where solved_problem_number = #{solved_problem_number}
 	</select>
-
+	
+	<select id ="getAnalysisImage" parameterType = "int" resultType = "String">
+		select image_content
+		from Analysis
+		where problem_number = #{problem_number}
+	</select>
+	
 </mapper>

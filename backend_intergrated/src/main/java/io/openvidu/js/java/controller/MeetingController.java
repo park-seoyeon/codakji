@@ -38,8 +38,8 @@ public class MeetingController {
 	@ApiOperation(value="전체 미팅룸 목록", notes = "전체 미팅룸 리스트를 반환한다", response = List.class)
 	@PostMapping("/all")
 	public ResponseEntity<List<MeetingDto>> allMeetingRooms(@RequestBody String token) throws Exception{
-		System.out.println("[미팅룸 목록]");
-		System.out.println(token);
+//		System.out.println("[미팅룸 목록]");
+//		System.out.println(token);
 		List<MeetingDto> meetingRoomList = null;
 		if(jwtService.isUsable(token) && jwtService.isInTime(token)) {
 			String email = jwtService.getUserEmail(token);

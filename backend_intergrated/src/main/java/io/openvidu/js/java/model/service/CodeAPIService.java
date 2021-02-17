@@ -1,5 +1,8 @@
 package io.openvidu.js.java.model.service;
 
+import java.sql.SQLException;
+import java.util.List;
+
 import io.openvidu.js.java.model.CodeAPIDto;
 import io.openvidu.js.java.model.CodeAPIResponseDto;
 import io.openvidu.js.java.model.SolvedProblemDto;
@@ -63,4 +66,6 @@ public interface CodeAPIService {
 	
 	// solvedProblem 정보 가져오기
 	public SolvedProblemDto getSolvedProblemInfo(int solved_problem_number) throws Exception;
+	
+	public List<String> getAnalysisImage(int problem_number) throws Exception;
 }

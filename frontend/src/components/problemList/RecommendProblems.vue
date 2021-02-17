@@ -1,6 +1,6 @@
 <template>
   <v-col style="margin-top: 50px;">
-    <v-sheet class="mx-auto mt-5" align="left" width="1024">
+    <v-sheet class="mx-auto mt-5" align="left">
       <div style=" display: inline-block;">
         <img src="@/assets/img/wheel.png" width="50" height="50" />
       </div>
