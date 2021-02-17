@@ -8,15 +8,7 @@
         <div class="img_container">
           <v-img :src="problem.problem_img" id="problem" />
           <div class="btn-plus">
-            <v-btn
-              
-              class="go"
-              plain
-              outlined
-              x-large
-              dark
-              >바로가기</v-btn
-            >
+            <v-btn class="go" plain outlined x-large dark>바로가기</v-btn>
           </div>
         </div>
       </v-sheet>
@@ -76,6 +68,4 @@ export default {
 };
 </script>
 
-<style>
-
-</style>
+<style></style>

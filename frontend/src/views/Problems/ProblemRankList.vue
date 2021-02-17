@@ -10,14 +10,14 @@
                   <div
                     class="banner text-center"
                     style="font-size:40px;"
-                    v-if="$route.params.problemrank == 1"
+                    v-if="$route.params.problemrank*1 === 1"
                   >
                     초등 3-4 학년
                   </div>
                   <div
                     class="banner text-center"
                     style="font-size:40px;"
-                    v-else-if="$route.params.problemrank == 2"
+                    v-else-if="$route.params.problemrank*1 === 2"
                   >
                     초등 5-6 학년
                   </div>
@@ -54,20 +54,22 @@ const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
   name: 'ProblemRankList',
+  components: {
+    ProblemCard,
+  },
   data: () => {
     return {
       rankProblems: '',
     };
   },
-  components: {
-    ProblemCard,
+  props: {
+    problemrank: [Number, String],
   },
   methods: {
     getListRankProblem() {
-      // console.log(window.location.href);
-      // console.log(this.$route.params.problemrank);  // 현재 route 된 problemrank 값
+      let ranknumber = 1 * this.$route.params.problemrank
       axios
-        .get(`${SERVER_URL}/problem/rank/${this.$route.params.problemrank}`)
+        .get(`${SERVER_URL}/problem/rank/${ranknumber}`)
         .then((response) => {
           this.rankProblems = response.data;
         })
@@ -79,6 +81,9 @@ export default {
   created() {
     this.getListRankProblem();
   },
+  watch: {
+    problemrank: 'getListRankProblem'
+  }
 };
 </script>
 

@@ -27,7 +27,7 @@
           <div align="center" class="mt-2">
             <img src="@/assets/img/kakao_login.png" width="250px" @click="logInKakao" />
           </div>
-          <div class="px-5 pt-3 d-flex flex-column guide">
+          <div class="px-5 pt-3 d-flex flex-column">
             <div class="d-flex justify-space-between">
               <span>아직 회원이 아니신가요?</span>
               <v-btn @click="moveSignUp" plain pill color="indigo accent-2"
@@ -104,8 +104,9 @@ export default {
     },
     logInKakao() {
       window.Kakao.Auth.authorize({
-        //현재 url 찾아야해
         redirectUri: `http://localhost:8080/`,
+        //redirectUri: `https://localhost:8000`,
+        //redirectUri: `https://i4a203.p.ssafy.io:8000`,
       });
     },
     moveSignUp() {
