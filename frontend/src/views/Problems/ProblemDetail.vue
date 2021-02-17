@@ -188,7 +188,7 @@ export default {
     },
     getProblemDetail() {
       axios
-        .get(`${SERVER_URL}/problem/${this.$route.params.problemnumber}`)
+        .get(`${SERVER_URL}/problem/detail/${this.$route.params.problemnumber}`)
         .then((response) => {
           this.problemDetails = response.data;
         })

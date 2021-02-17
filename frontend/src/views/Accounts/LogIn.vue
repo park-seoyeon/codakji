@@ -105,6 +105,7 @@ export default {
     logInKakao() {
       window.Kakao.Auth.authorize({
         redirectUri: `http://localhost:8080/`,
+        //redirectUri: `https://localhost:8000`,
         //redirectUri: `https://i4a203.p.ssafy.io:8000`,
       });
     },

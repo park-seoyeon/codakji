@@ -53,7 +53,7 @@ const routes = [
     component: FindPassword,
   },
   {
-    path: '/problem/rank',
+    path: '/problem/level',
     name: 'AllProblemRank',
     component: AllProblemRank,
   },
@@ -65,17 +65,17 @@ const routes = [
   // },
 
   {
-    path: '/problem/rank/first',
+    path: '/problem/level/first',
     name: 'ProblemRankFirst',
     component: ProblemRankFirst,
   },
   {
-    path: '/problem/rank/second',
+    path: '/problem/level/second',
     name: 'ProblemRankSecond',
     component: ProblemRankSecond,
   },
   {
-    path: '/problem/rank/third',
+    path: '/problem/level/third',
     name: 'ProblemRankThird',
     component: ProblemRankThird,
   },
@@ -86,7 +86,7 @@ const routes = [
     component: ProblemDetail,
   },
   {
-    path: '/user',
+    path: '/user/profile',
     name: 'UserProfile',
     component: UserProfile,
   },
