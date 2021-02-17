@@ -99,7 +99,7 @@ public class MemberController {
 				if(!memberService.userInfo(email).isProfile()) {
 					memberDto.setProfile_content(cogiImg);
 					memberService.updateProfile(memberDto);
-					System.out.println("defaultImg");
+//					System.out.println("defaultImg");
 				}
 				jwtService.setToken(memberDto);// db에 토큰 renewal_time 갱신
 				logger.info("userInfo - 호출");
@@ -130,7 +130,7 @@ public class MemberController {
 				
 				// front에서 받아온 multipart타입의 파일을 저장
 				String sourceFileName = sourceFile.getOriginalFilename();
-				System.out.println(sourceFileName);
+//				System.out.println(sourceFileName);
 				String sourceFileNameExtension = StringUtils.getFilenameExtension(sourceFileName).toLowerCase();
 				File destinationFile;
 				String destinationFileName;
@@ -150,7 +150,7 @@ public class MemberController {
 		        memberDto.setProfile_content(base64EncodedImage);
 		        memberDto.setProfile(true);
 		        memberDto.setCertification(true);
-				System.out.println(base64EncodedImage);
+//				System.out.println(base64EncodedImage);
 				
 				jwtService.setToken(memberDto);// db에 토큰 renewal_time 갱신
 				if (memberService.updateUser(memberDto)) {
@@ -231,10 +231,10 @@ public class MemberController {
 //		}
 //		else return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 		
-		System.out.println(email+"비밀번호 임시발급");
+//		System.out.println(email+"비밀번호 임시발급");
 		// 우선 메일 계정이 존재하는지 체크
 		if (memberService.emailCheck(email) > 0) { // 메일 계정이 존재함
-			System.out.println("계정 있음");
+//			System.out.println("계정 있음");
 
 			// 비밀번호 생성 _ 난수 생성
 			int index = 0;
@@ -290,7 +290,7 @@ public class MemberController {
 			} catch (Exception ignored) {
 			}
 
-			System.out.println("암호화된 비밀번호:" + newPassword);
+//			System.out.println("암호화된 비밀번호:" + newPassword);
 
 			// 암호화된 비밀번호 db에 저장
 			MemberDto memberDto = new MemberDto();
@@ -306,7 +306,7 @@ public class MemberController {
 
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		} else { // 메일 계정이 존재하지 않음
-			System.out.println("계정 없음");
+//			System.out.println("계정 없음");
 			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 		}
 
@@ -323,15 +323,15 @@ public class MemberController {
 			if (loginUser != null) {
 
 				if(!memberService.userInfo(memberDto.getEmail()).isCertification()) {
-					System.out.println("비인증회원");
+//					System.out.println("비인증회원");
 					resultMap.put("message", "uncertificated");
 					return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.ACCEPTED);
 				}
-				System.out.println("로그인 토큰 반환");
+//				System.out.println("로그인 토큰 반환");
 
 				String token = jwtService.create("userid", loginUser.getEmail(), "access-token");// key, data, subject
 
-				System.out.println("token:" + token);
+//				System.out.println("token:" + token);
 				memberDto.setToken(token);
 				jwtService.setToken(memberDto);
 
@@ -342,7 +342,7 @@ public class MemberController {
 				resultMap.put("oauth-result", SUCCESS);
 				status = HttpStatus.ACCEPTED;
 			} else {
-				System.out.println("토큰 반환 실패");
+//				System.out.println("토큰 반환 실패");
 				resultMap.put("message", FAIL);
 				status = HttpStatus.ACCEPTED;
 			}

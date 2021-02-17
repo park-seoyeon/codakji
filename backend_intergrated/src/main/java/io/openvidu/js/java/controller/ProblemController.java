@@ -48,14 +48,14 @@ public class ProblemController {
 	@ApiOperation(value="단계별 문제 목록", notes = "해당 단계의 문제리스트를 반환한다", response = List.class)
 	@GetMapping("/rank/{problem_rank}")
 	public ResponseEntity<List<ProblemDto>> listProblem(@PathVariable("problem_rank") @ApiParam(value="문제 단계(난이도)", required = true) int problem_rank) throws Exception{
-		System.out.println("[단계별 문제리스트]:"+problem_rank);
+//		System.out.println("[단계별 문제리스트]:"+problem_rank);
 		return new ResponseEntity<List<ProblemDto>>(problemService.listProblem(problem_rank), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value="문제 보기", notes = "선택한 문제 보기", response = ProblemDto.class)
 	@GetMapping("/detail/{problem_number}")
 	public ResponseEntity<ProblemDto> getProblem(@PathVariable("problem_number") @ApiParam(value="얻어올 문제 번호", required=true) int problem_number) throws Exception{
-		System.out.println("[문제 보기]:"+problem_number);
+//		System.out.println("[문제 보기]:"+problem_number);
 		return new ResponseEntity<ProblemDto>(problemService.getProblem(problem_number), HttpStatus.OK);
 	}
 	
@@ -123,9 +123,9 @@ public class ProblemController {
 				
 				if(totalSolved != 0) ac = (double)(total/totalSolved) * 100;
 				
-				System.out.println(rank1 + " " + rank2 + " " + rank3);
-				System.out.println(total1 + " " + total2 + " " + total3 + " " + totalSolved);
-				System.out.println(d1 + " " + d2 + " " + d3 + " " + ac);
+//				System.out.println(rank1 + " " + rank2 + " " + rank3);
+//				System.out.println(total1 + " " + total2 + " " + total3 + " " + totalSolved);
+//				System.out.println(d1 + " " + d2 + " " + d3 + " " + ac);
 				
 				psDto.setRank1((int)d1);
 				psDto.setRank2((int)d2);
@@ -162,8 +162,8 @@ public class ProblemController {
 				MemberDto memberdto = memberService.userInfo(email);
 				int user_number = memberdto.getUser_number();
 
-				System.out.println("사용자 번호" + user_number + "가 푼 문제목록:");
-				System.out.println(problemService.userSolvedProblem(user_number));
+//				System.out.println("사용자 번호" + user_number + "가 푼 문제목록:");
+//				System.out.println(problemService.userSolvedProblem(user_number));
 				return new ResponseEntity<List<SolvedProblemDto>>(problemService.userSolvedProblem(user_number), HttpStatus.OK);
 			}
 		}

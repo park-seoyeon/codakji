@@ -71,7 +71,7 @@ public class KakaoLoginController {
 
 	@PostMapping("/login/request")
 	public ResponseEntity<Map<String, Object>> kakaoLoginRequest(@RequestBody String code) {
-		System.out.println("[카카오 로그인]");
+//		System.out.println("[카카오 로그인]");
 		// POST방식으로 Key=value 데이터를 요청(카카오쪽으로)
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -127,11 +127,11 @@ public class KakaoLoginController {
 		}
 
 		// User 오브젝트 : name, password, email
-		System.out.println("=======[카카오에서 받은 회원정보]======");
-		System.out.println("카카오 이메일:" + kakaoProfile.getKakao_account().getEmail());
-		System.out.println("카카오 닉네임(이름):" + kakaoProfile.getProperties().getNickname());
-		System.out.println("카카오 프로필(링크):" + kakaoProfile.getKakao_account().getProfile().getProfile_image_url());
-		System.out.println("===============================");
+//		System.out.println("=======[카카오에서 받은 회원정보]======");
+//		System.out.println("카카오 이메일:" + kakaoProfile.getKakao_account().getEmail());
+//		System.out.println("카카오 닉네임(이름):" + kakaoProfile.getProperties().getNickname());
+//		System.out.println("카카오 프로필(링크):" + kakaoProfile.getKakao_account().getProfile().getProfile_image_url());
+//		System.out.println("===============================");
 
 		String password = "1234";
 
@@ -170,7 +170,7 @@ public class KakaoLoginController {
 			}
 */				       
 			if (originMemberDto == null) {
-				System.out.println("[카카오 새회원 가입처리]");
+//				System.out.println("[카카오 새회원 가입처리]");
 			    String newPassword = "";
 				byte[] oldBytes = "kakao1234".getBytes();
 				String secret = "codackjia203";			
@@ -202,7 +202,7 @@ public class KakaoLoginController {
 				        String base64EncodedImage = "data: image/png;base64," + new String (Base64.encodeBase64 (image), StandardCharsets.US_ASCII);
 				        kakaoUser.setProfile_content(base64EncodedImage);
 				        kakaoUser.setProfile(true);
-						System.out.println("updated");
+//						System.out.println("updated");
 						memberService.updateProfile(kakaoUser);
 						//memberService.updateIsProfile(kakaoUser);
 					} catch (IOException e) {
@@ -210,13 +210,13 @@ public class KakaoLoginController {
 					}
 				}
 				
-				System.out.println("[카카오 자동 로그인]");
+//				System.out.println("[카카오 자동 로그인]");
 				return kakaoLogin(kakaoUser);
 			} else if (originMemberDto.getOauth() != null && originMemberDto.getOauth().equals("kakao")) {
-				System.out.println("[기존 카카오 로그인 회원 - 로그인]");
+//				System.out.println("[기존 카카오 로그인 회원 - 로그인]");
 				return kakaoLogin(kakaoUser);
 			} else {
-				System.out.println("[중복 로그인 회원]");
+//				System.out.println("[중복 로그인 회원]");
 				resultMap.put("userInfo", kakaoUser);
 				resultMap.put("message", SUCCESS);
 				resultMap.put("oauth-result", FAIL);
@@ -239,11 +239,11 @@ public class KakaoLoginController {
 			MemberDto loginUser = memberService.socialLogin(memberDto);
 			if (loginUser != null) {
 
-				System.out.println("로그인 토큰 반환");
+//				System.out.println("로그인 토큰 반환");
 
 				String token = jwtService.create("userid", loginUser.getEmail(), "access-token");// key, data, subject
 
-				System.out.println("token:" + token);
+//				System.out.println("token:" + token);
 				memberDto.setToken(token);
 				jwtService.setToken(memberDto);
 
@@ -254,7 +254,7 @@ public class KakaoLoginController {
 				resultMap.put("oauth-result", SUCCESS);
 				status = HttpStatus.ACCEPTED;
 			} else {
-				System.out.println("토큰 반환 실패");
+//				System.out.println("토큰 반환 실패");
 				resultMap.put("message", FAIL);
 				status = HttpStatus.ACCEPTED;
 			}
@@ -268,7 +268,7 @@ public class KakaoLoginController {
 	
 	@PostMapping("/login/merge")
 	public ResponseEntity<Map<String, Object>> mergeUserAndkakaoLogin(@RequestBody MemberDto memberDto){
-		System.out.println("[중복로그인 통합 및 로그인]");
+//		System.out.println("[중복로그인 통합 및 로그인]");
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		MemberDto originMember = null;

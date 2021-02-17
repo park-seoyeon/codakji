@@ -28,7 +28,7 @@ public class EmailController {
 	public ResponseEntity<Map<String, Object>> sendEmail(
 			@PathVariable("toAddress") @ApiParam(value = "메일 주소", required = true) String toAddress) {
 		//HttpServletRequest request
-		System.out.println("[sendEmail]");
+//		System.out.println("[sendEmail]");
 
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
@@ -55,7 +55,7 @@ public class EmailController {
 			@PathVariable("userEmail") @ApiParam(value = "인증 처리되는 메일 주소", required = true) String userEmail) {
 		//HttpServletRequest request
 		
-		System.out.println("이메일 인증: " + userEmail); 
+//		System.out.println("이메일 인증: " + userEmail); 
 		
 		try {
 			if (emailService.updateCertification(userEmail)) {
