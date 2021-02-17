@@ -54,7 +54,7 @@ public class ProblemCommentController {
 				memberDto.setToken(token);
 				jwtService.setToken(memberDto);
 				if (problemCommentService.writeProblemComment(problemCommentDto)) {
-					System.out.println(problemCommentDto);
+//					System.out.println(problemCommentDto);
 					return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 				}
 			}

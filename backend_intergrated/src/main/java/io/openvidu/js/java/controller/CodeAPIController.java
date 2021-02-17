@@ -19,6 +19,7 @@ import io.openvidu.js.java.model.service.CodeAPIService;
 import io.openvidu.js.java.model.service.CodeFeedbackService;
 import io.openvidu.js.java.model.service.JwtService;
 import io.openvidu.js.java.model.service.MemberService;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -78,19 +79,19 @@ public class CodeAPIController {
 		MemberDto memberdto = memberService.userInfo(email);
 		codeAPIDto.setUser_number(memberdto.getUser_number());
 
-		System.out.println("[정답]"+codeAPIService.getOutput1(codeAPIDto.getProblem_number()).trim());
+//		System.out.println("[정답]"+codeAPIService.getOutput1(codeAPIDto.getProblem_number()).trim());
 		// 3.컴파일 에러가 났다면 채점결과분석 -(에러가 난건지 원하던 결과값인지 판별하는 로직도 필요)
 		String output = codeAPIResponseDto.getOutput().trim();
-		System.out.println(codeAPIResponseDto.toString());
-		System.out.println("[정답 체크]");
+//		System.out.println(codeAPIResponseDto.toString());
+//		System.out.println("[정답 체크]");
 		if(output.equals(codeAPIService.getOutput1(codeAPIDto.getProblem_number()).trim())) {
-			System.out.println("정답");
+//			System.out.println("정답");
 			codeAPIResponseDto.setAnswer(true);
 		}else {
-			System.out.println("오답");
+//			System.out.println("오답");
 			codeAPIResponseDto.setAnswer(false);
 			String error = codeFeedbackService.findError(codeAPIResponseDto, codeAPIDto.getLanguage());
-			System.out.println(error);
+//			System.out.println(error);
 			codeAPIResponseDto.setError(error);
 		}
 
@@ -108,8 +109,8 @@ public class CodeAPIController {
 
 		HttpStatus status = null;
 
-		System.out.println(codeAPIDto);
-		System.out.println(codeAPIDto.getToken());
+//		System.out.println(codeAPIDto);
+//		System.out.println(codeAPIDto.getToken());
 		
 		// 1.토큰검사
 		String token = codeAPIDto.getToken();
@@ -207,14 +208,17 @@ public class CodeAPIController {
 			
 			if(solvedProblemDto.getLanguage().equals("java"))
 				codeAPIResultDto.setCorrect_code(correct_Java_code); //
-			else
+			else if(solvedProblemDto.getLanguage().equals("python3"))
 				codeAPIResultDto.setCorrect_code(correct_Python_code);
+			else
+				codeAPIResultDto.setCorrect_code(null);
 			
 			codeAPIResultDto.setCorrect_output(solvedProblemDto.getCorrect_output());
 			codeAPIResultDto.setError(null);
 			codeAPIResultDto.setImg_number(image_number);
 			codeAPIResultDto.setMy_code(solvedProblemDto.getSolved_problem_content());
 			codeAPIResultDto.setMy_output(solvedProblemDto.getMy_output());
+			codeAPIResultDto.setImg_content(codeAPIService.getAnalysisImage(solvedProblemDto.getProblem_number()));
 			
 			status = HttpStatus.OK;
 			return new ResponseEntity<CodeAPIResultDto>(codeAPIResultDto, status);
@@ -228,7 +232,7 @@ public class CodeAPIController {
 		codeAPIDto.setLanguage(solvedProblemDto.getLanguage());
 		codeAPIDto.setProblem_number(solvedProblemDto.getProblem_number());
 		
-		System.out.println(codeAPIDto);
+//		System.out.println(codeAPIDto);
 
 		// 5개의 테스트케이스 채점 >> 2.input, output 가져오기, 3.API 결과 가져오기 - TC 1 기준, 4.API결과,
 		// output파일 비교(채점하기)
@@ -258,18 +262,18 @@ public class CodeAPIController {
 		// 3.API 결과 가져오기 - TC 1 기준
 		codeAPIDto.setUser_input(input); // DB에 있는 input 파일로 설정
 		codeAPIResponseDto = new CodeAPIResponseDto();
-		System.out.println(codeAPIDto);
+//		System.out.println(codeAPIDto);
 		try {
 			codeAPIResponseDto = codeAPIService.codeTest(codeAPIDto); // 문제 번호, 사용자번호, 사용언어, 사용자코드
-			System.out.println("채점 완료");
+//			System.out.println("채점 완료");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("[정답]"+codeAPIService.getOutput1(codeAPIDto.getProblem_number()).trim());
+//		System.out.println("[정답]"+codeAPIService.getOutput1(codeAPIDto.getProblem_number()).trim());
 		// 4.API결과, output파일 비교(채점하기)
 		user_output = codeAPIResponseDto.getOutput();
-		System.out.println(codeAPIResponseDto);
-		System.out.println(user_output);
+//		System.out.println(codeAPIResponseDto);
+//		System.out.println(user_output);
 		user_output = user_output.trim();
 		if (output.trim().equals(user_output)) {
 			codeAPIResponseDto.setAnswer(true); // DB output과 사용자 코드 실행 결과가 일치 - 정답
@@ -297,13 +301,13 @@ public class CodeAPIController {
 				e1.printStackTrace();
 			}
 			output.trim();
-			System.out.println("[정답]"+codeAPIService.getOutput2(codeAPIDto.getProblem_number()).trim());
+//			System.out.println("[정답]"+codeAPIService.getOutput2(codeAPIDto.getProblem_number()).trim());
 			// 3.API 결과 가져오기 - TC 2 기준
 			codeAPIDto.setUser_input(input); // DB에 있는 input 파일로 설정
 			codeAPIResponseDto = new CodeAPIResponseDto();
 			try {
 				codeAPIResponseDto = codeAPIService.codeTest(codeAPIDto); // 문제 번호, 사용자번호, 사용언어, 사용자코드
-				System.out.println("채점 완료");
+//				System.out.println("채점 완료");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -339,13 +343,13 @@ public class CodeAPIController {
 			}
 			output.trim();
 			
-			System.out.println("[정답]"+codeAPIService.getOutput3(codeAPIDto.getProblem_number()).trim());
+//			System.out.println("[정답]"+codeAPIService.getOutput3(codeAPIDto.getProblem_number()).trim());
 			// 3.API 결과 가져오기 - TC 3 기준
 			codeAPIDto.setUser_input(input); // DB에 있는 input 파일로 설정
 			codeAPIResponseDto = new CodeAPIResponseDto();
 			try {
 				codeAPIResponseDto = codeAPIService.codeTest(codeAPIDto); // 문제 번호, 사용자번호, 사용언어, 사용자코드
-				System.out.println("채점 완료");
+//				System.out.println("채점 완료");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -380,13 +384,13 @@ public class CodeAPIController {
 			}
 			output.trim();
 			
-			System.out.println("[정답]"+codeAPIService.getOutput4(codeAPIDto.getProblem_number()).trim());
+//			System.out.println("[정답]"+codeAPIService.getOutput4(codeAPIDto.getProblem_number()).trim());
 			// 3.API 결과 가져오기 - TC 4 기준
 			codeAPIDto.setUser_input(input); // DB에 있는 input 파일로 설정
 			codeAPIResponseDto = new CodeAPIResponseDto();
 			try {
 				codeAPIResponseDto = codeAPIService.codeTest(codeAPIDto); // 문제 번호, 사용자번호, 사용언어, 사용자코드
-				System.out.println("채점 완료");
+//				System.out.println("채점 완료");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -421,13 +425,13 @@ public class CodeAPIController {
 			}
 			output.trim();
 			
-			System.out.println("[정답]"+codeAPIService.getOutput5(codeAPIDto.getProblem_number()).trim());
+//			System.out.println("[정답]"+codeAPIService.getOutput5(codeAPIDto.getProblem_number()).trim());
 			// 3.API 결과 가져오기 - TC 5 기준
 			codeAPIDto.setUser_input(input); // DB에 있는 input 파일로 설정
 			codeAPIResponseDto = new CodeAPIResponseDto();
 			try {
 				codeAPIResponseDto = codeAPIService.codeTest(codeAPIDto); // 문제 번호, 사용자번호, 사용언어, 사용자코드
-				System.out.println("채점 완료");
+//				System.out.println("채점 완료");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -445,7 +449,7 @@ public class CodeAPIController {
 			
 			//정답일 경우
 			if(flag) {
-				System.out.println("정답");
+//				System.out.println("정답");
 				codeAPIResponseDto.setAnswer(true);
 				try {
 					codeAPIService.updateCorrect(codeAPIDto.getProblem_number());
@@ -480,10 +484,12 @@ public class CodeAPIController {
 		CodeAPIResultDto codeAPIResultDto = new CodeAPIResultDto();
 		codeAPIResultDto.setAnswer(codeAPIResponseDto.isAnswer());
 		
-		if(codeAPIDto.getLanguage().equals("java"))
-			codeAPIResultDto.setCorrect_code(correct_Java_code);
-		else
+		if(solvedProblemDto.getLanguage().equals("java"))
+			codeAPIResultDto.setCorrect_code(correct_Java_code); //
+		else if(solvedProblemDto.getLanguage().equals("python3"))
 			codeAPIResultDto.setCorrect_code(correct_Python_code);
+		else
+			codeAPIResultDto.setCorrect_code(null);
 		
 		codeAPIResultDto.setCorrect_output(output);
 		codeAPIResultDto.setCpuTime(codeAPIResponseDto.getCpuTime());
@@ -499,6 +505,10 @@ public class CodeAPIController {
 			codeAPIResultDto.setMy_output(user_output);
 //		codeAPIResultDto.setMy_output(user_output);
 		codeAPIResultDto.setStatusCode(codeAPIResponseDto.getStatusCode());
+//		System.out.println(codeAPIService.getAnalysisImage(solvedProblemDto.getProblem_number()));
+//		System.out.println(codeAPIService.getAnalysisImage(solvedProblemDto.getProblem_number()).getClass().getName());
+		codeAPIResultDto.setImg_content(codeAPIService.getAnalysisImage(solvedProblemDto.getProblem_number()));
+//		System.out.println(codeAPIResultDto);
 
 		try {
 			codeAPIService.updateSolvedProblem(solvedProblemDto);

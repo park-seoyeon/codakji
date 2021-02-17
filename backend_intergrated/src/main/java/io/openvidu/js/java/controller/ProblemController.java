@@ -1,6 +1,8 @@
 package io.openvidu.js.java.controller;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,14 +48,14 @@ public class ProblemController {
 	@ApiOperation(value="단계별 문제 목록", notes = "해당 단계의 문제리스트를 반환한다", response = List.class)
 	@GetMapping("/rank/{problem_rank}")
 	public ResponseEntity<List<ProblemDto>> listProblem(@PathVariable("problem_rank") @ApiParam(value="문제 단계(난이도)", required = true) int problem_rank) throws Exception{
-		System.out.println("[단계별 문제리스트]:"+problem_rank);
+//		System.out.println("[단계별 문제리스트]:"+problem_rank);
 		return new ResponseEntity<List<ProblemDto>>(problemService.listProblem(problem_rank), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value="문제 보기", notes = "선택한 문제 보기", response = ProblemDto.class)
-	@GetMapping("/{problem_number}")
+	@GetMapping("/detail/{problem_number}")
 	public ResponseEntity<ProblemDto> getProblem(@PathVariable("problem_number") @ApiParam(value="얻어올 문제 번호", required=true) int problem_number) throws Exception{
-		System.out.println("[문제 보기]:"+problem_number);
+//		System.out.println("[문제 보기]:"+problem_number);
 		return new ResponseEntity<ProblemDto>(problemService.getProblem(problem_number), HttpStatus.OK);
 	}
 	
@@ -73,18 +75,38 @@ public class ProblemController {
 				memberDto.setToken(token);
 				jwtService.setToken(memberDto);// db에 토큰 renewal_time 갱신		
 				
+				//문제풀이 통계
 				List<SolvedProblemDto> userSolvedProblemList = problemService.userSolvedProblem(user_number);
+				
+				Set<Integer> set1 = new HashSet<>();
+				Set<Integer> set2 = new HashSet<>();
+				Set<Integer> set3 = new HashSet<>();
+				
+				int total = 0;
+				
 				double rank1=0, rank2=0, rank3=0;
 				for(SolvedProblemDto sp : userSolvedProblemList) {
 					switch(sp.getProblem_rank()) {
 					case 1:
-						if(sp.isSolved_problem_correct())rank1++;
+						if(sp.isSolved_problem_correct())total++;
+						if(sp.isSolved_problem_correct() && set1.contains(sp.getProblem_number()) == false) {
+							rank1++;
+							set1.add(sp.getProblem_number());
+						}
 						break;
 					case 2:
-						if(sp.isSolved_problem_correct())rank2++;
+						if(sp.isSolved_problem_correct())total++;
+						if(sp.isSolved_problem_correct() && set2.contains(sp.getProblem_number()) == false) {
+							rank2++;
+							set2.add(sp.getProblem_number());
+						}
 						break;
 					case 3:
-						if(sp.isSolved_problem_correct())rank3++;
+						if(sp.isSolved_problem_correct())total++;
+						if(sp.isSolved_problem_correct() && set3.contains(sp.getProblem_number()) == false) {
+							rank3++;
+							set3.add(sp.getProblem_number());
+						}
 						break;
 					}
 				}
@@ -97,11 +119,13 @@ public class ProblemController {
 				double d1 = (double)(rank1/total1) * 100;
 				double d2 = (double)(rank2/total2) * 100;
 				double d3 = (double)(rank3/total3) * 100;
-				double ac = (double)((rank1 + rank2 + rank3)/totalSolved) * 100;
+				double ac = 0;
 				
-				System.out.println(rank1 + " " + rank2 + " " + rank3);
-				System.out.println(total1 + " " + total2 + " " + total3 + " " + totalSolved);
-				System.out.println(d1 + " " + d2 + " " + d3 + " " + ac);
+				if(totalSolved != 0) ac = (double)(total/totalSolved) * 100;
+				
+//				System.out.println(rank1 + " " + rank2 + " " + rank3);
+//				System.out.println(total1 + " " + total2 + " " + total3 + " " + totalSolved);
+//				System.out.println(d1 + " " + d2 + " " + d3 + " " + ac);
 				
 				psDto.setRank1((int)d1);
 				psDto.setRank2((int)d2);
@@ -138,8 +162,8 @@ public class ProblemController {
 				MemberDto memberdto = memberService.userInfo(email);
 				int user_number = memberdto.getUser_number();
 
-				System.out.println("사용자 번호" + user_number + "가 푼 문제목록:");
-				System.out.println(problemService.userSolvedProblem(user_number));
+//				System.out.println("사용자 번호" + user_number + "가 푼 문제목록:");
+//				System.out.println(problemService.userSolvedProblem(user_number));
 				return new ResponseEntity<List<SolvedProblemDto>>(problemService.userSolvedProblem(user_number), HttpStatus.OK);
 			}
 		}
