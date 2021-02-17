@@ -1,11 +1,23 @@
 <template>
   <!--상단배너 -->
   <div style="text-align: center">
-    <v-sheet color="#FFB911" height="300" light align="center">
+    <v-sheet height="300" align="center">
       <v-row class="fill-height" align="center" justify="center">
-        <div class="banner text-center" style="font-size: 40px">
-          <v-icon color="black" size="40px">mdi-bell-ring-outline</v-icon
-          >공지사항
+        <div class="display-3">
+          <v-img src="@/assets/img/banner/intro_banner.png" height="300">
+            <v-container fill-height fluid>
+              <v-row class="fill-height" align="center" justify="center">
+                <v-col>
+                  <div class="banner text-center" style="font-size:40px;">
+                    공지사항
+                  </div>
+                  <p class="guide text-center" style="font-size:15px; line-height: 25px;">
+                    코딱지에서 알려주는 여러 공지사항들을 확인하세요
+                  </p>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-img>
         </div>
       </v-row>
     </v-sheet>
@@ -33,11 +45,7 @@
                 </tr>
               </thead>
               <tbody>
-                <NoticeCard
-                  v-for="(notice, idx) in notices"
-                  :key="idx"
-                  :notice="notice"
-                />
+                <NoticeCard v-for="(notice, idx) in notices" :key="idx" :notice="notice" />
                 <!-- <tr
                   v-for="(notice, idx) in notices"
                   :key="idx"
@@ -55,8 +63,6 @@
         </v-col>
       </v-row>
     </v-container>
-
-
 
     <!-- <v-row>
       <v-col cols="3"></v-col>
@@ -220,7 +226,7 @@ const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 export default {
   name: 'Notice',
   components: {
-    NoticeCard
+    NoticeCard,
   },
   data() {
     return {
@@ -251,13 +257,11 @@ export default {
       //   { text: '조회수', value: 'views', align: 'center', sortable: true },
       // ],
       // notices: [],
-    }
+    };
   },
   methods: {
-
     // rowClick: function(item) {
     //   this.selected = item;
-
     //   //조회수 증가시키기
     //   axios
     //     .get(`${SERVER_URL}/notice/views/` + this.selected.notice_number)
@@ -268,7 +272,6 @@ export default {
     //       alert('에러');
     //       console.log(error);
     //     });
-
     //   this.noticeList = false;
     //   this.listNotice();
     // },

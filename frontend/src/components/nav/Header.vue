@@ -64,8 +64,11 @@
         /></v-toolbar-title>
 
         <v-list @click="hideNaviMenu">
-          <v-list-item @click="moveAllRank" class="mx-5 px-6">
+          <!-- <v-list-item @click="moveAllRank" class="mx-5 px-6">
             <v-list-item-title>학습 하기</v-list-item-title>
+          </v-list-item> -->
+          <v-list-item @click="moveLearnBasic" class="mx-5 px-6">
+            <v-list-item-title>기본 학습</v-list-item-title>
           </v-list-item>
           <v-list-item v-for="(item, index) in items" :key="index" @click="moveRankList(item.rank)">
             <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -234,6 +237,14 @@ export default {
     moveAllRank() {
       this.drawer = false;
       this.$router.push({ name: 'AllProblemRank' }).catch((error) => {
+        if (error.name === 'NavigationDuplicated') {
+          location.reload();
+        }
+      });
+    },
+    moveLearnBasic() {
+      this.drawer = false;
+      this.$router.push({ name: 'LearnBasic' }).catch((error) => {
         if (error.name === 'NavigationDuplicated') {
           location.reload();
         }

@@ -52,13 +52,15 @@
         <div align="left">
           <h3>예제 입력</h3>
         </div>
-        <v-textarea v-model="problemDetails.problem_testcase_input1" readonly> </v-textarea>
+        <v-textarea no-resize v-model="problemDetails.problem_testcase_input1" readonly>
+        </v-textarea>
       </v-col>
       <v-col class="ml-5" style="background-color: #F0F0F0;">
         <div align="left">
           <h3>예제 출력</h3>
         </div>
-        <v-textarea v-model="problemDetails.problem_testcase_output1" readonly> </v-textarea>
+        <v-textarea no-resize v-model="problemDetails.problem_testcase_output1" readonly>
+        </v-textarea>
       </v-col>
     </v-row>
     <v-row class="mt-7">
@@ -76,7 +78,12 @@
             <div class="mb-3">
               <h3>Input</h3>
             </div>
-            <v-textarea solo v-model="test_input" placeholder="Input 값을 입력하시오"></v-textarea>
+            <v-textarea
+              solo
+              no-resize
+              v-model="test_input"
+              placeholder="Input 값을 입력하시오"
+            ></v-textarea>
           </v-col>
           <v-col cols="6" align="left">
             <div class="mb-3">
@@ -84,6 +91,7 @@
             </div>
             <v-textarea
               solo
+              no-resize
               v-model="test_output"
               placeholder="Output 값이 출력됩니다"
             ></v-textarea>
@@ -114,6 +122,7 @@
         <v-col cols="11" class="pr-0 p1-2">
           <v-textarea
             solo
+            no-resize
             label="댓글을 입력해주세요"
             :counter="100"
             height="100"

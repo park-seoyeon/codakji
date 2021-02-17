@@ -1,29 +1,38 @@
 <template>
   <div>
     <!--배너-->
-    <v-sheet color="#FFB911" height="300" light align="center">
+    <v-sheet class="mb-15" dark color="#FFFFFF" height="300" align="center">
       <v-row class="fill-height" align="center" justify="center">
-        <div class="banner text-center" style="font-size: 40px">
-          <!--기초부터 차근차근 배워보아요-->
-          <span
-            v-for="(t, index) in title"
-            :key="index"
-            class="item"
-            :style="{ animationDelay: index * 100 + 'ms' }"
-            v-text="t"
-          />
+        <div class="display-3">
+          <v-img src="@/assets/img/banner/result_banner.png" max-width="1000px">
+            <v-container fill-height fluid>
+              <v-row class="fill-height" align="center" justify="center">
+                <v-col>
+                  <div class="banner text-center" style="font-size: 40px">
+                    <span
+                      v-for="(t, index) in title"
+                      :key="index"
+                      class="item"
+                      :style="{ animationDelay: index * 100 + 'ms' }"
+                      v-text="t"
+                    />
+                  </div>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-img>
         </div>
       </v-row>
     </v-sheet>
 
-    <br><br><br>
+    <!-- <br><br><br> -->
     <!-- 주제 목록 -->
     <v-row>
       <BasicCard v-for="(basic, idx) in basics" :key="idx" :basic="basic" />
     </v-row>
 
     <br /><br />
-  </div> 
+  </div>
 </template>
 
 <script>
@@ -49,7 +58,7 @@ export default {
         { topic: 'array', name: '1차원 배열' },
       ],
     };
-  }, 
+  },
 
   methods: {},
 };
