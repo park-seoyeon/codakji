@@ -1,10 +1,22 @@
 <template>
   <div>
-    <v-sheet color="#FFB911" height="300" light align="center">
+    <v-sheet height="300" align="center">
       <v-row class="fill-height" align="center" justify="center">
-        <div class="banner text-center" style="font-size: 40px">
-          <v-icon color="black" size="40px">mdi-bell-ring-outline</v-icon
-          >공지사항
+        <div class="display-3">
+          <v-img src="@/assets/img/banner/intro_banner.png" height="300">
+            <v-container fill-height fluid>
+              <v-row class="fill-height" align="center" justify="center">
+                <v-col>
+                  <div class="banner text-center" style="font-size:40px;">
+                    공지사항
+                  </div>
+                  <p class="guide text-center" style="font-size:15px; line-height: 25px;">
+                    코딱지에서 알려주는 여러 공지사항들을 확인하세요
+                  </p>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-img>
         </div>
       </v-row>
     </v-sheet>
@@ -15,9 +27,7 @@
             <v-col cols="2">#{{ notice.notice_number }}</v-col>
             <v-col cols="4">제목: {{ notice.notice_title }}</v-col>
             <v-col cols="1"></v-col>
-            <v-col cols="3">
-              등록일: {{ notice.created_at }}
-            </v-col>
+            <v-col cols="3"> 등록일: {{ notice.created_at }} </v-col>
             <v-col cols="2">조회수: {{ notice.views }}</v-col>
           </v-row>
         </v-card-text>
@@ -105,12 +115,12 @@ export default {
   data: () => {
     return {
       notice: '',
-    }
+    };
   },
   methods: {
     moveAllNotices() {
-      this.$router.push({ name: 'Notice' })
-    }
+      this.$router.push({ name: 'Notice' });
+    },
   },
   created() {
     // 번호를 통해서 해당 번호의 notice만 가져오기로 바꾸면 좋음
@@ -127,10 +137,8 @@ export default {
       .catch((error) => {
         console.log(error);
       });
-  }
-}
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
