@@ -114,7 +114,6 @@ export default {
         token : localStorage.getItem('jwt'),
         user_number : this.userInfo.number
       }).then((response) => {
-        // console.log(response);
         this.accuracy = response.data.accuracy;
         this.rank1 = response.data.rank1;
         this.rank2 = response.data.rank2;
@@ -131,7 +130,6 @@ export default {
           token: localStorage.getItem("jwt"),
         })
         .then((response) => {
-          // console.log(response.data);
           this.solvedProblems = response.data;
         })
         .catch((error) => {

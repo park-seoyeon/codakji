@@ -20,18 +20,13 @@
     <!--상단 탭 메뉴-->
     <v-tabs fixed-tabs v-model="tabs" background-color="indigo" dark>
       <v-tab>내 정보 보기</v-tab>
-      <!-- <v-tab @click="selectInfo">내 정보 보기</v-tab> -->
       <v-tab> 내가 푼 문제 목록 </v-tab>
-      <!-- <v-tab @click="selectSolved"> 내가 푼 문제 목록 </v-tab> -->
       <v-tab v-if="userInfo.stat == '학생'">
-        <!-- <v-tab v-if="userInfo.stat == '학생'" @click="selectQuestion"> -->
         나의 질문 목록
       </v-tab>
       <v-tab v-else> 전체 질문 목록 </v-tab>
-      <!-- <v-tab v-else @click="selectQuestion"> 전체 질문 목록 </v-tab> -->
     </v-tabs>
 
-    <!-- <br /><br /> -->
     <v-tabs-items v-model="tabs" class="my-15">
       <!-- 내 정보 보기 -->
       <v-tab-item>
@@ -82,13 +77,6 @@
                       prepend-icon="mdi-lock"
                     ></v-text-field>
                     <v-card-actions>
-                      <!-- <v-btn
-                        color="green darken-1"
-                        text
-                        @click="getNewPassword"
-                      >
-                        비밀번호 찾기
-                      </v-btn> -->
                       <v-spacer></v-spacer>
                       <v-btn color="green darken-1" text @click="checkPassword">
                         확인
@@ -192,35 +180,6 @@
         <MyQuestion :userInfo="userInfo" />
       </v-tab-item>
     </v-tabs-items>
-
-    <!-- 소스코드 모달창 -->
-    <!-- <v-dialog v-model="isSourceCode" width="50%">
-      <v-card height="500px" style="position: relative">
-        <v-card-title class="headline yellow lighten-2">
-          <br />
-          {{ this.sourceTitle }}
-        </v-card-title>
-
-        <v-card-text style="font-size:1.2em; height:70%">
-          <br />
-          {{ this.sourceCode }}
-        </v-card-text>
-
-        <v-divider></v-divider>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            text
-            @click="isSourceCode = false"
-            style="font-size:1.4em"
-          >
-            닫기
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog> -->
   </div>
 </template>
 
@@ -241,7 +200,7 @@ export default {
         email: '이메일 위치',
         joindate: '가입일 위치',
         sns: '없음',
-        stat: '신분',
+        stat: '직위',
         number: '',
         profileImg: '',
       },
@@ -289,13 +248,11 @@ export default {
 
           if (response.data.admin == true) {
             this.userInfo.stat = '관리자';
-            // console.log(response.data.admin);
           }
 
           if (response.data.teach == true) {
             if (response.data.admin) this.userInfo.stat += ', 교사';
             else this.userInfo.stat = '교사';
-            // console.log(response.data.teach);
           }
 
           if (!response.data.admin && !response.data.teach) {
@@ -303,12 +260,6 @@ export default {
           }
         })
         .catch((error) => {
-          // if (error.response.status === 401) {
-          //   alert('세션이 만료되었습니다.');
-          //   this.$emit('expireLogin');
-          // } else {
-          //   console.log(error);
-          // }
           console.log(error);
         });
     },
@@ -397,12 +348,15 @@ export default {
           .delete(`${SERVER_URL}/user`, {
             data: { token: localStorage.getItem('jwt') },
           })
-          .then((response) => {
-            console.log(response);
-
+          .then(() => {
             alert('\n정상적으로 회원 탈퇴 되셨습니다.\n\n\n -코기는 항상 기다리고 있을게-');
 
             //자동 로그아웃해서 홈페이지로 가기
+            localStorage.removeItem('jwt');
+            localStorage.removeItem('user_number');
+            localStorage.removeItem('name');
+
+            this.$router.push({ name: 'Home' });
           })
           .catch((error) => {
             alert('\n회원 탈퇴에 실패하셨습니다. \n\n\n 탈퇴 못하지롱\n가지마...');
@@ -410,14 +364,6 @@ export default {
           });
       }
     },
-
-    // showSource(idx) {
-    //   //alert(this.solvedProblems[idx].solved_problem_content);
-    //   this.sourceTitle = this.solvedProblems[idx].problem_title;
-    //   this.sourceCode = this.solvedProblems[idx].solved_problem_content;
-    //   this.isSourceCode = true;
-    // },
-
     checkPassword() {
       const crypto = require('crypto');
       const form = {
@@ -445,20 +391,6 @@ export default {
 
       this.password = '';
     },
-
-    // getNewPassword() {
-    //   axios
-    //     .post(`${SERVER_URL}/user/changepassword`, {
-    //       token: localStorage.getItem('jwt'),
-    //     })
-    //     .then((response) => {
-    //       console.log(response);
-    //       alert('이메일로 임시 비밀번호를 전송했습니다.');
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // },
   },
 
   created() {
@@ -484,11 +416,7 @@ export default {
         }
       });
 
-    // this.selectInfo();
-
     this.setUserInfo();
-
-    // this.setSolvedProblem();
   },
 };
 </script>
