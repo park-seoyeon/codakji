@@ -6,13 +6,7 @@
     >
       뒤로 가는 버튼
     </v-chip>
-    <!-- <v-btn
-      middle
-      left
-      fixed
-    >
-    뒤로 가는 버튼
-    </v-btn> -->
+
     <v-tabs v-model="tabs" centered class="mt-15">
       <!-- v-tabsdml v-model="tabs"로 선택된 탭의 번호가 tabs로 연결 -->
       <!-- <v-tab v-for="n in 3" :key=n> 과 같이 for문 가능 -->
@@ -100,19 +94,6 @@
               </v-col>
               <v-col cols="0" sm="1"></v-col>
 
-              <!-- <v-col cols="12" sm="8" md="4"
-                v-if="error"
-              >
-                <v-textarea
-                  label="Error Infomation"
-                  no-resize
-                  rows="10"
-                  :value="error"
-                  readonly
-                  outlined
-                ></v-textarea>
-              </v-col> -->
-
               <v-col cols="12" sm="8" md="4"
                 v-show="isAnswer"
               >
@@ -137,7 +118,6 @@
         <v-tab-item>
           <v-container>
             <v-row>
-              <!-- 카로셀로 이미지 보여줄까 -->
               <v-carousel v-model="cmodel">
                 <v-carousel-item
                   v-for="i in imageNumber"
@@ -207,8 +187,6 @@ export default {
       token: localStorage.getItem('jwt'),
       solved_problem_number: this.$route.params.resultnumber,
     }
-    
-    // console.log('/img/analysis/codackji_problem' + this.$route.params.resultnumber + '_' + 1 + '.png')
 
     axios
       .post(`${SERVER_URL}/codeAPI/result`, resultInfo)
@@ -225,10 +203,7 @@ export default {
           answer.classList.add('goodanswer')
         }
         this.error = response.data.error;
-        // if (!this.error) {  // 에러가 null이면 무조건 Answer를 보여준다
-        //   this.isAnswer = true;
 
-        // }
         if (this.isCorrect) this.isAnswer = true;
 
         this.yourAnswer = response.data.my_output;

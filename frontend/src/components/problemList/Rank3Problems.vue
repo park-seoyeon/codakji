@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="mx-auto mt-5" width="1024">
+  <v-sheet class="mx-auto mt-5">
     <v-row>
       <ProblemCard v-for="(problem, idx) in getRank()" :key="idx" :problem="problem" />
     </v-row>
@@ -30,7 +30,6 @@ export default {
         .then((response) => {
           this.problems = response.data;
           this.addRank(this.problems);
-          // console.log(this.rank);
         })
         .catch((error) => {
           console.log(error);

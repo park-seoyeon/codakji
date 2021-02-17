@@ -1,5 +1,4 @@
 <template>
-  <!--낙영님 안녕하세요 이 주석을 보면 봤다고 말씀 부탁드립니다! 제발 잘 전송되길...-->
   <div>
     <v-container fluid>
       <h3 v-if="userInfo.stat == '학생'" style="font-size:1.5em">

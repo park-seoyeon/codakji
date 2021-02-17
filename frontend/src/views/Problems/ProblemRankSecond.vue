@@ -10,23 +10,8 @@
                   <div
                     class="banner text-center"
                     style="font-size:40px;"
-                    v-if="$route.params.problemrank*1 === 1"
-                  >
-                    초등 3-4 학년
-                  </div>
-                  <div
-                    class="banner text-center"
-                    style="font-size:40px;"
-                    v-else-if="$route.params.problemrank*1 === 2"
                   >
                     초등 5-6 학년
-                  </div>
-                  <div
-                    class="banner text-center"
-                    style="font-size:40px;"
-                    v-else
-                  >
-                    중등 이상
                   </div>
                   <div class="guide text-center" style="font-size:15px">
                     학년별 문제를 차근히 풀어서 코딩 실력을 높여 보아요!
@@ -53,7 +38,7 @@ import ProblemCard from '@/components/problem/ProblemCard';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
-  name: 'ProblemRankList',
+  name: 'ProblemRankSecond',
   components: {
     ProblemCard,
   },
@@ -62,14 +47,10 @@ export default {
       rankProblems: '',
     };
   },
-  props: {
-    problemrank: [Number, String],
-  },
   methods: {
     getListRankProblem() {
-      let ranknumber = 1 * this.$route.params.problemrank
       axios
-        .get(`${SERVER_URL}/problem/rank/${ranknumber}`)
+        .get(`${SERVER_URL}/problem/rank/${2}`)
         .then((response) => {
           this.rankProblems = response.data;
         })
@@ -81,9 +62,6 @@ export default {
   created() {
     this.getListRankProblem();
   },
-  watch: {
-    problemrank: 'getListRankProblem'
-  }
 };
 </script>
 
