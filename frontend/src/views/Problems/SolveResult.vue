@@ -55,11 +55,19 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col align="right" class="mb-9" cols="6">
+              <v-col align="right" class="mb-3" cols="6">
                 <img src="@/assets/img/cogi.png" width="90px" height="auto" />
               </v-col>
               <v-col align="left" cols="6">
-                <div class="balloon_03">{{ error }}</div>
+                <div v-show="hint" class="balloon_03">
+                  <p v-if="isCorrect" class="typing-txt">너무 잘했어! 정답이야!</p>
+                  <p v-if="!isCorrect" class="typing-txt">{{ error }}</p>
+                </div>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col class="mb-3" cols="11" align="right">
+                <v-chip @click="hint = !hint" color="indigo darken-1" outlined>힌트 보기</v-chip>
               </v-col>
             </v-row>
             <v-row no-gutters justify="center">
@@ -73,7 +81,7 @@
                   outlined
                   class="wronganswer"
                 ></v-textarea> -->
-                <v-card>
+                <v-card v-if="yourAnswer">
                   <v-sheet color="amber lighten-2" dark>
                     <v-card-text align="center" class="pa-1" style="font-size:18px;"
                       >입력한 코드 출력</v-card-text
@@ -90,6 +98,16 @@
                     ></v-textarea>
                   </v-sheet>
                 </v-card>
+                <v-card loading="red darken-1" v-else>
+                  <v-sheet color="amber lighten-2" dark>
+                    <v-card-text align="center" class="pa-1" style="font-size:18px;"
+                      >입력한 코드 출력</v-card-text
+                    >
+                  </v-sheet>
+                  <v-sheet class="guide">
+                    <v-textarea solo no-resize full-width rows="5" readonly></v-textarea>
+                  </v-sheet>
+                </v-card>
               </v-col>
 
               <v-col cols="0" md="1"></v-col>
@@ -103,7 +121,7 @@
                   readonly
                   outlined
                 ></v-textarea> -->
-                <v-card>
+                <v-card v-if="correctAnswer">
                   <v-sheet color="indigo lighten-1" dark>
                     <v-card-text align="center" class="pa-1" style="font-size:18px;"
                       >올바른 출력</v-card-text
@@ -119,11 +137,22 @@
                     ></v-textarea>
                   </v-sheet>
                 </v-card>
+
+                <v-card loading="red darken-1" v-else>
+                  <v-sheet color="indigo lighten-1" dark>
+                    <v-card-text align="center" class="pa-1" style="font-size:18px;"
+                      >올바른 출력</v-card-text
+                    >
+                  </v-sheet>
+                  <v-sheet class="guide">
+                    <v-textarea solo no-resize rows="5" readonly></v-textarea>
+                  </v-sheet>
+                </v-card>
               </v-col>
 
               <v-col cols="0" md="5"></v-col>
 
-              <v-col cols="12" md="4" v-if="error">
+              <!-- <v-col cols="12" md="4" v-if="error">
                 <v-textarea
                   label="힌트"
                   no-resize
@@ -132,7 +161,7 @@
                   readonly
                   outlined
                 ></v-textarea>
-              </v-col>
+              </v-col> -->
             </v-row>
           </v-container>
         </v-tab-item>
@@ -269,6 +298,7 @@ export default {
       imageNumber: 0,
       imageContent: '',
       cmodel: 0,
+      hint: false,
       colors: ['primary', 'secondary', 'yellow darken-2', 'red', 'orange'],
     };
   },
@@ -287,10 +317,10 @@ export default {
         // memory: "5308"
         // statusCode: "200"
         this.isCorrect = response.data.answer;
-        if (this.isCorrect) {
-          const answer = document.querySelector('.wronganswer');
-          answer.classList.add('goodanswer');
-        }
+        // if (this.isCorrect) {
+        //   const answer = document.querySelector('.wronganswer');
+        //   answer.classList.add('goodanswer');
+        // }
         if (response.data.error === 'simpleerror') {
           this.error = '아쉽게도 정답이 나오지 않았어\n다시 생각해 볼까?';
         } else {
@@ -331,14 +361,16 @@ export default {
 
 <style>
 .balloon_03 {
+  color: white;
   position: relative;
   margin: 50px;
   width: 400px;
-  height: 100px;
+  height: 90px;
   background: #333333;
   border-radius: 10px;
 }
 .balloon_03:after {
+  color: white;
   border-top: 15px solid #333333;
   border-left: 15px solid transparent;
   border-right: 0px solid transparent;
@@ -347,6 +379,45 @@ export default {
   position: absolute;
   top: 10px;
   left: -15px;
+}
+p.typing-txt {
+  padding: 5px;
+  position: relative;
+  display: inline-block;
+  height: 22px;
+  overflow: hidden;
+  animation: typingAni 8s steps(30, end) 1;
+}
+p.typing-txt::after {
+  padding: 5px;
+  position: absolute;
+  display: block;
+  content: '';
+  width: 50px;
+  height: 22px;
+  top: 3px;
+  right: 0;
+  border-right: 1px solid rgb(255, 255, 255);
+  animation: cursor 0.7s step-end infinite;
+}
+@keyframes typingAni {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 150px;
+  }
+}
+@keyframes cursor {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 /* div[class*='wronganswer'] > div[class='v-input__control'] > div[class='v-input__slot'] {
   background: lightsalmon;
