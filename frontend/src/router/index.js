@@ -8,10 +8,13 @@ import FindPassword from '@/views/Accounts/FindPassword.vue';
 import UserProfile from '@/views/Accounts/UserProfile.vue'
 
 import AllProblemRank from '@/views/Problems/AllProblemRank.vue'
-import ProblemRankList from '@/views/Problems/ProblemRankList.vue'
+// import ProblemRankList from '@/views/Problems/ProblemRankList.vue'
 import ProblemDetail from '@/views/Problems/ProblemDetail.vue'
-import SolveProblemPage from '@/views/Problems/SolveProblemPage'
 import SolveResult from '@/views/Problems/SolveResult'
+
+import ProblemRankFirst from '@/views/Problems/ProblemRankFirst.vue'
+import ProblemRankSecond from '@/views/Problems/ProblemRankSecond.vue'
+import ProblemRankThird from '@/views/Problems/ProblemRankThird.vue'
 
 import Notice from '@/views/Notices/Notice.vue'
 import NoticeDetail from '@/views/Notices/NoticeDetail'
@@ -50,31 +53,42 @@ const routes = [
     component: FindPassword,
   },
   {
-    path: '/problem/rank',
+    path: '/problem/level',
     name: 'AllProblemRank',
     component: AllProblemRank,
   },
+  // {
+  //   path: '/problem/rank/:problemrank',
+  //   name: 'ProblemRankList',
+  //   component: ProblemRankList,
+  //   props: true,
+  // },
+
   {
-    path: '/problem/rank/:problemrank',
-    name: 'ProblemRankList',
-    component: ProblemRankList,
+    path: '/problem/level/first',
+    name: 'ProblemRankFirst',
+    component: ProblemRankFirst,
   },
+  {
+    path: '/problem/level/second',
+    name: 'ProblemRankSecond',
+    component: ProblemRankSecond,
+  },
+  {
+    path: '/problem/level/third',
+    name: 'ProblemRankThird',
+    component: ProblemRankThird,
+  },
+
   {
     path: '/problem/problem_:problemnumber/detail',
     name: 'ProblemDetail',
     component: ProblemDetail,
   },
   {
-    // path: '/user/:name', 단, post로 보내지는 데이터는 이메일
-    // path: '/user/:email', get 요청 이 경우 login 성공 후 localstorage에 email 저장 (백에서 보내줄 필요 X)
-    path: '/user',
+    path: '/user/profile',
     name: 'UserProfile',
     component: UserProfile,
-  },
-  {
-    path: '/problem/problem_:problemnumber/solve',
-    name: 'SolveProblemPage',
-    component: SolveProblemPage,
   },
   {
     path: '/problem/problem_:problemnumber/result_:resultnumber',

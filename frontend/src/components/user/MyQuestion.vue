@@ -1,5 +1,4 @@
 <template>
-  <!--낙영님 안녕하세요 이 주석을 보면 봤다고 말씀 부탁드립니다! 제발 잘 전송되길...-->
   <div>
     <v-container fluid>
       <h3 v-if="userInfo.stat == '학생'" style="font-size:1.5em">
@@ -159,7 +158,9 @@
                   min-height="100px"
                   style="margin-left:35%">
                   <v-card-text>
-                    "선생님 프로필, 이름" 선생님이 답변을 달아주셨어요 :)
+                    <!-- "선생님 프로필, 이름" 선생님이 답변을 달아주셨어요 :) -->
+                    <img :src="question.teach_profile" width="20%"/> <h2>{{question.teach_name}}</h2> 
+                    선생님이 답변을 달아주셨어요:)                    
                   </v-card-text>
                 </v-card>
               </template>
@@ -197,9 +198,9 @@
               style="border: 1px solid rgba(10,10,0,0.12)"
             >
               <v-row align="center" class="spacer" no-gutters>
-                <!--학생 프로필사진, 이름 -->
                 <v-col cols="3">
-                  학생 프로필사진, 이름
+                  <!-- 학생 프로필사진, 이름 -->
+                  <img :src="question.profile_content" width="10%"/><h3>{{question.name}}</h3>
                 </v-col>
 
                 <!--질문 제목 -->
@@ -308,7 +309,9 @@
               <template v-else>
                 <br /><br />
                 <v-card width="30%" min-height="100px" style="margin-left:35%">
-                  "선생님 프로필, 이름" 선생님이 답변을 달아주셨어요 :)
+                  <!-- "선생님 프로필, 이름" 선생님이 답변을 달아주셨어요 :) -->
+                    <img :src="question.teach_profile" width="20%"/> <h2>{{question.teach_name}}</h2> 
+                    선생님이 답변을 달아주셨어요:) 
                 </v-card>
                 <br /><br />
               </template>

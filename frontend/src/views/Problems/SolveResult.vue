@@ -30,8 +30,9 @@
       <v-icon left>
         mdi-arrow-left-bold
       </v-icon>
-      문제로 돌아가기
+      이전 페이지로
     </v-chip>
+
     <v-tabs fixed-tabs v-model="tabs" background-color="grey lighten-1" dark>
       <!-- v-tabsdml v-model="tabs"로 선택된 탭의 번호가 tabs로 연결 -->
       <!-- <v-tab v-for="n in 3" :key=n> 과 같이 for문 가능 -->
@@ -187,19 +188,6 @@
               </v-col>
               <v-col cols="0" sm="1"></v-col>
 
-              <!-- <v-col cols="12" sm="8" md="4"
-                v-if="error"
-              >
-                <v-textarea
-                  label="Error Infomation"
-                  no-resize
-                  rows="10"
-                  :value="error"
-                  readonly
-                  outlined
-                ></v-textarea>
-              </v-col> -->
-
               <v-col cols="12" sm="8" md="4">
                 <!-- <v-textarea
                   label="정답 코드"
@@ -241,7 +229,6 @@
               </v-col>
             </v-row>
             <v-row>
-              <!-- 카로셀로 이미지 보여줄까 -->
               <v-carousel height="750" v-model="cmodel">
                 <v-carousel-item v-for="i in imageNumber" :key="i">
                   <v-sheet color="white" height="100%" tile>
@@ -285,26 +272,15 @@ export default {
       colors: ['primary', 'secondary', 'yellow darken-2', 'red', 'orange'],
     };
   },
-  methods: {
-    mouseOver: function() {
-      this.description = !this.description;
-    },
-    mouseLeave: function() {
-      this.description = !this.description;
-    },
-  },
   created() {
     const resultInfo = {
       token: localStorage.getItem('jwt'),
       solved_problem_number: this.$route.params.resultnumber,
     };
 
-    // console.log('/img/analysis/codackji_problem' + this.$route.params.resultnumber + '_' + 1 + '.png')
-
     axios
       .post(`${SERVER_URL}/codeAPI/result`, resultInfo)
       .then((response) => {
-        console.log(response);
         // answer : true
         // cpuTime: "0.02"
         // error: null

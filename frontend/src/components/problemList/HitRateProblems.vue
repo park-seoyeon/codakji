@@ -1,6 +1,6 @@
 <template>
-  <v-flex style="margin-top: 50px;">
-    <v-sheet class="mx-auto mt-5" align="left" width="1024">
+  <v-col style="margin-top: 50px;">
+    <v-sheet class="mx-auto mt-5" align="left">
       <div style=" display: inline-block;">
         <img src="@/assets/img/wheel.png" width="50" height="50" />
       </div>
@@ -12,12 +12,14 @@
         코딱지에서 많은 학생들이 맞춘 문제!
       </div>
     </v-sheet>
-    <v-sheet class="mx-auto mt-5" width="1024">
-      <v-row>
-        <ProblemCard v-for="(problem, idx) in hitRate" :key="idx" :problem="problem" />
-      </v-row>
+    <v-sheet class="mx-auto mt-5">
+      <v-container>
+        <v-row>
+          <ProblemCard v-for="(problem, idx) in hitRate" :key="idx" :problem="problem" />
+        </v-row>
+      </v-container>
     </v-sheet>
-  </v-flex>
+  </v-col>
 </template>
 
 <script>
