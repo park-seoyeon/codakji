@@ -4,34 +4,28 @@
     <v-row>
       <v-col cols="3"></v-col>
       <v-col cols="2">
-        <v-icon size="100px" color="#ffb811">mdi-paw</v-icon><br /><h3>3~4학년</h3><br />
-        <v-progress-linear
-          color="light-blue"
-          height="20"
-          value="10"
-          striped
-          v-model="rank1"
-        >{{rank1}}%</v-progress-linear>
+        <v-icon size="100px" color="#ffb811">mdi-paw</v-icon><br />
+        <h3>3~4학년</h3>
+        <br />
+        <v-progress-linear color="light-blue" height="20" value="10" striped v-model="rank1"
+          >{{ rank1 }}%</v-progress-linear
+        >
       </v-col>
       <v-col cols="2">
-        <v-icon size="100px" color="#6f85ff">mdi-paw</v-icon><br /><h3>5~6학년</h3><br />
-        <v-progress-linear
-          color="light-blue"
-          height="20"
-          value="10"
-          striped
-          v-model="rank2"
-        >{{rank2}}%</v-progress-linear>
+        <v-icon size="100px" color="#6f85ff">mdi-paw</v-icon><br />
+        <h3>5~6학년</h3>
+        <br />
+        <v-progress-linear color="light-blue" height="20" value="10" striped v-model="rank2"
+          >{{ rank2 }}%</v-progress-linear
+        >
       </v-col>
       <v-col cols="2">
-        <v-icon size="100px" color="#ff4d56">mdi-paw</v-icon><br /><h3>중등 이상</h3><br />
-        <v-progress-linear
-          color="light-blue"
-          height="20"
-          value="10"
-          striped
-          v-model="rank3"
-        >{{rank3}}%</v-progress-linear>
+        <v-icon size="100px" color="#ff4d56">mdi-paw</v-icon><br />
+        <h3>중등 이상</h3>
+        <br />
+        <v-progress-linear color="light-blue" height="20" value="10" striped v-model="rank3"
+          >{{ rank3 }}%</v-progress-linear
+        >
       </v-col>
       <v-col cols="3"></v-col>
     </v-row>
@@ -51,7 +45,7 @@
     <v-simple-table>
       <template v-slot:default>
         <thead>
-          <tr style="background-color:#FFEBFF">
+          <tr style="background-color:#FAFAFA">
             <th class="text-center" style="width: 15%">제목</th>
             <th class="text-center" style="width: 30%">내용</th>
             <th class="text-center" style="width: 15%">유형</th>
@@ -71,8 +65,7 @@
             <td>{{ item.problem_content.substring(0, 50) }}...</td>
             <td>{{ item.problem_group }}</td>
             <td @click="showSource(index)" style="cursor: pointer">
-              {{ item.language
-              }}<v-icon color="#FFB911">mdi-arrow-right-bold-box</v-icon>
+              {{ item.language }}<v-icon color="#FFB911">mdi-arrow-right-bold-box</v-icon>
             </td>
             <td>
               <v-icon color="#6CB832" v-if="item.solved_problem_correct == 1"
@@ -89,13 +82,13 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 // const SECRET_KEY = process.env.VUE_APP_SECRET_KEY;
 
 export default {
-  name: "MySolvedProblem",
+  name: 'MySolvedProblem',
   props: {
     userInfo: Object,
   },
@@ -109,25 +102,26 @@ export default {
     };
   },
   methods: {
-    setStatistics(){
-      axios.post(`${SERVER_URL}/problem/user/stat`, {
-        token : localStorage.getItem('jwt'),
-        user_number : this.userInfo.number
-      }).then((response) => {
-        this.accuracy = response.data.accuracy;
-        this.rank1 = response.data.rank1;
-        this.rank2 = response.data.rank2;
-        this.rank3 = response.data.rank3;
-      })
-      .catch((error)=>{
-        console.log(error);
-      }
-      );
+    setStatistics() {
+      axios
+        .post(`${SERVER_URL}/problem/user/stat`, {
+          token: localStorage.getItem('jwt'),
+          user_number: this.userInfo.number,
+        })
+        .then((response) => {
+          this.accuracy = response.data.accuracy;
+          this.rank1 = response.data.rank1;
+          this.rank2 = response.data.rank2;
+          this.rank3 = response.data.rank3;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     setSolvedProblem() {
       axios
         .post(`${SERVER_URL}/problem/user/solved`, {
-          token: localStorage.getItem("jwt"),
+          token: localStorage.getItem('jwt'),
         })
         .then((response) => {
           this.solvedProblems = response.data;
@@ -143,10 +137,13 @@ export default {
       this.isSourceCode = true;
     },
     moveResult(item) {
-      this.$router.push({ name: 'SolveResult', params: {
-        problemnumber: item.problem_number,
-        resultnumber: item.solved_problem_number,
-      }})
+      this.$router.push({
+        name: 'SolveResult',
+        params: {
+          problemnumber: item.problem_number,
+          resultnumber: item.solved_problem_number,
+        },
+      });
     },
   },
   created() {

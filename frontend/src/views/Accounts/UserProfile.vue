@@ -31,28 +31,42 @@
       <!-- 내 정보 보기 -->
       <v-tab-item>
         <template style="text_align: center">
-          <v-card class="mx-auto py-15" max-width="80%" min-height="400px">
+          <v-card class="mx-auto pt-3 pb-15" max-width="80%" min-height="400px">
+            <div class="mt-1" align="right">
+              <v-chip
+                class="mr-4"
+                color="red lighten-2"
+                outlined
+                @click="
+                  isUpdate = false;
+                  editNotice = true;
+                "
+                v-if="isAdmin"
+              >
+                공지 추가하기
+                <v-icon>mdi-bell-plus-outline</v-icon>
+              </v-chip>
+            </div>
             <img :src="userInfo.profileImg" width="10%" style="margin-top: 50px" />
             <v-card-text style="font-size:1.5em">
               <div class="text--primary">
                 <div class="mb-10">{{ userInfo.name }} 님 ({{ userInfo.stat }})</div>
 
-                <v-simple-table style="width:50%; margin-left:30%; text-align:left">
+                <v-simple-table style="width:50%; margin-left:40%; text-align:left;">
                   <tr>
-                    <td><v-icon color="#FFB911">mdi-paw</v-icon>이메일</td>
-                    <td><v-icon color="#FFB911">mdi-paw</v-icon>{{ userInfo.email }}</td>
+                    <td><v-icon color="#FFB911">mdi-at</v-icon>이메일</td>
+                    <td>{{ userInfo.email }}</td>
                   </tr>
 
                   <tr>
-                    <td><v-icon color="#6F85FF">mdi-paw</v-icon>SNS</td>
-                    <td><v-icon color="#6F85FF">mdi-paw</v-icon>{{ userInfo.sns }}</td>
+                    <td><v-icon color="#6F85FF">mdi-web</v-icon>SNS</td>
+                    <td>{{ userInfo.sns }}</td>
                   </tr>
 
                   <tr>
-                    <td><v-icon color="#FF4D55">mdi-paw</v-icon>가입일</td>
+                    <td><v-icon color="#FF4D55">mdi-calendar-range</v-icon>가입일</td>
                     <td>
-                      <v-icon color="#FF4D55">mdi-paw</v-icon
-                      >{{ userInfo.joindate.substring(0, 10) }}
+                      {{ userInfo.joindate.substring(0, 10) }}
                     </td>
                   </tr>
                 </v-simple-table>
@@ -65,9 +79,9 @@
               <v-row justify="center">
                 <v-dialog v-model="dialog" max-width="500">
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn color="primary" dark v-bind="attrs" v-on="on">
-                      <v-icon>mdi-pencil</v-icon>
-                    </v-btn>
+                    <v-chip color="primary" outlined dark v-bind="attrs" v-on="on">
+                      정보 수정하기<v-icon>mdi-pencil</v-icon>
+                    </v-chip>
                   </template>
                   <v-card class="px-5 py-1">
                     <v-text-field
@@ -94,18 +108,6 @@
                 공지 추가하기
               </v-btn> -->
             </template>
-            <br>
-            <v-btn
-              color="primary"
-              @click="
-                isUpdate = false;
-                editNotice = true;
-              "
-              v-if="isAdmin"
-            >
-              <v-icon color="white">mdi-bell-plus-outline</v-icon>
-              공지 추가하기
-            </v-btn>
 
             <!-- 정보 수정 페이지 -->
             <v-expand-transition>
@@ -168,21 +170,17 @@
                   </v-col>
                 </v-row>
 
-                <v-btn class="ma-2" color="orange darken-2" dark @click="editCancel">
+                <v-chip class="ma-2" color="red darken-1" outlined dark @click="editCancel">
                   <v-icon dark left> mdi-arrow-left </v-icon>돌아가기
-                </v-btn>
+                </v-chip>
 
-                <v-btn class="ma-2" color="purple" dark @click="updateUser">
+                <v-chip class="ma-2" color="primary" outlined dark @click="updateUser">
                   <v-icon dark> mdi-wrench </v-icon>수정하기
-                </v-btn>
+                </v-chip>
 
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <span
-                    class="mt-10"
-                    style="cursor: pointer; color: darkgrey;"
-                    @click="deleteUser"
-                  >
+                  <span class="mt-10" style="cursor: pointer; color: darkgrey;" @click="deleteUser">
                     | 회원탈퇴 |
                   </span>
                   <v-spacer></v-spacer>
@@ -190,11 +188,10 @@
               </v-card>
             </v-expand-transition>
 
-
             <!-- 공지 추가/수정 하기 모달창 -->
             <v-dialog v-model="editNotice" width="50%">
               <v-card min-height="500px" style="position: relative">
-                <v-card-title class="headline yellow lighten-2">
+                <v-card-title class="headline #FAFAFA">
                   <img src="@/assets/img/codackji_logo.png" height="30px" />
                 </v-card-title>
 
@@ -231,50 +228,53 @@
 
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn text @click="cancelNotice" style="font-size:1.4em">
-                    <v-icon color="#FFB911" size="20">mdi-close-thick</v-icon>
+                  <v-chip
+                    color="amber darken-1"
+                    class="mr-2"
+                    close
+                    outlined
+                    @click="cancelNotice"
+                    style="font-size:1.4em"
+                  >
                     취소하기
-                  </v-btn>
-                  <v-btn
+                  </v-chip>
+                  <v-chip
+                    color="red darken-1"
+                    class="mr-2"
                     v-show="isUpdate"
-                    text
+                    outlined
                     @click="deleteNotice"
                     style="font-size:1.4em"
                   >
-                    <v-icon color="#555555" size="20">mdi-delete-outline</v-icon>
                     삭제하기
-                  </v-btn>
-                  <v-btn
+                    <v-icon size="20">mdi-delete-outline</v-icon>
+                  </v-chip>
+                  <v-chip
+                    color="primary"
                     v-show="!isUpdate"
-                    text
+                    outlined
                     @click="uploadNotice"
                     style="font-size:1.4em"
                   >
-                    <v-icon color="#FFB911" size="20">mdi-lead-pencil</v-icon>
                     등록하기
-                  </v-btn>
-                  <v-btn
+                    <v-icon size="20">mdi-lead-pencil</v-icon>
+                  </v-chip>
+                  <v-chip
+                    color="light-green darken-1"
                     v-show="isUpdate"
-                    text
+                    outlined
                     @click="updateNotice"
                     style="font-size:1.4em"
                   >
-                    <v-icon color="#FFB911" size="20">mdi-lead-pencil</v-icon>
                     수정하기
-                  </v-btn>
+                    <v-icon size="20">mdi-lead-pencil</v-icon>
+                  </v-chip>
                 </v-card-actions>
               </v-card>
             </v-dialog>
           </v-card>
           <br />
         </template>
-        <v-chip
-          v-if="isAdmin"
-          outlined
-          @click="$router.push({ name: 'NoticeAdminPage'})"
-        >
-          공지사항 수정 페이지
-        </v-chip>
       </v-tab-item>
 
       <!-- 내가 푼 문제 목록 -->
@@ -363,7 +363,7 @@ export default {
           else this.userInfo.sns = '연동된 정보가 없습니다';
 
           if (this.isAdmin) {
-            this.userInfo.stat = '관리자';  // 관리자인 경우 notice를 수정하기 위해 notice 정보를 get으로 가져옴
+            this.userInfo.stat = '관리자'; // 관리자인 경우 notice를 수정하기 위해 notice 정보를 get으로 가져옴
             axios
               .get(`${SERVER_URL}/notice`)
               .then((response) => {
@@ -619,7 +619,7 @@ export default {
   watch: {
     selected_number: 'changeNotice',
     editNotice: 'refreshNotice',
-  }
+  },
 };
 </script>
 

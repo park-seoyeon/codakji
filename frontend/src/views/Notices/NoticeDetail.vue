@@ -39,12 +39,13 @@
             <span v-html="notice.notice_content"></span>
           </div>
         </v-card-text>
-
-        <v-btn text @click="moveAllNotices" style="font-size:1.4em">
-          <v-icon color="#FFB911" size="40">mdi-arrow-left-box</v-icon>
-          목록으로
-        </v-btn>
       </v-card>
+      <div align="right" class="mt-3 mr-2">
+        <v-chip color="indigo darken-1" outlined @click="moveAllNotices" style="font-size:1.2em">
+          <v-icon size="20">mdi-arrow-left-box</v-icon>
+          목록으로
+        </v-chip>
+      </div>
     </v-container>
   </div>
 </template>
