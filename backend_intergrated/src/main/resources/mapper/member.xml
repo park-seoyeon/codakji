@@ -50,7 +50,7 @@
 	
 	<update id="updateProfile" parameterType="memberDto">
 		update User
-		set profile_content = #{profile_content}
+		set profile_content = #{profile_content}, profile = #{profile}
 		where email = #{email}
 	</update>
 	

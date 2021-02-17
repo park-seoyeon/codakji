@@ -26,7 +26,6 @@ public class EmailServiceImpl implements EmailService {
 
 	@Override
 	public boolean sendEmail(String toAddress) throws Exception {
-
 		MimeMessage message = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 
