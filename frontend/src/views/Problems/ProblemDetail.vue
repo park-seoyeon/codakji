@@ -188,7 +188,7 @@ export default {
     },
     getProblemDetail() {
       axios
-        .get(`${SERVER_URL}/problem/${this.$route.params.problemnumber}`)
+        .get(`${SERVER_URL}/problem/detail/${this.$route.params.problemnumber}`)
         .then((response) => {
           this.problemDetails = response.data;
         })
@@ -202,7 +202,6 @@ export default {
         .get(`${SERVER_URL}/problem/comment/${this.$route.params.problemnumber}`)
         .then((response) => {
           this.problemComments = response.data;
-          // console.log(this.problemComments);
         })
         .catch((error) => {
           console.log(error);
@@ -223,7 +222,6 @@ export default {
           script: this.childMessage,
         })
         .then((res) => {
-          //console.log(res.data)
           this.test_output = res.data.output;
         });
     },
@@ -240,7 +238,6 @@ export default {
       axios
         .post(`${SERVER_URL}/codeAPI/submit`, solvedInfo)
         .then((res) => {
-          // console.log(res.data)
           this.$router.push({
             name: 'SolveResult',
             params: {

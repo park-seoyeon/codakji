@@ -9,21 +9,18 @@
         <div id="baritem">
           <span class="d-flex">
             <div class="d-flex mx-10 align-self-center">
-              <!-- <v-icon color="yellow darken-2" size="25">mdi-folder-search</v-icon> -->
               <div class="mx-1" style="font-size: 17px; cursor: pointer;" @click="moveAllRank">
                 학습 하기
               </div>
             </div>
 
             <div class="d-flex align-self-center" style="border-left: 2px solid #e6e6e6;">
-              <!-- <v-icon color="yellow darken-2" size="25">mdi-video-account</v-icon> -->
               <div class="mx-11" @click="moveMeeting" style="font-size: 17px; cursor: pointer; ">
                 화상으로 함께하기
               </div>
             </div>
 
             <div class="d-flex align-self-center" style="border-left: 2px solid #e6e6e6;">
-              <!-- <v-icon color="yellow darken-2" size="25">mdi-bullhorn</v-icon> -->
               <div class="mx-11" style="font-size: 17px; cursor: pointer;" @click="moveNotice">
                 공지사항
               </div>
@@ -74,7 +71,6 @@
 
         <div class="ml-12 mr-15">
           <div class="d-flex">
-            <!-- <v-icon color="yellow darken-2" size="25">mdi-video-account</v-icon>-->
             <div @click="moveMeeting" class="d-flex my-5" style="cursor: pointer;">
               <div style="font-size: 17px">화상으로 함께하기</div>
             </div>
@@ -83,15 +79,12 @@
 
         <div class="mx-6 " @click="hideNaviMenu" align="center">
           <div @click="moveIntroduce" class="d-flex my-5" style="cursor: pointer;" align="center">
-            <!-- <v-icon color="yellow darken-2" size="25">mdi-bullhorn</v-icon> -->
             <div class="mx-1" style="font-size: 17px" align="center">코딱지는?</div>
           </div>
           <div link @click="moveNotice" class="d-flex my-5" style="cursor: pointer;" align="center">
-            <!-- <v-icon color="yellow darken-2" size="25">mdi-chat-question</v-icon> -->
             <div class="mx-1" style="font-size: 17px" align="center">공지사항</div>
           </div>
           <div link @click="moveCoFAQ" class="d-flex my-5" style="cursor: pointer;" align="center">
-            <!-- <v-icon color="yellow darken-2" size="25">mdi-chat-question</v-icon> -->
             <div class="mx-1" style="font-size: 17px" align="center">FAQ</div>
           </div>
         </div>
@@ -144,8 +137,6 @@
           >
             <v-icon color="yellow darken-2" size="20">mdi-folder-search</v-icon>
             <div class="mx-1" style="font-size: 20px;">학습 하기</div>
-            <!-- <v-icon v-if="isMenu" size="15">mdi-menu-up</v-icon>
-            <v-icon v-else size="15">mdi-menu-down</v-icon> -->
           </div>
 
           <v-list>
@@ -196,8 +187,6 @@ export default {
     return {
       attrs: null,
       on: null,
-      drawer: false,
-      // isMenu: true,
       isSide: false,
       isLogin: false,
       headerChecked: false,
@@ -212,7 +201,6 @@ export default {
   },
   methods: {
     moveHome() {
-      this.drawer = false;
       this.$router.push({ name: 'Home' }).catch((error) => {
         if (error.name === 'NavigationDuplicated') {
           location.reload();
@@ -232,7 +220,6 @@ export default {
       if (!this.isLogin) this.$emit('openModal', true);
     },
     moveAllRank() {
-      this.drawer = false;
       this.$router.push({ name: 'AllProblemRank' }).catch((error) => {
         if (error.name === 'NavigationDuplicated') {
           location.reload();
@@ -240,17 +227,38 @@ export default {
       });
     },
     moveRankList(rank) {
-      this.drawer = false;
-      this.$router
-        .push({ name: 'ProblemRankList', params: { problemrank: rank } })
-        .then(() => {
-          
-        }) // 문제목록 갱신을 위한 어쩔 수 없는 선택
+      if (rank == 1) {
+        this.$router
+        .push({ name: 'ProblemRankFirst' })
         .catch((error) => {
           if (error.name === 'NavigationDuplicated') {
             location.reload();
           }
         });
+      } else if (rank == 2) {
+        this.$router
+        .push({ name: 'ProblemRankSecond' })
+        .catch((error) => {
+          if (error.name === 'NavigationDuplicated') {
+            location.reload();
+          }
+        });
+      } else {
+        this.$router
+        .push({ name: 'ProblemRankThird' })
+        .catch((error) => {
+          if (error.name === 'NavigationDuplicated') {
+            location.reload();
+          }
+        });
+      }
+      // this.$router
+      //   .push({ name: 'ProblemRankList', params: { problemrank: rank } })
+      //   .catch((error) => {
+      //     if (error.name === 'NavigationDuplicated') {
+      //       location.reload();
+      //     }
+      //   });
     },
     moveMyProfile() {
       this.$router.push({ name: 'UserProfile' }).catch((error) => {

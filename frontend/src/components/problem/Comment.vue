@@ -70,7 +70,6 @@ export default {
     },
     updateComment() {
       if (confirm('정말 수정하시겠습니까?')) {
-        console.log(this.content);
         axios
           .put(`${SERVER_URL}/problem/comment`, {
             token: localStorage.getItem('jwt'),

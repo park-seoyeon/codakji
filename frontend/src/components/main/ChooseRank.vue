@@ -15,7 +15,7 @@
         알고리즘 실력을 늘릴 수 있는 코딱지의 문제들을 소개합니다
       </div>
     </v-sheet>
-    <v-sheet class="mx-auto mt-5" width="1024">
+    <v-sheet class="mx-auto mt-5">
       <v-container>
         <v-row>
           <RankCard v-for="(rank, idx) in ranks" :key="idx" :rank="rank" />

@@ -355,7 +355,6 @@ export default {
     axios
       .get(`${SERVER_URL}/notice`)
       .then((response) => {
-        // console.log(response);
         this.notices = response.data;
       })
       .catch((error) => {
