@@ -7,7 +7,7 @@
         <v-icon size="100px" color="#ffb811">mdi-paw</v-icon><br />
         <h3>3~4학년</h3>
         <br />
-        <v-progress-linear color="light-blue" height="20" value="10" striped v-model="rank1"
+        <v-progress-linear color="light-blue" height="20" striped :value="rank1"
           >{{ rank1 }}%</v-progress-linear
         >
       </v-col>
@@ -15,7 +15,7 @@
         <v-icon size="100px" color="#6f85ff">mdi-paw</v-icon><br />
         <h3>5~6학년</h3>
         <br />
-        <v-progress-linear color="light-blue" height="20" value="10" striped v-model="rank2"
+        <v-progress-linear color="light-blue" height="20" striped :value="rank2"
           >{{ rank2 }}%</v-progress-linear
         >
       </v-col>
@@ -23,7 +23,7 @@
         <v-icon size="100px" color="#ff4d56">mdi-paw</v-icon><br />
         <h3>중등 이상</h3>
         <br />
-        <v-progress-linear color="light-blue" height="20" value="10" striped v-model="rank3"
+        <v-progress-linear color="light-blue" height="20" striped :value="rank3"
           >{{ rank3 }}%</v-progress-linear
         >
       </v-col>
@@ -34,7 +34,7 @@
     <v-row>
       <v-col cols="3"></v-col>
       <v-col cols="6">
-        <v-progress-linear v-model="accuracy" height="25" color="#6cb832" striped>
+        <v-progress-linear :value="accuracy" height="25" color="#6cb832" striped>
           <strong>정답률: {{ accuracy }}%</strong>
         </v-progress-linear>
       </v-col>
