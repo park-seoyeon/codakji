@@ -30,7 +30,6 @@
     </v-card>
     </template>
     </v-hover>
-
   <br><br>
   </v-col>
 </template>

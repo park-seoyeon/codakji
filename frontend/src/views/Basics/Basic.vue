@@ -19,15 +19,15 @@
     <v-row>
       <v-col cols="2"></v-col>
       <v-col cols="8">
-          <video v-if="title =='변수'" width="80%" controls muted loop src="@/assets/video/variable.mp4" type="video/mp4" class="videoOutline" ></video>
-          <video v-if="title =='자료형'" width="80%" controls muted loop src="@/assets/video/datatype.mp4" type="video/mp4" class="videoOutline" ></video>
-          <video v-if="title =='연산자'" width="80%" controls muted loop src="@/assets/video/operator.mp4" type="video/mp4" class="videoOutline" ></video>
-          <video v-if="title =='입력'" width="80%" controls muted loop src="@/assets/video/input.mp4" type="video/mp4" class="videoOutline" ></video>
-          <video v-if="title =='출력'" width="80%" controls muted loop src="@/assets/video/output.mp4" type="video/mp4" class="videoOutline" ></video>
-          <video v-if="title =='if 조건문'" width="80%" controls muted loop src="@/assets/video/if.mp4" type="video/mp4" class="videoOutline" ></video>
-          <video v-if="title =='for 반복문'" width="80%" controls muted loop src="@/assets/video/for.mp4" type="video/mp4" class="videoOutline" ></video>
-          <video v-if="title =='while 반복문'" width="80%" controls muted loop src="@/assets/video/while.mp4" type="video/mp4" class="videoOutline" ></video>
-          <video v-if="title =='1차원 배열'" width="80%" controls muted loop src="@/assets/video/array.mp4" type="video/mp4" class="videoOutline" ></video>
+          <video v-if="topic =='variable'" width="80%" controls muted src="@/assets/video/variable.mp4" type="video/mp4" class="videoOutline" ></video>
+          <video v-if="topic =='datatype'" width="80%" controls muted src="@/assets/video/datatype.mp4" type="video/mp4" class="videoOutline" ></video>
+          <video v-if="topic =='operator'" width="80%" controls muted src="@/assets/video/operator.mp4" type="video/mp4" class="videoOutline" ></video>
+          <video v-if="topic =='input'" width="80%" controls muted src="@/assets/video/input.mp4" type="video/mp4" class="videoOutline" ></video>
+          <video v-if="topic =='output'" width="80%" controls muted src="@/assets/video/output.mp4" type="video/mp4" class="videoOutline" ></video>
+          <video v-if="topic =='if'" width="80%" controls muted src="@/assets/video/if.mp4" type="video/mp4" class="videoOutline" ></video>
+          <video v-if="topic =='for'" width="80%" controls muted src="@/assets/video/for.mp4" type="video/mp4" class="videoOutline" ></video>
+          <video v-if="topic =='while'" width="80%" controls muted src="@/assets/video/while.mp4" type="video/mp4" class="videoOutline" ></video>
+          <video v-if="topic =='array'" width="80%" controls muted src="@/assets/video/array.mp4" type="video/mp4" class="videoOutline" ></video>
       </v-col>
     </v-row>
 
