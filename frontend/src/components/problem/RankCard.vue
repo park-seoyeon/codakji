@@ -28,7 +28,15 @@ export default {
   },
   methods: {
     moveRankList(rank) {
-      if (rank == 1) {
+      if (rank == 0) {
+        this.$router
+        .push({ name: 'AllProblemRank' })
+        .catch((error) => {
+          if (error.name === 'NavigationDuplicated') {
+            location.reload();
+          }
+        });
+      } else if (rank == 1) {
         this.$router
         .push({ name: 'ProblemRankFirst' })
         .catch((error) => {

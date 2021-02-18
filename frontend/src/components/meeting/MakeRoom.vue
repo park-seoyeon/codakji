@@ -22,6 +22,7 @@
               label="미팅룸 설명"
               type="text"
               prepend-icon="mdi-account"
+              @keypress.enter="makeRoom"
             ></v-text-field>
             <v-chip class="ma-2" color="primary" outlined pill @click="makeRoom">
               만들기

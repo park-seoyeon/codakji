@@ -70,6 +70,7 @@
               placeholder="대화를 시작해보세요..!"
               id="chatInput"
               v-model="message"
+              @keypress.enter="sendMessage"
             />
             <button id="sendButton" @click="sendMessage">SEND</button>
           </div>
@@ -123,7 +124,6 @@ export default {
       checkmute: true,
       checkcam: true,
 
-      // chat
       messageList: [],
       message: "",
       to: "",
@@ -148,9 +148,7 @@ export default {
           token: this.stoken,
         })
         .then(() => {
-          //this.smainStreamManager.publishVideo(false);
           window.removeEventListener("beforeunload", this.stopScreenShare);
-
         });
     },
     screenShare(){
@@ -277,7 +275,6 @@ export default {
 
       axios
         .post(`${SERVER_URL}/sessions/maketoken`,{
-          //session : this.session,
           user_token : localStorage.getItem('jwt'),
           room_number : parseInt(this.room_number),
           screenShare : false,
@@ -291,7 +288,7 @@ export default {
               }
             });
           } else {
-            this.token = response.data.token; //유저토큰 아님. session 토큰
+            this.token = response.data.token;
             this.name = response.data.name;
             this.session
               .connect(this.token, { clientData: this.name })
@@ -312,8 +309,6 @@ export default {
 
                 this.messageList = [];
                 this.session.publish(this.publisher);
-                console.log("참여자 목록");
-                console.log(this.subscribers);
                 this.publisher.session.on("signal:chat", (event) => {
                   const data = JSON.parse(event.data);
                   this.messageList.push({
@@ -365,7 +360,6 @@ export default {
       })
     },
     updateMainVideoStreamManager(stream) {
-      alert("메인스트림 바꾸자");
       if (this.mainStreamManager === stream) return;
       this.mainStreamManager = stream;
     },

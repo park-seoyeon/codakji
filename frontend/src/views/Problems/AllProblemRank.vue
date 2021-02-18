@@ -143,21 +143,21 @@ export default {
       this.third = true;
     },
     moveRank1() {
-      this.$router.push({ name: 'ProblemRankList', params: { problemrank: 1 } }).catch((error) => {
+      this.$router.push({ name: 'ProblemRankFirst' }).catch((error) => {
         if (error.name === 'NavigationDuplicated') {
           location.reload();
         }
       });
     },
     moveRank2() {
-      this.$router.push({ name: 'ProblemRankList', params: { problemrank: 2 } }).catch((error) => {
+      this.$router.push({ name: 'ProblemRankSecond' }).catch((error) => {
         if (error.name === 'NavigationDuplicated') {
           location.reload();
         }
       });
     },
     moveRank3() {
-      this.$router.push({ name: 'ProblemRankList', params: { problemrank: 3 } }).catch((error) => {
+      this.$router.push({ name: 'ProblemRankThird' }).catch((error) => {
         if (error.name === 'NavigationDuplicated') {
           location.reload();
         }
