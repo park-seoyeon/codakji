@@ -56,7 +56,7 @@
               <v-col align="left" cols="6">
                 <div v-show="hint" class="balloon_03">
                   <p v-if="isCorrect" class="typing-txt">너무 잘했어! 정답이야!</p>
-                  <p v-if="!isCorrect" class="typing-txt">{{ error }}</p>
+                  <p v-if="!isCorrect" class="pa-3" v-html="handleNewLine(error)"></p>
                 </div>
               </v-col>
             </v-row>
@@ -269,7 +269,7 @@ export default {
 
         this.yourAnswer = response.data.my_output;
         if (!this.yourAnswer) {
-          this.yourAnswer = '빈 값이 출력되고 있어!'
+          this.yourAnswer = '빈 값이 출력되고 있어!';
         }
         this.correctAnswer = response.data.correct_output;
         this.yourCode = response.data.my_code;
@@ -293,6 +293,11 @@ export default {
         }
       });
   },
+  methods: {
+    handleNewLine(str) {
+      return String(str).replace(/(?:\r\n|\r|\n)/g, '</br>');
+    },
+  },
 };
 </script>
 
@@ -301,8 +306,8 @@ export default {
   color: white;
   position: relative;
   margin: 50px;
-  width: 400px;
-  height: 90px;
+  width: 450px;
+  height: 120px;
   background: #333333;
   border-radius: 10px;
 }
@@ -318,7 +323,7 @@ export default {
   left: -15px;
 }
 p.typing-txt {
-  padding: 5px;
+  padding: 3px;
   position: relative;
   display: inline-block;
   height: 22px;
@@ -326,7 +331,7 @@ p.typing-txt {
   animation: typingAni 3s steps(20, end) 1;
 }
 p.typing-txt::after {
-  padding: 5px;
+  padding: 3px;
   position: absolute;
   display: block;
   content: '';
