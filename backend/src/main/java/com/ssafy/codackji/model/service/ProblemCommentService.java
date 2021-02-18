@@ -8,7 +8,6 @@ public interface ProblemCommentService {
 	public List<ProblemCommentDto> listProblemComment(int problem_number) throws Exception;
 	public boolean updateProblemComment(ProblemCommentDto problemCommentDto) throws Exception;
 	public boolean deleteProblemComment(int comment_number) throws Exception;
-	//public int getLikes(int comment_number) throws Exception;
 	public boolean updateLikes(ProblemCommentDto problemCommentDto) throws Exception;
 }
 

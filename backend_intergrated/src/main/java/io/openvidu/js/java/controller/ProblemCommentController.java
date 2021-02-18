@@ -22,11 +22,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-//각 문제의 댓글과 관련된 컨트롤러다
-//댓글 CRUD 그리고 좋아요 기능이있다
-//댓글update는 댓글을 작성한 사용자가 update을 하는것이고
-//좋아요update는 작성자가 아닌 누구든지 update를 할 수 있다.(likes칼럼만 변경)
-
 @Api("ProblemCommentController V1")
 @RestController
 @RequestMapping("/problem/comment")
@@ -54,7 +49,6 @@ public class ProblemCommentController {
 				memberDto.setToken(token);
 				jwtService.setToken(memberDto);
 				if (problemCommentService.writeProblemComment(problemCommentDto)) {
-//					System.out.println(problemCommentDto);
 					return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 				}
 			}
@@ -112,22 +106,6 @@ public class ProblemCommentController {
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.UNAUTHORIZED);
 	}
-
-	/*
-	 * @ApiOperation(value="좋아요 수", notes="RETRIEVE 각 댓글의 좋아요 수를 리턴한다",
-	 * response=String.class)
-	 * 
-	 * @GetMapping("/likes/{comment_number}") public ResponseEntity<String>
-	 * addUser(@RequestBody MemberDto memberDto){
-	 * System.out.println("[회원가입]"+memberDto.toString());
-	 * 
-	 * if(memberService.emailCheck(memberDto.getEmail())>0) {
-	 * System.out.println(">>중복된 아이디"); return new ResponseEntity<String>(FAIL,
-	 * HttpStatus.OK); }else { memberService.addUser(memberDto); return new
-	 * ResponseEntity<String>(SUCCESS, HttpStatus.OK); }
-	 * 
-	 * }
-	 */
 
 	@ApiOperation(value = "좋아요 수정_토큰검사를 한다", notes = "UPDATE 각 댓글의 좋아요 수를 증가시키거나 감소시킨다.", response = String.class)
 	@PutMapping("/likes")

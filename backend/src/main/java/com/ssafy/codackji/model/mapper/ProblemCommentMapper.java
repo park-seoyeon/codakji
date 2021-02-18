@@ -18,7 +18,5 @@ public interface ProblemCommentMapper {
 
 	public int deleteProblemComment(int comment_number) throws SQLException;
 
-	//public int getLikes(int comment_number) throws SQLException;
-
 	public int updateLikes(ProblemCommentDto problemCommentDto) throws SQLException;
 }

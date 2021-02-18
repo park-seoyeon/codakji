@@ -62,15 +62,8 @@ public class KakaoLoginController {
 	@Autowired
 	private JwtServiceImpl jwtService;
 
-//	@PostMapping("/login")
-//	public void kakaoLogin(@RequestBody String code) {
-//		System.out.println("코드:"+code);
-//	}
-
 	@PostMapping("/login/request")
 	public ResponseEntity<Map<String, Object>> kakaoLoginRequest(@RequestBody String code) {
-		System.out.println("[카카오 로그인]");
-		// POST방식으로 Key=value 데이터를 요청(카카오쪽으로)
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -80,10 +73,8 @@ public class KakaoLoginController {
 		params.add("redirect_uri", REDIRECT_URI);
 		params.add("code", code);
 
-		// HttpHeader와 HttpBody를 하나의 오브젝트에 담기
 		HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
 
-		// Http 요청하기 -Post방식으로 - 그리고 response 변수의 응답 받음.
 		ResponseEntity<String> response = rt.exchange("https://kauth.kakao.com/oauth/token", HttpMethod.POST,
 				kakaoTokenRequest, String.class);
 
@@ -97,16 +88,13 @@ public class KakaoLoginController {
 			e.printStackTrace();
 		}
 
-		///////////////////////////// 카카오에서 회원정보 받기/////////////////////////////////
 		RestTemplate rt2 = new RestTemplate();
 		HttpHeaders headers2 = new HttpHeaders();
 		headers2.add("Authorization", "Bearer " + oauthToken.getAccess_token());
 		headers2.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
-		// HttpHeader와 HttpBody를 하나의 오브젝트에 담기
 		HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest2 = new HttpEntity<>(headers2);
 
-		// Http 요청하기 -Post방식으로 - 그리고 response 변수의 응답 받음.
 		ResponseEntity<String> response2 = rt2.exchange("https://kapi.kakao.com/v2/user/me", HttpMethod.POST,
 				kakaoProfileRequest2, String.class);
 
@@ -120,13 +108,6 @@ public class KakaoLoginController {
 			e.printStackTrace();
 		}
 
-		// User 오브젝트 : name, password, email
-		System.out.println("=======[카카오에서 받은 회원정보]======");
-		System.out.println("카카오 이메일:" + kakaoProfile.getKakao_account().getEmail());
-		System.out.println("카카오 닉네임(이름):" + kakaoProfile.getProperties().getNickname());
-		System.out.println("카카오 프로필(링크):" + kakaoProfile.getKakao_account().getProfile().getProfile_image_url());
-		System.out.println("===============================");
-
 		String password = "1234";
 
 		MemberDto kakaoUser = new MemberDto(kakaoProfile.getKakao_account().getEmail(),
@@ -138,7 +119,6 @@ public class KakaoLoginController {
 		try {
 			originMemberDto = memberService.userInfo(kakaoUser.getEmail());
 			
-			//profile 이미지 저장
 			if(!memberService.userInfo(kakaoUser.getEmail()).isProfile()) {
 				try {
 					URL url = new URL(kakaoProfile.getKakao_account().getProfile().getProfile_image_url());
@@ -152,7 +132,6 @@ public class KakaoLoginController {
 			        String base64EncodedImage = "data: image/png;base64," + new String (Base64.encodeBase64 (image), StandardCharsets.US_ASCII);
 			        kakaoUser.setProfile_content(base64EncodedImage);
 			        kakaoUser.setProfile(true);
-					System.out.println("updated");
 					memberService.updateProfile(kakaoUser);
 					memberService.updateIsProfile(kakaoUser);
 				} catch (IOException e) {
@@ -162,7 +141,6 @@ public class KakaoLoginController {
 			//
 	        
 			if (originMemberDto == null) {
-				System.out.println("[카카오 새회원 가입처리]");
 			    String newPassword = "";
 				byte[] oldBytes = "kakao1234".getBytes();
 				String secret = "codackjia203";			
@@ -177,13 +155,10 @@ public class KakaoLoginController {
 			    kakaoUser.setPassword(newPassword);
 			    kakaoUser.setCertification(true);
 				memberService.addUser(kakaoUser);
-				System.out.println("[카카오 자동 로그인]");
 				return kakaoLogin(kakaoUser);
 			} else if (originMemberDto.getOauth() != null && originMemberDto.getOauth().equals("kakao")) {
-				System.out.println("[기존 카카오 로그인 회원 - 로그인]");
 				return kakaoLogin(kakaoUser);
 			} else {
-				System.out.println("[중복 로그인 회원]");
 				resultMap.put("userInfo", kakaoUser);
 				resultMap.put("message", SUCCESS);
 				resultMap.put("oauth-result", FAIL);
@@ -206,11 +181,8 @@ public class KakaoLoginController {
 			MemberDto loginUser = memberService.socialLogin(memberDto);
 			if (loginUser != null) {
 
-				System.out.println("로그인 토큰 반환");
+				String token = jwtService.create("userid", loginUser.getEmail(), "access-token");
 
-				String token = jwtService.create("userid", loginUser.getEmail(), "access-token");// key, data, subject
-
-				System.out.println("token:" + token);
 				memberDto.setToken(token);
 				jwtService.setToken(memberDto);
 
@@ -221,7 +193,6 @@ public class KakaoLoginController {
 				resultMap.put("oauth-result", SUCCESS);
 				status = HttpStatus.ACCEPTED;
 			} else {
-				System.out.println("토큰 반환 실패");
 				resultMap.put("message", FAIL);
 				status = HttpStatus.ACCEPTED;
 			}
@@ -235,7 +206,6 @@ public class KakaoLoginController {
 	
 	@PostMapping("/login/merge")
 	public ResponseEntity<Map<String, Object>> mergeUserAndkakaoLogin(@RequestBody MemberDto memberDto){
-		System.out.println("[중복로그인 통합 및 로그인]");
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		MemberDto originMember = null;

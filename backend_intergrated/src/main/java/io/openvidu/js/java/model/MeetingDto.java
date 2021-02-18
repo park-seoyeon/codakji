@@ -11,9 +11,9 @@ public class MeetingDto {
 	private int room_people_cnt;
 	private Session session;
 	private String session_name;
-	private int user_number;//현재 유저 번호
-	private String user_token;//유저 토큰
-	private String token;//세션 토큰
+	private int user_number;
+	private String user_token;
+	private String token;
 	private boolean screenShare;
 	
 	public int getRoom_number() {

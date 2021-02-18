@@ -3,18 +3,18 @@ package io.openvidu.js.java.model;
 public class SolvedProblemDto {
 
 	private int solved_problem_number;
-	private int user_number; //문제 푼 사용자 번호
-	private int problem_number; //푼 문제의 번호
-	private String problem_title; //문제 이름 - 나중에 추가
-	private String problem_content; //문제 내용 - 나중에 추가
-	private String problem_group; //문제 유형 - 나중에 추가
-	private String solved_problem_content; //작성한 코드
-	private boolean solved_problem_correct; //정답 여부
-	private String language; //사용 언어
+	private int user_number; 
+	private int problem_number;
+	private String problem_title;
+	private String problem_content;
+	private String problem_group;
+	private String solved_problem_content;
+	private boolean solved_problem_correct;
+	private String language;
 	private boolean api_done;
 	private String my_output;
 	private String correct_output;
-	private String submit_at; //사용자가 문제를 제출한 시각
+	private String submit_at;
 	private int problem_rank;
 	
 	public SolvedProblemDto() {}

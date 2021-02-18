@@ -2,10 +2,10 @@ package com.ssafy.codackji.model;
 
 public class ProblemStatDto {
 
-	private double rank1; //rank1 정답수 / 전체rank1문제수
-	private double rank2; //rank2 정답수 / 전체rank2문제수
-	private double rank3; //rank3 정답수 / 전체rank3문제수
-	private double accuracy; //전체 정답수 / 전체 문제수
+	private double rank1;
+	private double rank2;
+	private double rank3;
+	private double accuracy;
 	
 	
 	public double getRank1() {
