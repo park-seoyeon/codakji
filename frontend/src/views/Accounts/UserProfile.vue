@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!--상단 배너 -->
     <v-sheet color="#FFFFFF" height="300" dark align="center">
       <v-row class="fill-height" align="center" justify="center">
         <div class="display-3">
@@ -17,7 +16,6 @@
       </v-row>
     </v-sheet>
 
-    <!--상단 탭 메뉴-->
     <v-tabs fixed-tabs v-model="tabs" background-color="indigo" dark>
       <v-tab>내 정보 보기</v-tab>
       <v-tab> 내가 푼 문제 목록 </v-tab>
@@ -28,7 +26,6 @@
     </v-tabs>
 
     <v-tabs-items v-model="tabs" class="my-15">
-      <!-- 내 정보 보기 -->
       <v-tab-item>
         <template style="text_align: center">
           <v-card class="mx-auto pt-3 pb-15" max-width="80%" min-height="400px">
@@ -74,7 +71,6 @@
             </v-card-text>
             <br />
 
-            <!--비밀번호 재입력 모달창 -->
             <template>
               <v-row justify="center">
                 <v-dialog v-model="dialog" max-width="500">
@@ -103,13 +99,8 @@
                   </v-card>
                 </v-dialog>
               </v-row>
-              <!-- <v-btn v-if="isAdmin" color="primary">
-                <v-icon color="white">mdi-bell-plus-outline</v-icon>
-                공지 추가하기
-              </v-btn> -->
             </template>
 
-            <!-- 정보 수정 페이지 -->
             <v-expand-transition>
               <v-card
                 v-if="reveal"
@@ -188,7 +179,6 @@
               </v-card>
             </v-expand-transition>
 
-            <!-- 공지 추가/수정 하기 모달창 -->
             <v-dialog v-model="editNotice" width="50%">
               <v-card min-height="500px" style="position: relative">
                 <v-card-title class="headline #FAFAFA">
@@ -277,12 +267,10 @@
         </template>
       </v-tab-item>
 
-      <!-- 내가 푼 문제 목록 -->
       <v-tab-item style="text_align: center">
         <MySolvedProblem :userInfo="userInfo" />
       </v-tab-item>
 
-      <!-- 나의 질문 목록 -->
       <v-tab-item>
         <MyQuestion :userInfo="userInfo" />
       </v-tab-item>
@@ -291,9 +279,10 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 import MySolvedProblem from '../../components/user/MySolvedProblem.vue';
 import MyQuestion from '../../components/user/MyQuestion.vue';
-import axios from 'axios';
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 const SECRET_KEY = process.env.VUE_APP_SECRET_KEY;
@@ -333,7 +322,7 @@ export default {
       numbers: ['새로 작성'],
       selected_number: '새로 작성',
       editNotice: false,
-      isUpdate: false, //true면 수정하기 false면 추가하기
+      isUpdate: false,
       editNoticeTitle: '',
       editNoticeContent: '',
     };
@@ -363,7 +352,7 @@ export default {
           else this.userInfo.sns = '연동된 정보가 없습니다';
 
           if (this.isAdmin) {
-            this.userInfo.stat = '관리자'; // 관리자인 경우 notice를 수정하기 위해 notice 정보를 get으로 가져옴
+            this.userInfo.stat = '관리자';
             axios
               .get(`${SERVER_URL}/notice`)
               .then((response) => {
@@ -372,8 +361,8 @@ export default {
                   this.numbers.push(this.notices[i].notice_number);
                 }
               })
-              .catch((error) => {
-                console.log(error);
+              .catch(() => {
+                alert('서버와 통신할 수 없습니다.');
               });
           }
 
@@ -391,7 +380,7 @@ export default {
             alert('세션이 만료되었습니다.');
             this.$emit('expireLogin');
           } else {
-            console.log(error);
+            alert('서버와 통신할 수 없습니다.');
           }
         });
     },
@@ -426,25 +415,21 @@ export default {
       if (document.getElementById('photo').files[0]) {
         fd.append('photo', document.getElementById('photo').files[0]);
 
-        // console.log(this.fileName);
-        // console.log(fd.get('photo'));
-
         if (confirm('정말 수정하시겠습니까?')) {
           axios
             .put(`${SERVER_URL}/user`, fd)
             .then(() => {
               this.setUserInfo();
 
-              alert('정보 수정이 완료되었습니다!');
-
               this.newName = '';
               this.newPassword = '';
               this.newPassword2 = '';
               this.reveal = false;
+
+              alert('정보 수정이 완료되었습니다!');
             })
-            .catch((error) => {
+            .catch(() => {
               alert('정보 수정에 실패했습니다');
-              console.log(error);
             });
         }
       } else {
@@ -461,9 +446,8 @@ export default {
               this.newPassword2 = '';
               this.reveal = false;
             })
-            .catch((error) => {
+            .catch(() => {
               alert('정보 수정에 실패했습니다');
-              console.log(error);
             });
         }
       }
@@ -475,18 +459,16 @@ export default {
             data: { token: localStorage.getItem('jwt') },
           })
           .then(() => {
-            alert('정상적으로 회원 탈퇴 되셨습니다.\n\n\n -코기는 항상 기다리고 있을게-');
-
-            //자동 로그아웃해서 홈페이지로 가기
             localStorage.removeItem('jwt');
             localStorage.removeItem('user_number');
             localStorage.removeItem('name');
 
+            alert('정상적으로 회원 탈퇴 되셨습니다.\n\n\n -코기는 항상 기다리고 있을게-');
+
             this.$router.push({ name: 'Home' });
           })
-          .catch((error) => {
+          .catch(() => {
             alert('회원 탈퇴에 실패하셨습니다. \n\n\n 탈퇴 못하지롱\n가지마...');
-            console.log(error);
           });
       }
     },
@@ -511,8 +493,8 @@ export default {
             alert('비밀번호가 일치하지 않습니다');
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          alert('서버와 통신할 수 없습니다.');
         });
 
       this.password = '';
@@ -532,9 +514,8 @@ export default {
             this.editNoticeTitle = '';
             this.editNoticeContent = '';
           })
-          .catch((error) => {
-            alert('error!');
-            console.log(error);
+          .catch(() => {
+            alert('서버와 통신할 수 없습니다.');
           });
       }
     },
@@ -548,15 +529,14 @@ export default {
           })
           .then(() => {
             alert('새로운 공지 사항을 추가하시겠습니까?');
-            alert('공지 사항이 추가되었습니다.');
             this.editNotice = false;
             this.editNoticeTitle = '';
             this.editNoticeContent = '';
+            alert('공지 사항이 추가되었습니다.');
             this.listNotice();
           })
-          .catch((error) => {
-            console.log(error);
-            alert('error! :(');
+          .catch(() => {
+            alert('서버와 통신할 수 없습니다.');
           });
       } else {
         alert('빈 값을 공지사항에 입력할 수 없습니다.');
@@ -598,27 +578,26 @@ export default {
       }
     },
     deleteNotice() {
-      if (confirm('\n정말로 삭제하시겠습니까?')) {
+      if (confirm('정말로 삭제하시겠습니까?')) {
         axios
           .delete(`${SERVER_URL}/notice/` + this.selected.notice_number)
           .then(() => {
-            alert('\n공지 글이 삭제되었습니다.');
+            alert('공지 글이 삭제되었습니다.');
             this.noticeList = true;
             this.listNotice();
           })
-          .catch((error) => {
-            alert('error!');
-            console.log(error);
+          .catch(() => {
+            alert('서버와 통신할 수 없습니다.');
           });
       }
     },
   },
-  created() {
-    this.setUserInfo();
-  },
   watch: {
     selected_number: 'changeNotice',
     editNotice: 'refreshNotice',
+  },
+  created() {
+    this.setUserInfo();
   },
 };
 </script>

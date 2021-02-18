@@ -53,32 +53,8 @@ export default {
           }
         });
       }
-      // this.$router
-      //   .push({ name: 'ProblemRankList', params: { problemrank: rank } })
-      //   .catch((error) => {
-      //     if (error.name === 'NavigationDuplicated') {
-      //       location.reload();
-      //     }
-      //   });
     },
-  //   moveRankList(rank) {
-  //     if (rank == 0) {
-  //       this.$router.push({ name: 'AllProblemRank' }).catch((error) => {
-  //         if (error.name === 'NavigationDuplicated') {
-  //           location.reload();
-  //         }
-  //       });
-  //     } else {
-  //       this.$router
-  //         .push({ name: 'ProblemRankList', params: { problemrank: rank } })
-  //         .catch((error) => {
-  //           if (error.name === 'NavigationDuplicated') {
-  //             location.reload();
-  //           }
-  //         });
-  //     }
-  //   },
-   },
+  },
 };
 
 </script>

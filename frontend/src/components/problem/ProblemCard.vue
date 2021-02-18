@@ -14,17 +14,6 @@
       </v-sheet>
       <v-card-title> {{ problem.problem_title }}</v-card-title>
       <v-card-text align="left">{{ problem.problem_content.slice(0, 30) }}...</v-card-text>
-
-      <!-- <v-card-actions style="background-color:#F5F5F5;">
-        <v-spacer></v-spacer>
-
-        <v-btn icon @click="likeButton()" v-if="like">
-          <v-icon color="red lighten-1">mdi-heart</v-icon>
-        </v-btn>
-        <v-btn icon @click="likeButton()" v-else>
-          <v-icon>mdi-heart</v-icon>
-        </v-btn>
-      </v-card-actions> -->
     </v-card>
   </v-col>
 </template>
@@ -33,7 +22,6 @@
 export default {
   data: () => {
     return {
-      // like: false,
       isLogin: false,
     };
   },
@@ -54,7 +42,6 @@ export default {
         alert('로그인이 필요합니다');
       }
     },
-
     likeButton() {
       this.like = !this.like;
     },

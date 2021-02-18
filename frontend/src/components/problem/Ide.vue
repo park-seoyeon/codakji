@@ -1,38 +1,25 @@
 <template>
-  <div>
-    <!-- Two-way Data-Binding -->
-    <!-- <codemirror v-model="code" :options="cmOptions" /> -->
-
-    <!-- Or manually control the data synchronization -->
-    <codemirror
-      ref="cmEditor"
-      :value="code"
-      :options="cmOptions"
-      @input="onCmCodeChange"
-      style="text-align: left;"
-    />
-  </div>
+  <codemirror
+    ref="cmEditor"
+    :value="code"
+    :options="cmOptions"
+    @input="onCmCodeChange"
+    style="text-align: left;"
+  />
 </template>
 
 <script>
 import { codemirror } from 'vue-codemirror';
 
-// import base style
 import 'codemirror/lib/codemirror.css';
-
-// import language js
 import 'codemirror/mode/python/python.js';
-
-// import theme style
 import 'codemirror/theme/base16-dark.css';
-
-// import more 'codemirror/some-resource...'
 import 'codemirror/addon/hint/show-hint.css';
 import 'codemirror/addon/hint/show-hint.js';
 import 'codemirror/addon/hint/anyword-hint';
 import 'codemirror/addon/search/searchcursor';
 import 'codemirror/addon/search/search';
-import 'codemirror/addon/edit/closebrackets.js'; //괄호 짝 맞추기
+import 'codemirror/addon/edit/closebrackets.js';
 
 export default {
   name: 'Ide',
@@ -43,17 +30,16 @@ export default {
     return {
       code: '',
       cmOptions: {
-        autoCloseBrackets: true, //자동 괄호 닫기
+        autoCloseBrackets: true,
         tabSize: 4,
         mode: 'text/x-python',
         theme: 'base16-dark',
         lineNumbers: true,
         line: true,
-        lineWrapping: true, //자동 줄바꿈
+        lineWrapping: true,
         extraKeys: {
           'Ctrl-Space': 'autocomplete',
         },
-        // more CodeMirror options...
       },
     };
   },
@@ -61,7 +47,6 @@ export default {
     onCmCodeChange(newCode) {
       this.childMessage = newCode;
       this.$emit('getCode', this.childMessage);
-
       this.code = newCode;
     },
   },
@@ -73,5 +58,4 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped></style>

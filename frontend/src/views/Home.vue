@@ -16,7 +16,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import MainBanner from '@/components/main/MainBanner.vue';
 import ChooseRank from '@/components/main/ChooseRank';
 import PopularProblems from '@/components/problemList/PopularProblems';

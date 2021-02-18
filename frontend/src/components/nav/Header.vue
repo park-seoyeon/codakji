@@ -61,9 +61,6 @@
         /></v-toolbar-title>
 
         <v-list @click="hideNaviMenu">
-          <!-- <v-list-item @click="moveAllRank" class="mx-5 px-6">
-            <v-list-item-title>학습 하기</v-list-item-title>
-          </v-list-item> -->
           <v-list-item @click="moveLearnBasic" class="mx-5 px-6">
             <v-list-item-title>기본 학습</v-list-item-title>
           </v-list-item>
@@ -72,25 +69,23 @@
           </v-list-item>
         </v-list>
 
-        <div class="ml-12 mr-15">
-          <div class="d-flex">
-            <div @click="moveMeeting" class="d-flex my-5" style="cursor: pointer;">
-              <div style="font-size: 17px">화상으로 함께하기</div>
-            </div>
-          </div>
-        </div>
+        <v-list class="mx-9">
+          <v-list-item @click="moveMeeting" class="d-flex" style="cursor: pointer;">
+            <v-list-item-title style="font-size: 17px">화상으로 함께하기</v-list-item-title>
+          </v-list-item>
+        </v-list>
 
-        <div class="mx-6 " @click="hideNaviMenu" align="center">
-          <div @click="moveIntroduce" class="d-flex my-5" style="cursor: pointer;" align="center">
-            <div class="mx-1" style="font-size: 17px" align="center">코딱지는?</div>
-          </div>
-          <div link @click="moveNotice" class="d-flex my-5" style="cursor: pointer;" align="center">
-            <div class="mx-1" style="font-size: 17px" align="center">공지사항</div>
-          </div>
-          <div link @click="moveCoFAQ" class="d-flex my-5" style="cursor: pointer;" align="center">
-            <div class="mx-1" style="font-size: 17px" align="center">FAQ</div>
-          </div>
-        </div>
+        <v-list class="mx-5" @click="hideNaviMenu" align="center">
+          <v-list-item @click="moveIntroduce" style="cursor: pointer;">
+            <v-list-item-title style="font-size: 17px; text-align: left;" align="center">코딱지는?</v-list-item-title>
+          </v-list-item>
+          <v-list-item link @click="moveNotice" style="cursor: pointer;">
+            <v-list-item-title style="font-size: 17px; text-align: left;" align="center">공지사항</v-list-item-title>
+          </v-list-item>
+          <v-list-item link @click="moveCoFAQ" style="cursor: pointer;">
+            <v-list-item-title style="font-size: 17px; text-align: left;" align="center">FAQ</v-list-item-title>
+          </v-list-item>
+        </v-list>
 
         <v-spacer></v-spacer>
 
@@ -263,13 +258,6 @@ export default {
           }
         });
       }
-      // this.$router
-      //   .push({ name: 'ProblemRankList', params: { problemrank: rank } })
-      //   .catch((error) => {
-      //     if (error.name === 'NavigationDuplicated') {
-      //       location.reload();
-      //     }
-      //   });
     },
     moveMyProfile() {
       this.$router.push({ name: 'UserProfile' }).catch((error) => {
@@ -360,10 +348,10 @@ export default {
             localStorage.setItem('jwt', response.data['access-token']);
             localStorage.setItem('name', response.data['userInfo'].name);
             localStorage.setItem('user_number', response.data['userInfo'].user_number);
-            //alert(userInfo.email + '님 로그인!');
             location.reload();
           } else {
             const result = confirm('이미 존재하는 이메일입니다. 카카오 계정으로 통합하시겠습니까?');
+
             if (result) {
               userInfo = response.data['userInfo'];
               axios.post(`${SERVER_URL}/kakao/login/merge`, userInfo).then((response) => {
@@ -373,7 +361,6 @@ export default {
                   localStorage.setItem('jwt', response.data['access-token']);
                   localStorage.setItem('name', response.data['userInfo'].name);
                   localStorage.setItem('user_number', response.data['userInfo'].user_number);
-                 // alert(userInfo.name + '님! 통합 후 로그인 성공');
                   location.reload();
                 } else {
                   alert('카카오 로그인에 실패하셨습니다');
@@ -465,51 +452,4 @@ div[id='sidebar'] {
     padding-top: 0;
   }
 }
-
-/* div[id="menuicon"] {
-  display: inline-block;
-  width: 100%;
-  height: 100px;
-  position: relative;
-  cursor: pointer;
-}
-div[id="menuicon"] {z-index: 2;}
-div[id="menuicon"] + span {background: #fff;}
-div[class="topbar"] {
-  width: 100%;
-  height: 200px;
-  background: #fff;
-  position: fixed;
-  top: -300px;
-  z-index: 1;
-  transition: all .35s;
-} */
-
-/* div[id="menuicon"] {display: none;} */
-/* div[id="menuicon"] + span {
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 5px;
-  border-radius: 30px;
-  background: #000;
-  transition: all .35s;
-} */
-/* input[id="menuicon"] + label span:nth-child(1) {top: 0;} */
-/* input[id="menuicon"] + label span:nth-child(2) {
-  top: 50%;
-  transform: translateY(-50%);
-} */
-/* input[id="menuicon"] + label span:nth-child(3) {bottom: 0;} */
-/* input[id="menuicon"]:checked + label span:nth-child(1) {
-  top:50%;
-  transform: translateY(-50%) rotate(45deg);
-} */
-/* input[id="menuicon"]:checked + label span:nth-child(2) {opacity: 0;} */
-/* input[id="menuicon"]:checked + label span:nth-child(3) {
-  bottom: 50%;
-  transform: translateY(50%) rotate(-45deg);
-} */
-
-/* div[id=menuicon] + div {top: 100px;} */
 </style>

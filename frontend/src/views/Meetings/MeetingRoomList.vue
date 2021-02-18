@@ -23,11 +23,7 @@
     <v-container fluid>
       <MakeRoom />
     </v-container>
-    <!--
-            <div>
-                <button @click="makeRoom()">방 만들기</button>
-            </div>
-            -->
+
     <v-container>
       <v-row v-if="meetingRooms" class="mt-4 mb-4">
         <RoomCard v-for="(room, idx) in meetingRooms" :key="idx" :room="room" />
@@ -38,12 +34,12 @@
 
 <script>
 import axios from 'axios';
+
 import RoomCard from '@/components/meeting/RoomCard';
 import MakeRoom from '@/components/meeting/MakeRoom';
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
-//const VUE_APP_SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
   name: 'MeetingRoomList',
@@ -62,14 +58,13 @@ export default {
         .post(`${SERVER_URL}/meeting/all`, localStorage.getItem('jwt'))
         .then((response) => {
           this.meetingRooms = response.data;
-          console.log(response.data);
         })
         .catch((error) => {
           if (error.response.status === 401) {
             alert('세션이 만료되었습니다.');
             this.$emit('expireLogin');
           } else {
-            console.log(error);
+            alert('서버와 통신할 수 없습니다.');
           }
         });
     },

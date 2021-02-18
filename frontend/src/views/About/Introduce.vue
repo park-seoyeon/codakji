@@ -284,7 +284,6 @@ export default {
         alert('로그인이 필요합니다');
       }
     },
-
     moveNotice() {
       this.$router.push({ name: 'Notice' }).catch((error) => {
         if (error.name === 'NavigationDuplicated') {

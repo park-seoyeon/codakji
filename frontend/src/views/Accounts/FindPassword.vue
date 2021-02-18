@@ -35,16 +35,9 @@
 import axios from 'axios';
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
+
 export default {
   name: 'FindPassword',
-  computed: {
-    validatePasswordRules() {
-      return () => this.validatePassword != null || '비밀번호 확인을 작성해주세요.';
-    },
-    passwordConfirmationRule() {
-      return () => this.password === this.validatePassword || '비밀번호가 일치하지 않습니다.';
-    },
-  },
   data: () => ({
     msg: '',
     email: '',
@@ -53,6 +46,14 @@ export default {
       (v) => /.+@.+\..+/.test(v) || '이메일 형식에 맞춰 작성해 주세요.',
     ],
   }),
+  computed: {
+    validatePasswordRules() {
+      return () => this.validatePassword != null || '비밀번호 확인을 작성해주세요.';
+    },
+    passwordConfirmationRule() {
+      return () => this.password === this.validatePassword || '비밀번호가 일치하지 않습니다.';
+    },
+  },
   methods: {
     reset() {
       this.$refs.form.reset();

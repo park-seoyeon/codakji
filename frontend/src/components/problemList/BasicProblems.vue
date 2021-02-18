@@ -23,16 +23,17 @@
 
 <script>
 import axios from 'axios';
+
 import ProblemCard from '@/components/problem/ProblemCard';
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
+
 export default {
   data: () => {
     return {
       problems: [],
     };
   },
-
   components: {
     ProblemCard,
   },
@@ -42,14 +43,11 @@ export default {
         .get(`${SERVER_URL}/problem/all`)
         .then((response) => {
           this.problems = response.data;
-          // console.log(this.problems[0]);
-          // console.log(response.data);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          alert('서버와 통신할 수 없습니다.');
         });
     },
-
     getBasic() {
       return this.problems.slice(0, 3);
     },

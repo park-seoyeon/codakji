@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!--배너-->
     <v-sheet class="mb-15" dark color="#FFFFFF" height="300" align="center">
       <v-row class="fill-height" align="center" justify="center">
         <div class="display-3">
@@ -25,8 +24,6 @@
       </v-row>
     </v-sheet>
 
-    <!-- <br><br><br> -->
-    <!-- 주제 목록 -->
     <v-row>
       <BasicCard v-for="(basic, idx) in basics" :key="idx" :basic="basic" />
     </v-row>
@@ -59,8 +56,6 @@ export default {
       ],
     };
   },
-
-  methods: {},
 };
 </script>
 

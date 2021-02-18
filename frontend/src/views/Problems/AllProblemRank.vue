@@ -119,7 +119,6 @@ export default {
       third: false,
     };
   },
-
   components: {
     BasicProblems,
     RecommendProblems,
@@ -127,7 +126,6 @@ export default {
     Rank2Problems,
     Rank3Problems,
   },
-
   methods: {
     recommendFirst() {
       this.first = true;
@@ -144,7 +142,6 @@ export default {
       this.second = false;
       this.third = true;
     },
-
     moveRank1() {
       this.$router.push({ name: 'ProblemRankList', params: { problemrank: 1 } }).catch((error) => {
         if (error.name === 'NavigationDuplicated') {

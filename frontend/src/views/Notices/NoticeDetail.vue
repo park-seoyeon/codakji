@@ -68,7 +68,6 @@ export default {
     },
   },
   created() {
-    // 번호를 통해서 해당 번호의 notice만 가져오기로 바꾸면 좋음
     axios
       .get(`${SERVER_URL}/notice`)
       .then((response) => {
@@ -79,8 +78,8 @@ export default {
           }
         }
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        alert('서버와 통신할 수 없습니다.');
       });
   },
 };

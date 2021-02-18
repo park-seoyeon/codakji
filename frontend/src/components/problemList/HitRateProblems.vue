@@ -24,9 +24,11 @@
 
 <script>
 import axios from 'axios';
+
 import ProblemCard from '@/components/problem/ProblemCard';
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
+
 export default {
   data: () => {
     return {
@@ -34,7 +36,6 @@ export default {
       hitRate: [],
     };
   },
-
   components: {
     ProblemCard,
   },
@@ -46,22 +47,19 @@ export default {
           this.problems = response.data;
           this.hitRate = this.top3_hit_rate_problems(this.problems);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          alert('서버와 통신할 수 없습니다.');
         });
     },
-
     getHitRate() {
       return this.problems.slice(0, 3);
     },
-
     top3_hit_rate_problems(problems) {
       var result = [
         { problem_submit: 1, problem_correct: 0 },
         { problem_submit: 1, problem_correct: 0 },
         { problem_submit: 1, problem_correct: 0 },
       ];
-      // console.log(result);
       for (let index in problems) {
         if (problems[index]['problem_submit'] > 0) {
           result = this.insert(result, problems[index]);
@@ -69,9 +67,7 @@ export default {
       }
       return result;
     },
-
     insert(result, problem) {
-      // console.log(problem);
       if (result.length < 3) {
         result.push(problem);
         return result;

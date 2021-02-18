@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!--문제풀이 통계-->
     <v-row>
       <v-col cols="3"></v-col>
       <v-col cols="2">
@@ -85,7 +84,6 @@
 import axios from 'axios';
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
-// const SECRET_KEY = process.env.VUE_APP_SECRET_KEY;
 
 export default {
   name: 'MySolvedProblem',
@@ -114,8 +112,8 @@ export default {
           this.rank2 = response.data.rank2;
           this.rank3 = response.data.rank3;
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          alert('서버와 통신할 수 없습니다.');
         });
     },
     setSolvedProblem() {
@@ -126,12 +124,11 @@ export default {
         .then((response) => {
           this.solvedProblems = response.data;
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          alert('서버와 통신할 수 없습니다.');
         });
     },
     showSource(idx) {
-      //alert(this.solvedProblems[idx].solved_problem_content);
       this.sourceTitle = this.solvedProblems[idx].problem_title;
       this.sourceCode = this.solvedProblems[idx].solved_problem_content;
       this.isSourceCode = true;
