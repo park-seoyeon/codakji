@@ -407,7 +407,7 @@ public class CodeAPIController {
 		codeAPIResultDto.setMy_code(codeAPIDto.getScript());
 		
 		if (codeAPIResponseDto.isAnswer() == false && !codeAPIResponseDto.getError().equals("simpleerror"))
-			codeAPIResultDto.setMy_output("문법오류");
+			codeAPIResultDto.setMy_output("문법적인 오류가 발생했어. 자세한 이유를 알고싶으면 힌트보기를 눌러봐!");
 		else
 			codeAPIResultDto.setMy_output(user_output);
 		codeAPIResultDto.setStatusCode(codeAPIResponseDto.getStatusCode());
