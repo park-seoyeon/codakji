@@ -85,16 +85,20 @@
                     ></v-textarea>
                   </v-sheet>
                 </div>
-                <div loading="red darken-1" v-else>
+                <v-card loading="red darken-1" v-else>
                   <v-sheet color="amber lighten-2" dark>
                     <v-card-text align="center" class="pa-1" style="font-size:18px;"
                       >입력한 코드 출력</v-card-text
                     >
                   </v-sheet>
                   <v-sheet class="guide">
-                    <v-textarea solo no-resize full-width rows="5" readonly></v-textarea>
+                    <v-card-text></v-card-text>
+                    <v-card-text></v-card-text>
+                    <v-card-text></v-card-text>
+                    <v-card-text></v-card-text>
+                    <v-card-text></v-card-text>
                   </v-sheet>
-                </div>
+                </v-card>
               </v-col>
 
               <v-col cols="0" md="1"></v-col>
@@ -117,16 +121,20 @@
                   </v-sheet>
                 </div>
 
-                <div loading="red darken-1" v-else>
+                <v-card loading="red darken-1" v-else>
                   <v-sheet color="indigo lighten-1" dark>
                     <v-card-text align="center" class="pa-1" style="font-size:18px;"
                       >올바른 출력</v-card-text
                     >
                   </v-sheet>
                   <v-sheet class="guide">
-                    <v-textarea solo no-resize rows="5" readonly></v-textarea>
+                    <v-card-text></v-card-text>
+                    <v-card-text></v-card-text>
+                    <v-card-text></v-card-text>
+                    <v-card-text></v-card-text>
+                    <v-card-text></v-card-text>
                   </v-sheet>
-                </div>
+                </v-card>
               </v-col>
 
               <v-col cols="0" md="5"></v-col>
