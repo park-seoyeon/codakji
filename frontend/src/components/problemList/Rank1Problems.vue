@@ -8,6 +8,7 @@
 
 <script>
 import axios from 'axios';
+
 import ProblemCard from '@/components/problem/ProblemCard';
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
@@ -22,7 +23,6 @@ export default {
   components: {
     ProblemCard,
   },
-
   methods: {
     getAllProblem() {
       axios
@@ -30,13 +30,11 @@ export default {
         .then((response) => {
           this.problems = response.data;
           this.addRank(this.problems);
-          // console.log(this.rank);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          alert('서버와 통신할 수 없습니다.');
         });
     },
-
     addRank(problems) {
       for (let index in problems) {
         if (problems[index]['problem_rank'] == 1) {
@@ -44,7 +42,6 @@ export default {
         }
       }
     },
-
     getRank() {
       return this.rank.slice(0, 3);
     },

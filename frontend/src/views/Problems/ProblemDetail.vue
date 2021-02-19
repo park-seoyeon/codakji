@@ -22,17 +22,8 @@
         </div>
       </v-col>
 
-      <!-- <v-col cols="6">
-        <iframe
-          width="100%"
-          height="500"
-          src="https://jsfiddle.net/chrisvfritz/0dzvcf4d/embedded/result,html,js,css"
-          allowfullscreen="allowfullscreen"
-          frameborder="0"
-        ></iframe>
-      </v-col> -->
       <v-col cols="6">
-        <v-col cols="3">
+        <v-col cols="4">
           <v-select
             v-model="select"
             :items="items"
@@ -169,10 +160,8 @@ export default {
       user_input: '',
       language: '',
       script: '',
-
       test_input: '',
       test_output: '',
-
       select: { lang: 'python3', mode: 'text/x-python' },
       items: [
         { lang: 'python3', mode: 'text/x-python' },
@@ -186,11 +175,6 @@ export default {
     Ide,
     Comment,
   },
-  created() {
-    this.getProblemDetail();
-    this.getProblemComment();
-  },
-  computed: {},
   methods: {
     visiblePages() {
       return this.problemComments.slice((this.page - 1) * this.perPage, this.page * this.perPage);
@@ -201,8 +185,8 @@ export default {
         .then((response) => {
           this.problemDetails = response.data;
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          alert('서버와 통신할 수 없습니다.');
         });
     },
 
@@ -212,11 +196,10 @@ export default {
         .then((response) => {
           this.problemComments = response.data;
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          alert('서버와 통신할 수 없습니다.');
         });
     },
-
     getChildMessage: function(text) {
       this.childMessage = text;
     },
@@ -260,7 +243,7 @@ export default {
             alert('세션이 만료되었습니다.');
             this.$emit('expireLogin');
           } else {
-            console.log(error);
+            alert('서버와 통신할 수 없습니다.');
           }
         });
     },
@@ -285,11 +268,15 @@ export default {
             alert('세션이 만료되었습니다.');
             this.$emit('expireLogin');
           } else {
-            console.log(error);
+            alert('서버와 통신할 수 없습니다.');
           }
         });
       this.comment = '';
     },
+  },
+  created() {
+    this.getProblemDetail();
+    this.getProblemComment();
   },
 };
 </script>

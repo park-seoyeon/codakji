@@ -53,7 +53,6 @@ public class QuestionController {
 				memberDto.setEmail(email);
 				memberDto.setToken(token);
 				jwtService.setToken(memberDto);
-//				System.out.println("토큰 리뉴얼타임 갱신");
 				
 				questionList = questionService.allQuestion();
 				return new ResponseEntity<List<QuestionDto>>(questionList, HttpStatus.OK);
@@ -66,7 +65,6 @@ public class QuestionController {
 	@ApiOperation(value = "나의 질문 리스트_토큰 검사를 한다", notes="나의 모든 질문 리스트를 반환한다", response = List.class)
 	@PostMapping
 	public ResponseEntity<List<QuestionDto>> listQuestion(@RequestBody @ApiParam(value="토큰", required=true)MemberDto memDto) throws Exception{
-//		System.out.println("나의 질문리스트 가져오기");
 		String token = memDto.getToken();
 		
 		List<QuestionDto> questionList = null;
@@ -77,7 +75,6 @@ public class QuestionController {
 				memberDto.setEmail(email);
 				memberDto.setToken(token);
 				jwtService.setToken(memberDto);
-//				System.out.println("토큰 리뉴얼타임 갱신");
 				int user_number = memberService.userInfo(email).getUser_number();
 				questionList = questionService.listQuestion(user_number);
 				return new ResponseEntity<List<QuestionDto>>(questionList, HttpStatus.OK);
@@ -124,7 +121,7 @@ public class QuestionController {
 				return new ResponseEntity<QuestionDto> (resultQuestionDto,HttpStatus.OK);
 			}
 		}
-		return new ResponseEntity<QuestionDto> (resultQuestionDto,HttpStatus.UNAUTHORIZED); //리턴 null
+		return new ResponseEntity<QuestionDto> (resultQuestionDto,HttpStatus.UNAUTHORIZED);
 	}
 	
 	@ApiOperation(value = "질문 수정_토큰 검사를 한다", notes="질문을 수정한다", response = String.class)

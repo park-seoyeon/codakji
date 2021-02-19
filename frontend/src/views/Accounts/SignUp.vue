@@ -62,14 +62,6 @@ const SECRET_KEY = process.env.VUE_APP_SECRET_KEY;
 
 export default {
   name: 'SignUp',
-  computed: {
-    validatePasswordRules() {
-      return () => this.validatePassword != null || '비밀번호 확인을 작성해주세요.';
-    },
-    passwordConfirmationRule() {
-      return () => this.password === this.validatePassword || '비밀번호가 일치하지 않습니다.';
-    },
-  },
   data: () => ({
     name: '',
     email: '',
@@ -89,6 +81,14 @@ export default {
         /^(?=.*[a-z])(?=.*[0-9]).{8,16}$/.test(v) || '소문자, 숫자를 포함한 8-16자로 입력해 주세요',
     ],
   }),
+  computed: {
+    validatePasswordRules() {
+      return () => this.validatePassword != null || '비밀번호 확인을 작성해주세요.';
+    },
+    passwordConfirmationRule() {
+      return () => this.password === this.validatePassword || '비밀번호가 일치하지 않습니다.';
+    },
+  },
   methods: {
     reset() {
       this.$refs.form.reset();

@@ -48,14 +48,12 @@ public class ProblemController {
 	@ApiOperation(value="단계별 문제 목록", notes = "해당 단계의 문제리스트를 반환한다", response = List.class)
 	@GetMapping("/rank/{problem_rank}")
 	public ResponseEntity<List<ProblemDto>> listProblem(@PathVariable("problem_rank") @ApiParam(value="문제 단계(난이도)", required = true) int problem_rank) throws Exception{
-//		System.out.println("[단계별 문제리스트]:"+problem_rank);
 		return new ResponseEntity<List<ProblemDto>>(problemService.listProblem(problem_rank), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value="문제 보기", notes = "선택한 문제 보기", response = ProblemDto.class)
 	@GetMapping("/detail/{problem_number}")
 	public ResponseEntity<ProblemDto> getProblem(@PathVariable("problem_number") @ApiParam(value="얻어올 문제 번호", required=true) int problem_number) throws Exception{
-//		System.out.println("[문제 보기]:"+problem_number);
 		return new ResponseEntity<ProblemDto>(problemService.getProblem(problem_number), HttpStatus.OK);
 	}
 	
@@ -73,9 +71,8 @@ public class ProblemController {
 				MemberDto memberDto = new MemberDto();
 				memberDto.setEmail(email);
 				memberDto.setToken(token);
-				jwtService.setToken(memberDto);// db에 토큰 renewal_time 갱신		
+				jwtService.setToken(memberDto);
 				
-				//문제풀이 통계
 				List<SolvedProblemDto> userSolvedProblemList = problemService.userSolvedProblem(user_number);
 				
 				Set<Integer> set1 = new HashSet<>();
@@ -110,7 +107,7 @@ public class ProblemController {
 						break;
 					}
 				}
-				double totalSolved = userSolvedProblemList.size(); //전체 문제 제출 수
+				double totalSolved = userSolvedProblemList.size();
 				
 				double total1 = problemService.getTotal(1);
 				double total2 = problemService.getTotal(2);
@@ -122,20 +119,16 @@ public class ProblemController {
 				double ac = 0;
 				
 				if(totalSolved != 0) ac = (double)(total/totalSolved) * 100;
-				
-//				System.out.println(rank1 + " " + rank2 + " " + rank3);
-//				System.out.println(total1 + " " + total2 + " " + total3 + " " + totalSolved);
-//				System.out.println(d1 + " " + d2 + " " + d3 + " " + ac);
-				
+
 				psDto.setRank1((int)d1);
 				psDto.setRank2((int)d2);
 				psDto.setRank3((int)d3);
-				psDto.setAccuracy((int)ac); //나의 정답률
+				psDto.setAccuracy((int)ac);
 				
 				return new ResponseEntity<ProblemStatDto>(psDto, HttpStatus.OK);
 			}
 		}
-		return new ResponseEntity<ProblemStatDto>(psDto, HttpStatus.UNAUTHORIZED);// 토큰기간만료 or 토큰유효x
+		return new ResponseEntity<ProblemStatDto>(psDto, HttpStatus.UNAUTHORIZED);
 	}
 	
 	
@@ -155,19 +148,15 @@ public class ProblemController {
 				MemberDto memberDto = new MemberDto();
 				memberDto.setEmail(email);
 				memberDto.setToken(token);
-				jwtService.setToken(memberDto);// db에 토큰 renewal_time 갱신
-				
-				// user_number 값 찾기
-				// 토큰에서 이메일 > 이메일에서 userInfo Dto > 에서 user_number가져오기				
+				jwtService.setToken(memberDto);
+						
 				MemberDto memberdto = memberService.userInfo(email);
 				int user_number = memberdto.getUser_number();
 
-//				System.out.println("사용자 번호" + user_number + "가 푼 문제목록:");
-//				System.out.println(problemService.userSolvedProblem(user_number));
 				return new ResponseEntity<List<SolvedProblemDto>>(problemService.userSolvedProblem(user_number), HttpStatus.OK);
 			}
 		}
 
-		return new ResponseEntity<List<SolvedProblemDto>>(nullList, HttpStatus.UNAUTHORIZED);// 토큰기간만료 or 토큰유효x
+		return new ResponseEntity<List<SolvedProblemDto>>(nullList, HttpStatus.UNAUTHORIZED);
 	}
 }

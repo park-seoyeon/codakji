@@ -4,11 +4,11 @@ public class QuestionDto {
 	
 	private int question_number;
 	private int user_number;
-	private String teach_profile; //선생님 프사
-	private String teach_name; //선생님 이름
+	private String teach_profile;
+	private String teach_name;
 	private int teach_user_number;
-	private String name; //학생 이름
-	private String profile_content; //학생 프사
+	private String name;
+	private String profile_content;
 	private int problem_number;
 	private String problem_title;
 	private String question_title;

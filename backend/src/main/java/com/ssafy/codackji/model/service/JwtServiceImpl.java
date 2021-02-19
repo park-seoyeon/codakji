@@ -40,7 +40,6 @@ public class JwtServiceImpl implements JwtService {
 	@Override
 	public <T> String create(String key, T data, String subject) {
 		String jwt = Jwts.builder().setHeaderParam("typ", "JWT").setHeaderParam("regDate", System.currentTimeMillis())
-				//.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * EXPIRE_MINUTES))
 				.setSubject(subject).claim(key, data).signWith(SignatureAlgorithm.HS256, this.generateKey()).compact();
 		return jwt;
 	}
@@ -60,20 +59,13 @@ public class JwtServiceImpl implements JwtService {
 		return key;
 	}
 
-//	전달 받은 토큰이 제대로 생성된것인지 확인 하고 문제가 있다면 UnauthorizedException을 발생.
 	@Override
 	public boolean isUsable(String jwt) {
 		try {
 			Jws<Claims> claims = Jwts.parser().setSigningKey(this.generateKey()).parseClaimsJws(jwt);
 			return true;
 		} catch (Exception e) {
-//			if (logger.isInfoEnabled()) {
-//				e.printStackTrace();
-//			} else {
-				logger.error(e.getMessage());
-//			}
-//			throw new UnauthorizedException();
-//			개발환경
+			logger.error(e.getMessage());
 			return false;
 		}
 	}
@@ -87,16 +79,8 @@ public class JwtServiceImpl implements JwtService {
 		try {
 			claims = Jwts.parser().setSigningKey(TK.getBytes("UTF-8")).parseClaimsJws(jwt);
 		} catch (Exception e) {
-//			if (logger.isInfoEnabled()) {
-//				e.printStackTrace();
-//			} else {
-				logger.error(e.getMessage());
-//			}
+			logger.error(e.getMessage());
 			throw new UnauthorizedException();
-//			개발환경
-//			Map<String,Object> testMap = new HashMap<>();
-//			testMap.put("userid", userid);
-//			return testMap;
 		}
 		Map<String, Object> value = claims.getBody();
 		logger.info("value : {}", value);
@@ -109,7 +93,7 @@ public class JwtServiceImpl implements JwtService {
 	}
 	
 	@Override
-	public String getUserEmail(String jwt) {//복호화
+	public String getUserEmail(String jwt) {
 		Jws<Claims> claims = null;
 		try {
 			claims = Jwts.parser()
@@ -122,7 +106,7 @@ public class JwtServiceImpl implements JwtService {
 	}
 
 	@Override
-	public boolean isInTime(String token) throws Exception {//토큰 생성한지 30분 지났는지 비교
+	public boolean isInTime(String token) throws Exception {
 		return sqlSession.getMapper(JwtMapper.class).isInTime(token);
 	}
 

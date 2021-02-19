@@ -35,11 +35,6 @@ public class ProblemCommentServiceImpl implements ProblemCommentService{
 		return sqlSession.getMapper(ProblemCommentMapper.class).deleteProblemComment(comment_number) == 1;
 	}
 	
-	/*
-	 * @Override public int getLikes(int comment_number) throws Exception{ return
-	 * sqlSession.getMapper(ProblemCommentMapper.class).getLikes(comment_number); }
-	 */
-	
 	@Override
 	public boolean updateLikes(ProblemCommentDto problemCommentDto) throws Exception{
 		return sqlSession.getMapper(ProblemCommentMapper.class).updateLikes(problemCommentDto) == 1;

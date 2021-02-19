@@ -3,12 +3,12 @@ package com.ssafy.codackji.model;
 public class CodeAPIDto {
 	
 	private int solved_problem_number;
-	private int problem_number; //문제번호
-	private int user_number; //사용자 번호
-	private String user_input; //사용자 입력
-	private String language; //코드 작성한 언어
-	private String script; //코드
-	private String token; //토큰
+	private int problem_number;
+	private int user_number;
+	private String user_input;
+	private String language;
+	private String script;
+	private String token;
 	
 	
 	public CodeAPIDto() {}

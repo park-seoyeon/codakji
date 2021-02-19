@@ -8,7 +8,7 @@ public class ProblemDto {
 	private String problem_content;
 	private String problem_group;
 	private int problem_rank;
-	private String problem_date;// 문제 출제 연도
+	private String problem_date;
 	private String created_at;
 	private String updated_at;
 	private int problem_submit;

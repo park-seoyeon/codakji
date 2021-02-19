@@ -22,7 +22,6 @@ export default {
   },
   methods: {
     moveNoticeDetail(notice) {
-      // 조회수 증가 axios
       axios
         .get(`${SERVER_URL}/notice/views/` + notice.notice_number)
         .then(() => {
@@ -33,9 +32,8 @@ export default {
             }
           })
         })
-        .catch((error) => {
+        .catch(() => {
           alert('서버와 통신할 수 없습니다.');
-          console.log(error);
         });
 
     },

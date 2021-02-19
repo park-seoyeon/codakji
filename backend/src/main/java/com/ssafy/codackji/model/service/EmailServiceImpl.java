@@ -40,10 +40,6 @@ public class EmailServiceImpl implements EmailService {
 				+ "<img width='200px' src='https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdkBwlS%2FbtqW1tdhqQD%2FYdTCFMFUJlhQgBfYaUKW30%2Fimg.png'/>"
 				+ "<h2>인증하기</h2>" + "</a></div>";
 
-		/*
-		 * Context context = new Context(); context.setVariable("email", toAddress);
-		 * String htmlStr = templateEngine.process("mail-template", context);
-		 */
 		try {
 			helper.setTo(toAddress);
 			helper.setSubject(title);

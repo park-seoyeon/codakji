@@ -6,14 +6,14 @@ import io.openvidu.java.client.Session;
 
 public class SessionDto {
 	
-	private String name;//유저이름
-	private String room_name; //사용자가 지정한 미팅룸 이름
-	private int room_number; //미팅룸 번호
+	private String name;
+	private String room_name;
+	private int room_number;
 	//private String session_name;//중복 없는 난수 발생
 	private HttpSession httpSession;
 	private Session session;
 	private String session_name;
-	private String token;//유저 토큰 (세션 토큰 아님)
+	private String token;
 	
 	public String getName() {
 		return name;
