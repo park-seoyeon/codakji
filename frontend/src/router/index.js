@@ -8,7 +8,6 @@ import FindPassword from '@/views/Accounts/FindPassword.vue';
 import UserProfile from '@/views/Accounts/UserProfile.vue'
 
 import AllProblemRank from '@/views/Problems/AllProblemRank.vue'
-// import ProblemRankList from '@/views/Problems/ProblemRankList.vue'
 import ProblemDetail from '@/views/Problems/ProblemDetail.vue'
 import SolveResult from '@/views/Problems/SolveResult'
 
@@ -57,13 +56,6 @@ const routes = [
     name: 'AllProblemRank',
     component: AllProblemRank,
   },
-  // {
-  //   path: '/problem/rank/:problemrank',
-  //   name: 'ProblemRankList',
-  //   component: ProblemRankList,
-  //   props: true,
-  // },
-
   {
     path: '/problem/level/first',
     name: 'ProblemRankFirst',
@@ -79,7 +71,6 @@ const routes = [
     name: 'ProblemRankThird',
     component: ProblemRankThird,
   },
-
   {
     path: '/problem/problem_:problemnumber/detail',
     name: 'ProblemDetail',

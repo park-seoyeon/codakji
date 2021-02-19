@@ -1,5 +1,4 @@
 <template>
-  <!--상단배너 -->
   <div style="text-align: center">
     <v-sheet height="300" align="center">
       <v-row class="fill-height" align="center" justify="center">
@@ -22,7 +21,6 @@
       </v-row>
     </v-sheet>
 
-    <!-- 공지목록 -->
     <v-container>
       <v-row>
         <v-col>
@@ -83,8 +81,8 @@ export default {
       .then((response) => {
         this.notices = response.data;
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        alert('서버와 통신할 수 없습니다.');
       });
   },
 };

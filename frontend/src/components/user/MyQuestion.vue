@@ -15,7 +15,6 @@
 
       <br /><br /><br />
 
-      <!-- 학생인 경우 : 나의 질문 목록 -->
       <template v-if="userInfo.stat == '학생'">
         <v-row style="background-color:#FFFFCC">
           <v-col cols="3" style="margin-left:-5%"><h3 style="color:#6F85FF">제목</h3></v-col>
@@ -34,28 +33,23 @@
           >
             <v-expansion-panel-header style="border: 1px solid rgba(10,10,0,0.12)">
               <v-row align="center" class="spacer" no-gutters>
-                <!-- 제목 -->
                 <v-col cols="3">
                   {{ question.question_title.substring(0, 10) }}
                   <span v-if="question.question_title.length > 10">...</span>
                 </v-col>
-                <!-- 내용 -->
                 <v-col cols="4">
                   {{ question.question_content.substring(0, 20) }}
                   <span v-if="question.question_content.length > 20">...</span>
                 </v-col>
-                <!-- 질문한 날짜 -->
                 <v-col cols="2">
                   {{ question.created_at.substring(0, 10) }}
                 </v-col>
-                <!-- 관련 문제 -->
                 <v-col cols="2">
                   <span v-if="question.problem_number == null || question.problem_number == 0">
                     ㅡ
                   </span>
                   <span v-else> [{{ question.problem_number }}] {{ question.problem_title }}</span>
                 </v-col>
-                <!-- 답변 유무 -->
                 <v-col cols="1">
                   <span v-if="question.question_answered"
                     >답변완료<v-icon color="#FFB911" size="16px">mdi-paw</v-icon></span
@@ -67,7 +61,6 @@
 
             <v-expansion-panel-content>
               <v-divider></v-divider>
-              <!--상세 내용 -->
               <br />
               <v-simple-table style="width:50%; margin-left:25%;">
                 <tr style="height:60px">
@@ -130,7 +123,6 @@
               <template v-else>
                 <v-card width="30%" min-height="100px" style="margin-left:35%">
                   <v-card-text>
-                    <!-- "선생님 프로필, 이름" 선생님이 답변을 달아주셨어요 :) -->
                     <img :src="question.teach_profile" width="20%" />
                     <h2>{{ question.teach_name }}</h2>
                     선생님이 답변을 달아주셨어요:)
@@ -142,7 +134,6 @@
         </v-expansion-panels>
       </template>
 
-      <!-- 관리자나 교사 : 전체 질문 목록, 교사는 답변을 달 수 있다. -->
       <template v-else>
         <v-row style="background-color:#FFFFCC">
           <v-col cols="3"><h3 style="color:#6F85FF">질문 학생</h3></v-col>
@@ -162,29 +153,24 @@
             <v-expansion-panel-header style="border: 1px solid rgba(10,10,0,0.12)">
               <v-row align="center" class="spacer" no-gutters>
                 <v-col cols="3">
-                  <!-- 학생 프로필사진, 이름 -->
                   <img :src="question.profile_content" width="10%" />
                   <h3>{{ question.name }}</h3>
                 </v-col>
 
-                <!--질문 제목 -->
                 <v-col cols="2">
                   {{ question.question_title.substring(0, 10) }}
                   <span v-if="question.question_title.length > 10">...</span>
                 </v-col>
 
-                <!--질문 내용-->
                 <v-col cols="4">
                   {{ question.question_content.substring(0, 20) }}
                   <span v-if="question.question_content.length > 20">...</span>
                 </v-col>
 
-                <!--질문 등록 시간 -->
                 <v-col cols="2">
                   {{ question.created_at.substring(0, 10) }}
                 </v-col>
 
-                <!--답변 유무 -->
                 <v-col cols="1">
                   <span v-if="question.question_answered"
                     >답변완료<v-icon color="#FFB911" size="16px">mdi-paw</v-icon></span
@@ -196,7 +182,6 @@
 
             <v-expansion-panel-content>
               <v-divider></v-divider>
-              <!--상세 내용 -->
               <br />
               <v-simple-table style="width:50%; margin-left:25%;">
                 <tr style="height:60px">
@@ -258,7 +243,6 @@
               <template v-else>
                 <br /><br />
                 <v-card width="30%" min-height="100px" style="margin-left:35%">
-                  <!-- "선생님 프로필, 이름" 선생님이 답변을 달아주셨어요 :) -->
                   <img :src="question.teach_profile" width="20%" />
                   <h2>{{ question.teach_name }}</h2>
                   선생님이 답변을 달아주셨어요:)
@@ -271,7 +255,6 @@
       </template>
     </v-container>
 
-    <!--학생 질문 모달창 -->
     <v-dialog v-model="isDialog" width="50%">
       <v-card min-height="500px" style="position: relative">
         <v-card-title style="background-color:#FAFAFA">
@@ -359,7 +342,6 @@ export default {
     },
     upload() {
       if (this.userInfo.stat == '학생') {
-        //학생이 질문을 올린다
         if (confirm('질문을 등록하시겠습니까?')) {
           axios
             .post(`${SERVER_URL}/question/write`, {
@@ -373,13 +355,11 @@ export default {
               this.setQuestionList();
               this.cancelQuestion();
             })
-            .catch((error) => {
-              alert('error!');
-              console.log(error);
+            .catch(() => {
+              alert('서버와 통신할 수 없습니다.');
             });
         }
       } else {
-        //선생님이 답변을 단다
         axios
           .put(`${SERVER_URL}/answer/write`, {
             token: localStorage.getItem('jwt'),
@@ -391,20 +371,17 @@ export default {
             alert('답변이 등록되었습니다!');
             location.reload();
           })
-          .catch((error) => {
-            alert('error!');
-            console.log(error);
+          .catch(() => {
+            alert('서버와 통신할 수 없습니다.');
           });
       }
     },
     cancelQuestion() {
-      //alert('취소하기');
       this.title = '';
       this.content = '';
       this.isDialog = false;
     },
     deleteQuestion() {
-      //답변이 달린 질문은 삭제 불가
       if (confirm('질문을 삭제하시겠습니까?')) {
         axios
           .delete(`${SERVER_URL}/question`, {
@@ -417,15 +394,13 @@ export default {
             alert('질문이 삭제되었습니다!');
             location.reload();
           })
-          .catch((error) => {
-            alert('error!');
-            console.log(error);
+          .catch(() => {
+            alert('서버와 통신할 수 없습니다.');
           });
       }
     },
     setQuestionList() {
       if (this.userInfo.stat == '학생') {
-        //나의 질문 목록
         axios
           .post(`${SERVER_URL}/question`, {
             token: localStorage.getItem('jwt'),
@@ -433,11 +408,10 @@ export default {
           .then((response) => {
             this.questionList = response.data;
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(() => {
+            alert('서버와 통신할 수 없습니다.');
           });
       } else {
-        //전체 질문 목록
         axios
           .post(`${SERVER_URL}/question/all`, {
             token: localStorage.getItem('jwt'),
@@ -445,8 +419,8 @@ export default {
           .then((response) => {
             this.questionList = response.data;
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(() => {
+            alert('서버와 통신할 수 없습니다.');
           });
       }
     },

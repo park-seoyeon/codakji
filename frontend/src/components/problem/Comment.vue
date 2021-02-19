@@ -37,10 +37,8 @@
 import axios from 'axios';
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
+
 export default {
-  props: {
-    comment: Object,
-  },
   data: () => {
     return {
       isUser: false,
@@ -49,8 +47,8 @@ export default {
       contentOrigin: '',
     };
   },
-  created() {
-    this.content = this.comment.comment_content;
+  props: {
+    comment: Object,
   },
   methods: {
     checkUser() {
@@ -87,7 +85,7 @@ export default {
               alert("세션이 만료되었습니다.");
               this.$emit("expireLogin");
             } else {
-              console.log(error);
+              alert('서버와 통신할 수 없습니다.');
             }
           });
       }
@@ -111,7 +109,7 @@ export default {
               alert("세션이 만료되었습니다.");
               this.$emit("expireLogin");
             } else {
-              console.log(error);
+              alert('서버와 통신할 수 없습니다.');
             }
           });
       }
@@ -133,10 +131,13 @@ export default {
             alert("세션이 만료되었습니다.");
             this.$emit("expireLogin");
           } else {
-            console.log(error);
+            alert('서버와 통신할 수 없습니다.');
           }
         });
     },
+  },
+  created() {
+    this.content = this.comment.comment_content;
   },
 };
 </script>

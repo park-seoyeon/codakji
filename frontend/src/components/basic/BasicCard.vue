@@ -3,7 +3,6 @@
 
     <h2><v-icon :color="color">mdi-book-open-page-variant</v-icon> {{ basic.name }}</h2><br>
 
-    <!-- video태그는 v-bind 로 src를 지정하면 안나오길래 일단 이렇게 해두겠습니다.... -->
     <v-hover>
     <template v-slot:default="{ hover }">
     <v-card  @click="moveTopic" height="260px" elevation="0">
@@ -31,7 +30,6 @@
     </v-card>
     </template>
     </v-hover>
-
   <br><br>
   </v-col>
 </template>
@@ -49,7 +47,6 @@ export default {
   },
   methods: {
     moveTopic() {
-      //선택한 주제로 페이지를 이동한다
       this.$router.push({
         name: 'Basic',
         params: {
@@ -60,7 +57,6 @@ export default {
     },
   },
   created(){
-    //책 아이콘이랑 버튼 색상 지정
     if(this.basic.name == '변수' || this.basic.name == 'if 조건문')this.color='#6F85FF';
     if(this.basic.name == '입력' || this.basic.name == '연산자')this.color='#FF4D55';
     if(this.basic.name == '자료형' || this.basic.name == 'for 반복문')this.color='#FFB911';

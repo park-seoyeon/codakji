@@ -66,11 +66,11 @@
               class="py-3 mt-10"
               style="border-radius: 40px 80px / 80px 40px;position:relative;"
             >
-              <div style=" display: inline-block; " class="mr-4">
+              <div style="display: inline-block;" class="mr-4">
                 <img src="@/assets/img/dack.png" width="50" height="50" />
               </div>
               <div
-                style="font-size: 30px; display: inline-block; position:absolute; left:45%"
+                style="font-size: 30px; display: inline-block; position:absolute; right:8%"
                 class="ml-3 pt-2"
                 max-height="50"
               >
@@ -284,7 +284,6 @@ export default {
         alert('로그인이 필요합니다');
       }
     },
-
     moveNotice() {
       this.$router.push({ name: 'Notice' }).catch((error) => {
         if (error.name === 'NavigationDuplicated') {

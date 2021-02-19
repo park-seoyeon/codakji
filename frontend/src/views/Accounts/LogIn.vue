@@ -48,6 +48,7 @@
 
 <script>
 import axios from 'axios';
+
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 const SECRET_KEY = process.env.VUE_APP_SECRET_KEY;
 
@@ -68,7 +69,6 @@ export default {
     logInRequest() {
       if (this.$refs.form.validate()) {
         const crypto = require('crypto');
-
         const form = {
           email: this.email,
           password: crypto
@@ -76,7 +76,6 @@ export default {
             .update(this.password)
             .digest('base64'),
         };
-
         this.password = '';
 
         axios
@@ -105,8 +104,8 @@ export default {
     logInKakao() {
       window.Kakao.Auth.authorize({
         redirectUri: `http://localhost:8080/`,
-        //redirectUri: `https://localhost:8000`,
-        //redirectUri: `https://i4a203.p.ssafy.io:8000`,
+        // redirectUri: `https://localhost:8000`,
+        // redirectUri: `https://i4a203.p.ssafy.io:8000`,
       });
     },
     moveSignUp() {

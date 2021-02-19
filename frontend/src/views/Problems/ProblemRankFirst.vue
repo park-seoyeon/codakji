@@ -54,8 +54,8 @@ export default {
         .then((response) => {
           this.rankProblems = response.data;
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          alert('서버와 통신할 수 없습니다.');
         });
     },
   },
