@@ -580,11 +580,13 @@ export default {
     deleteNotice() {
       if (confirm('정말로 삭제하시겠습니까?')) {
         axios
-          .delete(`${SERVER_URL}/notice/` + this.selected.notice_number)
+          .delete(`${SERVER_URL}/notice/` + this.selected_number)
           .then(() => {
             alert('공지 글이 삭제되었습니다.');
             this.noticeList = true;
-            this.listNotice();
+            this.editNotice = false;
+            this.editNoticeTitle = '';
+            this.editNoticeContent = '';
           })
           .catch(() => {
             alert('서버와 통신할 수 없습니다.');
