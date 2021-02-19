@@ -12,15 +12,14 @@ public class CodeFeedbackServiceImpl implements CodeFeedbackService {
 	public String findError(CodeAPIResponseDto codeAPIResponseDto, String language) {
 		String output = codeAPIResponseDto.getOutput();
 		
-		//java, python으로 나눠서 에러별 메서드 호출
-		if(language.equals("java")) {
-			if(codeAPIResponseDto.getCpuTime() == null) {//컴파일에러 or 무한루프
-				if(output.contains("infinite loop")) {
+		if (language.equals("java")) {
+			if (codeAPIResponseDto.getCpuTime() == null) {
+				if (output.contains("infinite loop")) {
 					return infiniteLoop(output);
 				}else{
 					return compileError(output);
 				}
-			}else {//런타임 에러
+			} else {
 				if(output.contains("ArithmeticException")) {
 					return arithmeticException(output);
 				}else if(output.contains("NullPointerException")) {
@@ -29,7 +28,7 @@ public class CodeFeedbackServiceImpl implements CodeFeedbackService {
 					return arrayIndexOutOfBoundsException(output);
 				}
 			}		
-		}else if(language.equals("python3")) {
+		} else if(language.equals("python3")) {
 			if(output.contains("IndentationError")) {
 				return pythonIndentationError(output);
 			}else if(output.contains("TabError")) {
@@ -78,14 +77,14 @@ public class CodeFeedbackServiceImpl implements CodeFeedbackService {
 		return "혹시 "+errorRow+"번째 줄의\n변수명 '"+varName+"'이 잘못되지 않았어?\n오타가 났는지 혹은 선언되지 않은 변수를 사용하고 있는지 체크해봐~!";
 	}
 
-	private String pythonIndexError(String output) {//index out of range
+	private String pythonIndexError(String output) {
 		int first = output.indexOf("line");
 		int second = output.indexOf(",",first);
 		String errorRow = output.substring(first+5, second);
 		return "이런~ 리스트의 크기와 같거나 큰 인덱스로 접근해서 IndexError가 발생했어!\n"+errorRow+"번째 줄에서\n인덱스가 초과되었는지 확인하러가자~";
 	}
 
-	private String pythonZeroDivisionError(String output) {//0으로 나눌 때
+	private String pythonZeroDivisionError(String output) {
 		int first = output.indexOf("line");
 		int second = output.indexOf("\n",first);
 		String errorRow = output.substring(first+5, second);
@@ -93,7 +92,7 @@ public class CodeFeedbackServiceImpl implements CodeFeedbackService {
 		+"어느 부분에서 0으로 나누게 되는지 생각해볼래~?";
 	}
 
-	private String pythonSyntaxError(String output) {//오타, 문법x
+	private String pythonSyntaxError(String output) {
 		int first = output.indexOf("line");
 		int second = output.indexOf("\n",first);
 		String errorRow = output.substring(first+5, second);
@@ -150,7 +149,7 @@ public class CodeFeedbackServiceImpl implements CodeFeedbackService {
 				+"어느 부분에서 0으로 나누게 되는지 생각해볼래~?";
 	}
 
-	private String infiniteLoop(String output) {//무한루프
+	private String infiniteLoop(String output) {
 		return "무한루프가 발생했어!\nfor, while, do while 등 반복문을 다시 한 번 체크해보자.\n"
 				+ "반복문을 빠져나올 종료조건이 잘 설정되어 있는지 다시 확인해볼래?";
 	}
@@ -160,23 +159,23 @@ public class CodeFeedbackServiceImpl implements CodeFeedbackService {
 		int second = output.indexOf(":", first);
 		int errorRow = Integer.parseInt(output.substring(first, second));
 
-		if(output.contains("}") && output.contains("parsing")) {// } 없을 때
+		if(output.contains("}") && output.contains("parsing")) {
 			return "컴파일 에러야.\n"+errorRow+"번째 줄에\n닫는 중괄호 '}'를 추가해줘!";
-		}else if(output.contains("')'")) {// ) 없을 때
+		}else if(output.contains("')'")) {
 			return "컴파일 에러야.\n"+errorRow+"번째 줄에\n닫는 소괄호 ')'를 추가해줘!";
-		}else if(output.contains("initialized")) {// 초기화 해주지 않았을 때
+		}else if(output.contains("initialized")) {
 			int variableIndex = output.indexOf("variable");
 			int mightIndex = output.indexOf("might");
 			String varName = output.substring((variableIndex+9),(mightIndex-1));
 			return "컴파일 에러가 발생했어~\n"+errorRow+"번째 줄에서\n변수 "+varName+"에 접근하지만 초기화 되어있지 않은 상태야.\n"+varName+"변수를 선언한 곳으로 가서 초기화 해줘야 해~!";
-		}else if(output.contains("';'")) {// 세미콜론 없을 때
+		}else if(output.contains("';'")) {
 			return "앗 컴파일 에러가 발생했네!\n"+ errorRow+"번째 줄에\n세미콜론';'이 빠졌어.\nJAVA의 경우 문장의 끝에는 꼭 ';'를 붙여주자!";
-		}else if(output.contains("symbol")) {//선언하지 않은 변수 사용
+		}else if(output.contains("symbol")) {
 			int variableIndex = output.indexOf("variable");
 			int locationIndex = output.indexOf("location");
 			String varName = output.substring((variableIndex+9),(locationIndex-3));
 			return "존재하지 않는 변수 '"+varName+"'가  "+errorRow+"번째 줄에 등장했어.\n변수명을 잘못 입력했는지, 변수 선언을 빼먹었는지 다시 한 번 살펴볼래?";
-		}else if(output.contains("not a statement")) {//잘못된 구문
+		}else if(output.contains("not a statement")) {
 			return errorRow+"번째 줄이\n잘못된 문법으로 작성되어서 컴파일 에러가 발생했어~\n착각하거나 잊은 JAVA 문법이 있는지 다시 점검해보자.";
 		}
 		return "컴파일 에러가 발생했어!";

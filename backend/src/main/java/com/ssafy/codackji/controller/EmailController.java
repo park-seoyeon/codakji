@@ -26,8 +26,6 @@ public class EmailController {
 	@GetMapping("/sendEmail/{toAddress}")
 	public ResponseEntity<Map<String, Object>> sendEmail(
 			@PathVariable("toAddress") @ApiParam(value = "메일 주소", required = true) String toAddress) {
-		//HttpServletRequest request
-		System.out.println("[sendEmail]");
 
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
@@ -41,7 +39,6 @@ public class EmailController {
 				status = HttpStatus.ACCEPTED;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
@@ -52,10 +49,7 @@ public class EmailController {
 	@GetMapping("/certify/{userEmail}")
 	public ResponseEntity<String> certify(
 			@PathVariable("userEmail") @ApiParam(value = "인증 처리되는 메일 주소", required = true) String userEmail) {
-		//HttpServletRequest request
-		
-		System.out.println("이메일 인증: " + userEmail); 
-		
+				
 		try {
 			if (emailService.updateCertification(userEmail)) {
 				String htmlStr = "<div style='text-align: center; margin-top:10%;'><h2>성공적으로 인증되었습니다.</h2>"

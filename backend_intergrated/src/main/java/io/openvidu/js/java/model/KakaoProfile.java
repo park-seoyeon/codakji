@@ -8,7 +8,6 @@ public class KakaoProfile {
 	public KakaoAccount kakao_account;
 	
 	
-
 	public Integer getId() {
 		return id;
 	}
@@ -134,9 +133,7 @@ public class KakaoProfile {
 			public void setProfile_image_url(String profile_image_url) {
 				this.profile_image_url = profile_image_url;
 			}
-			
 		}
-		
 	}
 
 	public class Properties {
@@ -162,7 +159,5 @@ public class KakaoProfile {
 		public void setThumbnail_image(String thumbnail_image) {
 			this.thumbnail_image = thumbnail_image;
 		}
-
-		
 	}
 }

@@ -2,14 +2,14 @@ package io.openvidu.js.java.model;
 
 public class ProblemCommentDto {
 
-	private int comment_number; //댓글 번호(AutoIncremented, PK값)
-	private int problem_number; //댓글이 달린 문제 번호
-	private int user_number; //댓글을 남긴 사용자 번호
-	private String name; //댓글을 남긴 사용자 이름
-	private String comment_content; //댓글 내용
-	private String created_at; //처음 댓글 생성 시각
-	private String updated_at; //가장 마지막으로 수정된 시각
-	private int likes; //좋아요 수
+	private int comment_number;
+	private int problem_number;
+	private int user_number;
+	private String name;
+	private String comment_content;
+	private String created_at;
+	private String updated_at;
+	private int likes;
 	private String token;
 	
 	public ProblemCommentDto(){}

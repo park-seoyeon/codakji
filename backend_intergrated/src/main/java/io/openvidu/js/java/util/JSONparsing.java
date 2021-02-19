@@ -13,7 +13,6 @@ public class JSONparsing {
 		try {
 			obj = parser.parse( str );
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

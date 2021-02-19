@@ -3,16 +3,16 @@ package com.ssafy.codackji.model;
 import java.util.List;
 
 public class CodeAPIResultDto {
-	private String my_output; //코드 실행 결과 (올바른 실행결과 or 에러메세지 출력) 
-	private String correct_output; //올바른 코드 실행결과 //추가
-	private String statusCode; //API실행 결과
-	private String memory; //메모리 사용량
-	private String cpuTime; //cpu 사용 시간
-	private String error; //컴파일 에러난 경우 에러 분석
-	private boolean answer; //정답여부
-	private String my_code; //나의 코드 //추가
-	private String correct_code; //올바른 코드 //추가
-	private int img_number; // 해설 이미지 개수 //추가
+	private String my_output;
+	private String correct_output;
+	private String statusCode;
+	private String memory;
+	private String cpuTime;
+	private String error;
+	private boolean answer;
+	private String my_code;
+	private String correct_code;
+	private int img_number;
 	private List<String> img_content;
 	
 	public CodeAPIResultDto() {}

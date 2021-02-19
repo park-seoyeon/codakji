@@ -20,8 +20,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfiguration {
 
-//	http://localhost:8000/swagger-ui.html
-
 	private String version = "V1";
 	private String title = "CODACKJI API " + version;
 	
@@ -40,8 +38,6 @@ public class SwaggerConfiguration {
 	
 	private Predicate<String> postPaths() {
 		return PathSelectors.any();
-//		return or(regex("/user/.*"), regex("/article/.*"), regex("/memo/.*"));
-//		return regex("/admin/.*");
 	}
 
 	private ApiInfo apiInfo() {
@@ -51,7 +47,5 @@ public class SwaggerConfiguration {
 				.license("SSAFY License")
 				.licenseUrl("https://www.ssafy.com/ksp/jsp/swp/etc/swpPrivacy.jsp")
 				.version("1.0").build();
-
 	}
-
 }

@@ -46,7 +46,7 @@ public class AnswerController {
 			memberDto.setEmail(email);
 			memberDto.setToken(token);
 			jwtService.setToken(memberDto);
-			if(answerService.writeAnswer(questionDto)) {//System.out.println("됨");
+			if(answerService.writeAnswer(questionDto)) {
 				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 			}
 		}
