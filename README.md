@@ -24,6 +24,9 @@
 
 - 프론트엔드 클라이언트를 위한 폴더
 
+### 관련 UCC 링크
+https://youtu.be/4zOCjKzj2S0
+
 
 
 
